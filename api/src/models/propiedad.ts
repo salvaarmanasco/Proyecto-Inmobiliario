@@ -46,7 +46,7 @@ export class Propiedad extends Model {
   piso!: number;
 
   @Column({
-    type: DataType.STRING(1),
+    type: DataType.ENUM("N", "NE", "E", "SE", "S", "SO", "O", "NO"),
   })
   orientacion!: string;
 
@@ -66,11 +66,11 @@ export class Propiedad extends Model {
   cochera!: boolean;
 
   @Column({
-    type: DataType.STRING,
+    type: DataType.BOOLEAN,
   })
-  amenities!: string;
+  amenities!: boolean;
   @Column({
-    type: DataType.STRING,
+    type: DataType.TEXT,
   })
   descripcion!: string;
 

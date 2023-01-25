@@ -21,12 +21,12 @@ export class Usuario extends Model {
   email!: string;
 
   @Column({
-    type: DataType.STRING,
+    type: DataType.BIGINT,
   })
-  phone!: string;
+  phone!: number;
 
   @Column({
-    type: DataType.STRING, // url?
+    type: DataType.TEXT, // url?
   })
   foto!: string;
 }

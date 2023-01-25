@@ -11,7 +11,7 @@ export class Tipo_Usuario extends Model {
   nombre_tipo_usuario!: string;
 
   @Column({
-    type: DataType.STRING,
+    type: DataType.TEXT,
   })
   descripcion!: string;
 }

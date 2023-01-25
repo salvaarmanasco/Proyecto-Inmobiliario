@@ -16,7 +16,7 @@ const connection = new Sequelize({
   dialect: "mysql",
   host: "localhost",
   username: "root",
-  password: "pikika88",
+  password: "1234",
   database: "inmobiliaria_raes",
   logging: false,
   models: [
