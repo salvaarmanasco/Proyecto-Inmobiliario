@@ -22,13 +22,15 @@ app.use(
   }
 );
 
+const PORT = process.env.PORT || 5000;
+
 connection
   .sync()
   .then(() => {
-    console.log("Database synced successfully");
+    console.log(`%s listening at ${PORT}`);
   })
   .catch((err) => {
     console.log("Err", err);
   });
 
-app.listen(3006);
+app.listen(PORT);

@@ -1,20 +1,17 @@
-import { Sequelize } from "sequelize";
 import { Table, Model, Column, DataType } from "sequelize-typescript";
 
 @Table({
   timestamps: false,
-  tableName: "todos",
+  tableName: "tipo_usuario",
 })
-export class Todos extends Model {
+export class Tipo_Usuario extends Model {
   @Column({
     type: DataType.STRING,
-    allowNull: false,
   })
-  name!: string;
+  nombre_tipo_usuario!: string;
 
   @Column({
     type: DataType.STRING,
-    allowNull: false,
   })
-  description!: string;
+  descripcion!: string;
 }
