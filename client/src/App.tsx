@@ -10,7 +10,6 @@ import {
   theme,
   Heading,
 } from "@chakra-ui/react";
-import { ColorModeSwitcher } from "./ColorModeSwitcher";
 import NavBar from "./Components/NavBar/NavBar";
 import Tittle from "./Components/Tittle/Tittle";
 import SearchBar from "./Components/SearchBar/SearchBar";
@@ -23,15 +22,16 @@ import Footer from "./Components/Footer/Footer";
 
 export const App = () => (
   <ChakraProvider theme={theme}>
-    <Box textAlign="center" fontSize="xl"></Box>
     <NavBar />
-    <Tittle />
-    <SearchBar />
-    <Carrousel />
-    <Cards />
-    <Newsletter />
-    <JoinTeam />
-    <Counter />
+    <Box textAlign="center" minHeight="100vh">
+      <Tittle />
+      <SearchBar />
+      <Carrousel />
+      <Cards />
+      <Newsletter />
+      <JoinTeam />
+      <Counter />
+    </Box>
     <Footer />
   </ChakraProvider>
 );
