@@ -5,7 +5,6 @@ import {
   StackDivider,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { ReactElement } from "react";
 import Contact from "../Contact/Contact";
 
 export default function SplitWithImage() {
