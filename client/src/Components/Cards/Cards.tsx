@@ -6,14 +6,13 @@ import {
   Img,
   Flex,
   Center,
-  useColorModeValue,
   HStack,
 } from "@chakra-ui/react";
 import { BsArrowUpRight, BsHeartFill, BsHeart } from "react-icons/bs";
 
 export default function Cards() {
   const [liked, setLiked] = useState(false);
-  const [num, setNum] = useState([0]);
+  const [num] = useState([0]);
 
   const quintas = [
     {
