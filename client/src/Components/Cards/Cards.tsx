@@ -50,7 +50,6 @@ export default function Cards() {
   const handleFavourite = (id: number) => {
     setLiked(!liked);
     num.includes(id) ? num.splice(num.indexOf(id), 1) : num.push(id);
-    console.log(num);
   };
 
   return (
