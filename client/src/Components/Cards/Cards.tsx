@@ -125,7 +125,7 @@ export default function Cards() {
               onClick={() => handleFavourite(id)}
             >
               {num.includes(id) ? (
-                <BsHeartFill key={id} fill="red" fontSize={"24px"} />
+                <BsHeartFill fill="red" fontSize={"24px"} />
               ) : (
                 <BsHeart fontSize={"24px"} />
               )}
