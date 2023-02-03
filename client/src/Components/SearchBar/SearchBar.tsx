@@ -3,7 +3,7 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 
 const SearchBar = () => {
   return (
-    <Box textAlign="center" fontSize="xl">
+    <Box textAlign="center" fontSize="xl" mb="20" mt="10">
       <Stack
         justifyContent="center"
         align="center"
@@ -18,7 +18,11 @@ const SearchBar = () => {
           <option>Alquiler</option>
         </Select>
 
-        <Input placeholder="Busqueda" size="md" width="md" />
+        <Input
+          placeholder="Busqueda"
+          size="md"
+          width={{ base: "80%", md: "40%" }}
+        />
       </Stack>
     </Box>
   );

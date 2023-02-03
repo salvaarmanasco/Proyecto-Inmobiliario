@@ -12,7 +12,7 @@ import Footer from "./Components/Footer/Footer";
 export const App = () => (
   <ChakraProvider theme={theme}>
     <NavBar />
-    <Box textAlign="center" minHeight="100vh">
+    <Box textAlign="center" minHeight="100vh" overflow="hidden">
       <Tittle />
       <SearchBar />
       <Carrousel />

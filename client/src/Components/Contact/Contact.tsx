@@ -81,13 +81,13 @@ const Contact = () => {
 
                   <Button
                     colorScheme="blue"
-                    bg="blue.400"
+                    bg="red.500"
                     color="white"
                     _hover={{
-                      bg: "blue.500",
+                      bg: "red.300",
                     }}
                   >
-                    Send Message
+                    Enviar
                   </Button>
                 </VStack>
               </Box>
