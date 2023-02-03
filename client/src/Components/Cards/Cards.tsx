@@ -7,6 +7,7 @@ import {
   Flex,
   Center,
   HStack,
+  SimpleGrid,
 } from "@chakra-ui/react";
 import { BsArrowUpRight, BsHeartFill, BsHeart } from "react-icons/bs";
 
@@ -54,83 +55,90 @@ export default function Cards() {
 
   return (
     <Center py={6}>
-      {quintas.map(({ id, barrio, titulo, descripcion, img }) => (
-        <Box
-          key={id}
-          w="xs" /* ancho de cards */
-          rounded={"sm"}
-          my={5}
-          mx={[0, 5]}
-          overflow={"hidden"}
-          bg="white"
-          border={"1px"}
-          borderColor="black"
-          boxShadow={"6px 6px 0 #f80404"}
-        >
-          <Box h={"200px"} borderBottom={"1px"} borderColor="black">
-            {" "}
-            {/* longitud de la card */}
-            <Img
-              src={img}
-              roundedTop={"sm"}
-              objectFit="cover"
-              h="full"
-              w="full"
-              alt={"Blog Image"}
-            />
-          </Box>
-          <Box p={4}>
-            <Box
-              bg="black"
-              display={"inline-block"}
-              px={2}
-              py={1}
-              color="white"
-              mb={2}
-            >
-              <Text fontSize={"xs"} fontWeight="medium">
-                {barrio}
+      <SimpleGrid
+        columns={{ base: 1, md: 3, xl: 4 }}
+        alignItems="flex-start"
+        spacingX="10px"
+        spacingY="20px"
+      >
+        {quintas.map(({ id, barrio, titulo, descripcion, img }) => (
+          <Box
+            key={id}
+            w="xs" /* ancho de cards */
+            rounded={"sm"}
+            my={5}
+            mx={[0, 5]}
+            overflow={"hidden"}
+            bg="white"
+            border={"1px"}
+            borderColor="black"
+            boxShadow={"6px 6px 0 #f80404"}
+          >
+            <Box h={"200px"} borderBottom={"1px"} borderColor="black">
+              {" "}
+              {/* longitud de la card */}
+              <Img
+                src={img}
+                roundedTop={"sm"}
+                objectFit="cover"
+                h="full"
+                w="full"
+                alt={"Blog Image"}
+              />
+            </Box>
+            <Box p={4}>
+              <Box
+                bg="black"
+                display={"inline-block"}
+                px={2}
+                py={1}
+                color="white"
+                mb={2}
+              >
+                <Text fontSize={"xs"} fontWeight="medium">
+                  {barrio}
+                </Text>
+              </Box>
+              <Heading color={"black"} fontSize={"2xl"} noOfLines={1}>
+                {titulo}
+              </Heading>
+              <Text color={"gray.500"} noOfLines={2}>
+                {descripcion}
               </Text>
             </Box>
-            <Heading color={"black"} fontSize={"2xl"} noOfLines={1}>
-              {titulo}
-            </Heading>
-            <Text color={"gray.500"} noOfLines={2}>
-              {descripcion}
-            </Text>
+            <HStack borderTop={"1px"} color="black">
+              <Flex
+                p={4}
+                alignItems="center"
+                justifyContent={"space-between"}
+                roundedBottom={"sm"}
+                cursor={"pointer"}
+                w="full"
+              >
+                <Text fontSize={"md"} fontWeight={"semibold"}>
+                  View more
+                </Text>
+                <BsArrowUpRight />
+              </Flex>
+              <Flex
+                p={4}
+                alignItems="center"
+                justifyContent={"space-between"}
+                roundedBottom={"sm"}
+                borderLeft={"1px"}
+                cursor="pointer"
+                onClick={() => handleFavourite(id)}
+              >
+                {num.includes(id) ? (
+                  <BsHeartFill fill="red" fontSize={"24px"} />
+                ) : (
+                  <BsHeart fontSize={"24px"} />
+                )}
+              </Flex>
+            </HStack>
           </Box>
-          <HStack borderTop={"1px"} color="black">
-            <Flex
-              p={4}
-              alignItems="center"
-              justifyContent={"space-between"}
-              roundedBottom={"sm"}
-              cursor={"pointer"}
-              w="full"
-            >
-              <Text fontSize={"md"} fontWeight={"semibold"}>
-                View more
-              </Text>
-              <BsArrowUpRight />
-            </Flex>
-            <Flex
-              p={4}
-              alignItems="center"
-              justifyContent={"space-between"}
-              roundedBottom={"sm"}
-              borderLeft={"1px"}
-              cursor="pointer"
-              onClick={() => handleFavourite(id)}
-            >
-              {num.includes(id) ? (
-                <BsHeartFill fill="red" fontSize={"24px"} />
-              ) : (
-                <BsHeart fontSize={"24px"} />
-              )}
-            </Flex>
-          </HStack>
-        </Box>
-      ))}
+        ))}
+      </SimpleGrid>
     </Center>
   );
 }

@@ -1,14 +1,3 @@
-// import { Box, Text } from "@chakra-ui/react";
-
-// const NavBar = () => {
-//   return (
-//     <Box textAlign="center" fontSize="xl">
-//       NavBar
-//     </Box>
-//   );
-// };
-
-// export default NavBar;
 import {
   Box,
   Flex,
@@ -36,8 +25,24 @@ import {
 import { ColorModeSwitcher } from "../../ColorModeSwitcher";
 import RaesLogo from "../../Assets/raes.png";
 
+import { useState, useEffect } from "react";
+
 const NavBar = () => {
   const { isOpen, onToggle } = useDisclosure();
+
+  const [width, setWidth] = useState(0);
+  const [height, setHeight] = useState(0);
+
+  useEffect(() => {});
+
+  const handleResize = () => {
+    setWidth(window.innerWidth);
+    setHeight(window.innerHeight);
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+  }, []);
 
   return (
     <Box>
@@ -55,6 +60,7 @@ const NavBar = () => {
         <Flex
           flex={{ base: 1, md: "auto" }}
           ml={{ base: -2 }}
+          mr={width > 300 ? { base: -20 } : { base: -5 }}
           display={{ base: "flex", md: "none" }}
         >
           <IconButton
@@ -66,9 +72,16 @@ const NavBar = () => {
             aria-label={"Toggle Navigation"}
           />
         </Flex>
-        <Image src={RaesLogo} alt="Raes Logo" width={12} height={12} />
+        <Image
+          src={RaesLogo}
+          alt="Raes Logo"
+          width={12}
+          height={12}
+          margin={{ base: "1", md: "2" }}
+          padding={{ base: "-12" }}
+        />
         <Flex flex={{ base: 1 }} justify={{ base: "center", md: "start" }}>
-          <Flex display={{ base: "none", md: "flex" }} ml={10}>
+          <Flex display={{ base: "none", md: "flex" }}>
             <DesktopNav />
           </Flex>
         </Flex>
@@ -93,10 +106,10 @@ const NavBar = () => {
             fontSize={"sm"}
             fontWeight={600}
             color={"white"}
-            bg={"pink.400"}
+            bg={"red.500"}
             // href={"#"}
             _hover={{
-              bg: "pink.300",
+              bg: "red.300",
             }}
           >
             Registrarse
