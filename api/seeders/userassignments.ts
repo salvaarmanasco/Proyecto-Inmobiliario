@@ -1,10 +1,14 @@
 export const userassignments = [
+  // {
+  //   UserId: "0c852409-fc7d-4c00-b910-3ec8b83440fd",
+  //   UserTypeId: 1,
+  // },
+  // {
+  //   UserId: "bf5660d5-a78a-438b-bde1-995988a1a85c",
+  //   UserTypeId: 2,
+  // },
   {
-    UserId: "c598fb7d-2d6f-40d9-88ee-785a1e37fac5",
-    UserTypeId: 1,
-  },
-  {
-    UserId: "c6c833b6-2fb6-48fe-9f79-f059ba3ddc5e",
+    UserId: "cf32e166-e52d-4930-b1d0-39b12c6f2eea",
     UserTypeId: 2,
   },
 ];
