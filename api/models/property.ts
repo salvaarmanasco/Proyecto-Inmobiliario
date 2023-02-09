@@ -11,7 +11,7 @@ interface PropertyAttributes {
   environments: number;
   pool: boolean;
   elevator: boolean;
-  piso: number;
+  floor_th: number;
   orientation: string;
   m2_totals: number;
   m2_covered: number;
@@ -31,6 +31,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
     static unit(arg0: {}) {
       throw new Error("Method not implemented.");
     }
+
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -44,7 +45,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
     environments!: number;
     pool!: boolean;
     elevator!: boolean;
-    piso!: number;
+    floor_th!: number;
     orientation!: string;
     m2_totals!: number;
     m2_covered!: number;
@@ -54,7 +55,11 @@ module.exports = (sequelize: any, DataTypes: any) => {
     furnished!: boolean;
     balcony!: boolean;
     sign!: boolean;
-    static associate(models: any) {}
+    static associate(models: any) {
+      Property.belongsToMany(models.Condition, {
+        through: "PropertyCondition",
+      });
+    }
   }
   Property.init(
     {
@@ -70,7 +75,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
       },
       address: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       bedrooms: {
         type: DataTypes.INTEGER,
@@ -92,7 +97,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
         type: DataTypes.BOOLEAN,
         allowNull: false,
       },
-      piso: {
+      floor_th: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },

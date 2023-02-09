@@ -22,10 +22,10 @@ module.exports = (sequelize: any, DataTypes: any) => {
   Services.init(
     {
       id: {
-        type: DataTypes.UUID,
-        defaultValue: UUIDV4,
+        type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
+        autoIncrement: true,
       },
       services_name: {
         type: DataTypes.STRING,

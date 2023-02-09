@@ -19,10 +19,10 @@ module.exports = (sequelize: any, DataTypes: any) => {
   Zone.init(
     {
       id: {
-        type: DataTypes.UUID,
-        defaultValue: UUIDV4,
+        type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
+        autoIncrement: true,
       },
       zone_name: {
         type: DataTypes.STRING,
