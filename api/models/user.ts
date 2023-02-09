@@ -5,7 +5,10 @@ import { Model, UUIDV4 } from "sequelize";
 interface UserAttributes {
   id: string;
   name: string;
+  lastname: string;
   email: string;
+  phone: number;
+  photo: string;
 }
 
 module.exports = (sequelize: any, DataTypes: any) => {
@@ -17,7 +20,10 @@ module.exports = (sequelize: any, DataTypes: any) => {
      */
     id!: string;
     name!: string;
+    lastname!: string;
     email!: string;
+    phone!: number;
+    photo!: string;
     static associate(models: any) {
       User.belongsTo(models.UserType);
     }
@@ -34,10 +40,22 @@ module.exports = (sequelize: any, DataTypes: any) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      lastname: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
       email: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
+      },
+      phone: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
+      photo: {
+        type: DataTypes.STRING,
+        allowNull: true,
       },
     },
     {

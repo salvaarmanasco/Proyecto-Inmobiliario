@@ -2,31 +2,31 @@
 
 import { Model, UUIDV4 } from "sequelize";
 
-interface PropiedadAttributes {
+interface PropertyAttributes {
   id: string;
-  antiguedad: number;
-  direccion: string;
-  habitaciones: number;
-  banos: number;
-  ambientes: number;
-  piscina: boolean;
-  ascensor: boolean;
+  antiquity: number;
+  address: string;
+  bedrooms: number;
+  bathrooms: number;
+  environments: number;
+  pool: boolean;
+  elevator: boolean;
   piso: number;
-  orientacion: string;
-  m2_totales: number;
-  m2_cubiertos: number;
-  cochera: boolean;
+  orientation: string;
+  m2_totals: number;
+  m2_covered: number;
+  garage: boolean;
   amenities: boolean;
   description: string;
-  amoblado: boolean;
-  balcon: boolean;
-  cartel: boolean;
+  furnished: boolean;
+  balcony: boolean;
+  sign: boolean;
 }
 
 module.exports = (sequelize: any, DataTypes: any) => {
-  class Propiedad
-    extends Model<PropiedadAttributes>
-    implements PropiedadAttributes
+  class Property
+    extends Model<PropertyAttributes>
+    implements PropertyAttributes
   {
     static unit(arg0: {}) {
       throw new Error("Method not implemented.");
@@ -37,26 +37,26 @@ module.exports = (sequelize: any, DataTypes: any) => {
      * The `models/index` file will call this method automatically.
      */
     id!: string;
-    antiguedad!: number;
-    direccion!: string;
-    habitaciones!: number;
-    banos!: number;
-    ambientes!: number;
-    piscina!: boolean;
-    ascensor!: boolean;
+    antiquity!: number;
+    address!: string;
+    bedrooms!: number;
+    bathrooms!: number;
+    environments!: number;
+    pool!: boolean;
+    elevator!: boolean;
     piso!: number;
-    orientacion!: string;
-    m2_totales!: number;
-    m2_cubiertos!: number;
-    cochera!: boolean;
+    orientation!: string;
+    m2_totals!: number;
+    m2_covered!: number;
+    garage!: boolean;
     amenities!: boolean;
     description!: string;
-    amoblado!: boolean;
-    balcon!: boolean;
-    cartel!: boolean;
+    furnished!: boolean;
+    balcony!: boolean;
+    sign!: boolean;
     static associate(models: any) {}
   }
-  Propiedad.init(
+  Property.init(
     {
       id: {
         type: DataTypes.UUID,
@@ -64,31 +64,31 @@ module.exports = (sequelize: any, DataTypes: any) => {
         allowNull: false,
         primaryKey: true,
       },
-      antiguedad: {
+      antiquity: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      direccion: {
+      address: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      habitaciones: {
+      bedrooms: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      banos: {
+      bathrooms: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      ambientes: {
+      environments: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      piscina: {
+      pool: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
       },
-      ascensor: {
+      elevator: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
       },
@@ -96,19 +96,19 @@ module.exports = (sequelize: any, DataTypes: any) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      orientacion: {
+      orientation: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      m2_totales: {
+      m2_totals: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      m2_cubiertos: {
+      m2_covered: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      cochera: {
+      garage: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
       },
@@ -120,23 +120,23 @@ module.exports = (sequelize: any, DataTypes: any) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      amoblado: {
+      furnished: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
       },
-      balcon: {
+      balcony: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
       },
-      cartel: {
+      sign: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
       },
     },
     {
       sequelize,
-      modelName: "Propiedad",
+      modelName: "Property",
     }
   );
-  return Propiedad;
+  return Property;
 };
