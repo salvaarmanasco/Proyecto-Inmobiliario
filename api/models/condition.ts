@@ -1,10 +1,10 @@
 "use strict";
 
-import { Model, UUIDV4 } from "sequelize";
+import { Model } from "sequelize";
 
 interface ConditionAttributes {
   id: string;
-  name_estado: string;
+  condition_name: string;
 }
 
 module.exports = (sequelize: any, DataTypes: any) => {
@@ -16,18 +16,22 @@ module.exports = (sequelize: any, DataTypes: any) => {
       throw new Error("Method not implemented.");
     }
     id!: string;
-    name_estado!: string;
-    static associate(models: any) {}
+    condition_name!: string;
+    static associate(models: any) {
+      Condition.belongsToMany(models.Property, {
+        through: "PropertyCondition",
+      });
+    }
   }
   Condition.init(
     {
       id: {
-        type: DataTypes.UUID,
-        defaultValue: UUIDV4,
+        type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
+        autoIncrement: true,
       },
-      name_estado: {
+      condition_name: {
         type: DataTypes.STRING,
         allowNull: false,
       },

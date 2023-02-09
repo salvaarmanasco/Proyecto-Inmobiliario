@@ -1,10 +1,10 @@
 "use strict";
 
-import { Model, UUIDV4 } from "sequelize";
+import { Model } from "sequelize";
 
 interface GardenAttributes {
   id: string;
-  garden_estado: string;
+  garden_name: string;
 }
 
 module.exports = (sequelize: any, DataTypes: any) => {
@@ -13,18 +13,18 @@ module.exports = (sequelize: any, DataTypes: any) => {
       throw new Error("Method not implemented.");
     }
     id!: string;
-    garden_estado!: string;
+    garden_name!: string;
     static associate(models: any) {}
   }
   Garden.init(
     {
       id: {
-        type: DataTypes.UUID,
-        defaultValue: UUIDV4,
+        type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
+        autoIncrement: true,
       },
-      garden_estado: {
+      garden_name: {
         type: DataTypes.STRING,
         allowNull: false,
       },
