@@ -2,24 +2,21 @@
 
 import { Model, UUIDV4 } from "sequelize";
 
-interface ProvinciaAttributes {
+interface StateAttributes {
   id: string;
-  provincia_estado: string;
+  state_estado: string;
 }
 
 module.exports = (sequelize: any, DataTypes: any) => {
-  class Provincia
-    extends Model<ProvinciaAttributes>
-    implements ProvinciaAttributes
-  {
+  class State extends Model<StateAttributes> implements StateAttributes {
     static unit(arg0: {}) {
       throw new Error("Method not implemented.");
     }
     id!: string;
-    provincia_estado!: string;
+    state_estado!: string;
     static associate(models: any) {}
   }
-  Provincia.init(
+  State.init(
     {
       id: {
         type: DataTypes.UUID,
@@ -27,15 +24,15 @@ module.exports = (sequelize: any, DataTypes: any) => {
         allowNull: false,
         primaryKey: true,
       },
-      provincia_estado: {
+      state_estado: {
         type: DataTypes.STRING,
         allowNull: false,
       },
     },
     {
       sequelize,
-      modelName: "Provincia",
+      modelName: "State",
     }
   );
-  return Provincia;
+  return State;
 };

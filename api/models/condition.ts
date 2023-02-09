@@ -2,21 +2,24 @@
 
 import { Model, UUIDV4 } from "sequelize";
 
-interface PaisAttributes {
+interface ConditionAttributes {
   id: string;
-  pais_estado: string;
+  name_estado: string;
 }
 
 module.exports = (sequelize: any, DataTypes: any) => {
-  class Pais extends Model<PaisAttributes> implements PaisAttributes {
+  class Condition
+    extends Model<ConditionAttributes>
+    implements ConditionAttributes
+  {
     static unit(arg0: {}) {
       throw new Error("Method not implemented.");
     }
     id!: string;
-    pais_estado!: string;
+    name_estado!: string;
     static associate(models: any) {}
   }
-  Pais.init(
+  Condition.init(
     {
       id: {
         type: DataTypes.UUID,
@@ -24,15 +27,15 @@ module.exports = (sequelize: any, DataTypes: any) => {
         allowNull: false,
         primaryKey: true,
       },
-      pais_estado: {
+      name_estado: {
         type: DataTypes.STRING,
         allowNull: false,
       },
     },
     {
       sequelize,
-      modelName: "Pais",
+      modelName: "Condition",
     }
   );
-  return Pais;
+  return Condition;
 };

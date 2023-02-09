@@ -2,21 +2,21 @@
 
 import { Model, UUIDV4 } from "sequelize";
 
-interface EstadoAttributes {
+interface CountryAttributes {
   id: string;
-  nombre_estado: string;
+  country_estado: string;
 }
 
 module.exports = (sequelize: any, DataTypes: any) => {
-  class Estado extends Model<EstadoAttributes> implements EstadoAttributes {
+  class Country extends Model<CountryAttributes> implements CountryAttributes {
     static unit(arg0: {}) {
       throw new Error("Method not implemented.");
     }
     id!: string;
-    nombre_estado!: string;
+    country_estado!: string;
     static associate(models: any) {}
   }
-  Estado.init(
+  Country.init(
     {
       id: {
         type: DataTypes.UUID,
@@ -24,15 +24,15 @@ module.exports = (sequelize: any, DataTypes: any) => {
         allowNull: false,
         primaryKey: true,
       },
-      nombre_estado: {
+      country_estado: {
         type: DataTypes.STRING,
         allowNull: false,
       },
     },
     {
       sequelize,
-      modelName: "Estado",
+      modelName: "Country",
     }
   );
-  return Estado;
+  return Country;
 };
