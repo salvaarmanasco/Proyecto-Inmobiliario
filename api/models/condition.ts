@@ -2,24 +2,24 @@
 
 import { Model, UUIDV4 } from "sequelize";
 
-interface ProvinciaAttributes {
+interface ConditionAttributes {
   id: string;
-  provincia_estado: string;
+  name_estado: string;
 }
 
 module.exports = (sequelize: any, DataTypes: any) => {
-  class Provincia
-    extends Model<ProvinciaAttributes>
-    implements ProvinciaAttributes
+  class Condition
+    extends Model<ConditionAttributes>
+    implements ConditionAttributes
   {
     static unit(arg0: {}) {
       throw new Error("Method not implemented.");
     }
     id!: string;
-    provincia_estado!: string;
+    name_estado!: string;
     static associate(models: any) {}
   }
-  Provincia.init(
+  Condition.init(
     {
       id: {
         type: DataTypes.UUID,
@@ -27,15 +27,15 @@ module.exports = (sequelize: any, DataTypes: any) => {
         allowNull: false,
         primaryKey: true,
       },
-      provincia_estado: {
+      name_estado: {
         type: DataTypes.STRING,
         allowNull: false,
       },
     },
     {
       sequelize,
-      modelName: "Provincia",
+      modelName: "Condition",
     }
   );
-  return Provincia;
+  return Condition;
 };
