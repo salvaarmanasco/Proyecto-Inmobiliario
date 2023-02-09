@@ -7,7 +7,7 @@ router.get("/", async (req: any, res: any) => {
   try {
     let result = await db.Property.findAll({
       include: {
-        model: db.Condition,
+        model: (db.Country, db.Condition)
       },
     });
     return res.status(200).json(result);

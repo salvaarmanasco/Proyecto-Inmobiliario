@@ -14,7 +14,11 @@ module.exports = (sequelize: any, DataTypes: any) => {
     }
     id!: string;
     country_name!: string;
-    static associate(models: any) {}
+    static associate(models: any) {
+      Country.belongsToMany(models.Property, {
+         through: "PropertyCountry",
+      });
+    }
   }
   Country.init(
     {
