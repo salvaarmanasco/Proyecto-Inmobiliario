@@ -14,7 +14,11 @@ module.exports = (sequelize: any, DataTypes: any) => {
     }
     id!: string;
     price_value!: number;
-    static associate(models: any) {}
+    static associate(models: any) {
+      Price.belongsToMany(models.Property, {
+        through: "PropertyPrice",
+      });
+    }
   }
   Price.init(
     {

@@ -59,8 +59,14 @@ module.exports = (sequelize: any, DataTypes: any) => {
       Property.belongsToMany(models.Condition, {
         through: "PropertyCondition",
       });
-          Property.belongsToMany(models.Country, {
-         through: "PropertyCountry",
+      Property.belongsToMany(models.Country, {
+        through: "PropertyCountry",
+      });
+      Property.belongsToMany(models.Price, {
+        through: "PropertyPrice",
+      });
+      Property.belongsToMany(models.State, {
+        through: "PropertyState",
       });
     }
   }
