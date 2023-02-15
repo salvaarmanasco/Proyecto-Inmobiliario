@@ -64,14 +64,14 @@ const Footer = () => {
         <SimpleGrid columns={{ base: 1, sm: 1, md: 3 }} spacing={8}>
           <Stack align={{ base: "flex-start", sm: "center", md: "flex-start" }}>
             <ListHeader>Compañia</ListHeader>
-            <Link href={"#"}>Sobre nosotros</Link>
-            <Link href={"#"}>Unite a nuestro equipo</Link>
-            <Link href={"#"}>Contacto</Link>
+            <Link href={"/about"}>Sobre nosotros</Link>
+            <Link href={"/franchise"}>Unite a nuestro equipo</Link>
+            <Link href={"#contact"}>Contacto</Link>
           </Stack>
 
           <Stack align={{ base: "flex-start", sm: "center", md: "flex-start" }}>
             <ListHeader>Soporte</ListHeader>
-            <Link href={"#"}>Preguntas frecuentes (FAQ)</Link>
+            <Link href={"/about"}>Preguntas frecuentes (FAQ)</Link>
             <Link href={"#"}>Testimonios</Link>
           </Stack>
 
