@@ -3,7 +3,6 @@ import {
   Flex,
   Text,
   IconButton,
-  Button,
   Stack,
   Collapse,
   Icon,
@@ -12,7 +11,6 @@ import {
   PopoverTrigger,
   PopoverContent,
   useColorModeValue,
-  useBreakpointValue,
   useDisclosure,
   Image,
 } from "@chakra-ui/react";
@@ -26,6 +24,8 @@ import { ColorModeSwitcher } from "../../ColorModeSwitcher";
 import RaesLogo from "../../Assets/raes.png";
 
 import { useState, useEffect } from "react";
+import LoginButton from "../LoginButtons/LoginButton";
+import LogoutButton from "../LoginButtons/LogoutButton";
 
 const NavBar = () => {
   const { isOpen, onToggle } = useDisclosure();
@@ -86,36 +86,10 @@ const NavBar = () => {
           </Flex>
         </Flex>
 
-        <Stack
-          flex={{ base: 1, md: 0 }}
-          justify={"flex-end"}
-          direction={"row"}
-          spacing={6}
-        >
-          <Button
-            as={"a"}
-            fontSize={"sm"}
-            fontWeight={400}
-            variant={"link"}
-            href={"#"}
-          >
-            Ingresar
-          </Button>
-          <Button
-            display={{ base: "none", md: "inline-flex" }}
-            fontSize={"sm"}
-            fontWeight={600}
-            color={"white"}
-            bg={"red.500"}
-            // href={"#"}
-            _hover={{
-              bg: "red.300",
-            }}
-          >
-            Registrarse
-          </Button>
-          <ColorModeSwitcher />
-        </Stack>
+        <LoginButton />
+        <LogoutButton />
+
+        <ColorModeSwitcher />
       </Flex>
 
       <Collapse in={isOpen} animateOpacity>
