@@ -41,14 +41,14 @@ export default function Carrousel() {
 
   const cards = [
     {
-      title: "Pon a la VENTA",
+      title: "Poner a la VENTA",
       text: "",
       image:
         "https://img.freepik.com/free-photo/hand-presenting-model-house-home-loan-campaign_53876-104970.jpg?w=996&t=st=1675288152~exp=1675288752~hmac=12a77a6d5c5831dedfdc99d98e1a71e2fbf03902ec241bac8f7af503f8df6884",
       colorTitle: "black",
     },
     {
-      title: "Pon en ALQUILER",
+      title: "Poner en ALQUILER",
       text: "",
       image:
         "https://img.freepik.com/free-photo/happy-couple-with-coffee-cups-relaxing-their-new-home_329181-19961.jpg?w=996&t=st=1675288520~exp=1675289120~hmac=fcc006ac3bc0108b3b3a9d3aa1e2c6dc91114ae64aaad523a51398062d8545ef",
