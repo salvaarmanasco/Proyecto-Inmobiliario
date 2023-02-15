@@ -14,7 +14,11 @@ module.exports = (sequelize: any, DataTypes: any) => {
     }
     id!: string;
     zone_name!: string;
-    static associate(models: any) {}
+    static associate(models: any) {
+      Zone.belongsToMany(models.Property, {
+        through: "PropertyZone",
+      });
+    }
   }
   Zone.init(
     {
