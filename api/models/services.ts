@@ -17,7 +17,11 @@ module.exports = (sequelize: any, DataTypes: any) => {
     }
     id!: string;
     services_name!: string;
-    static associate(models: any) {}
+    static associate(models: any) {
+      Services.belongsToMany(models.Property, {
+        through: "PropertyServices",
+      });
+    }
   }
   Services.init(
     {

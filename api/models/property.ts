@@ -21,6 +21,7 @@ interface PropertyAttributes {
   furnished: boolean;
   balcony: boolean;
   sign: boolean;
+  deleted: boolean;
 }
 
 module.exports = (sequelize: any, DataTypes: any) => {
@@ -55,6 +56,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
     furnished!: boolean;
     balcony!: boolean;
     sign!: boolean;
+    deleted!: boolean;
     static associate(models: any) {
       Property.belongsToMany(models.Condition, {
         through: "PropertyCondition",
@@ -67,6 +69,15 @@ module.exports = (sequelize: any, DataTypes: any) => {
       });
       Property.belongsToMany(models.State, {
         through: "PropertyState",
+      });
+      Property.belongsToMany(models.Garden, {
+        through: "PropertyGarden",
+      });
+      Property.belongsToMany(models.Services, {
+        through: "PropertyServices",
+      });
+      Property.belongsToMany(models.Zone, {
+        through: "PropertyZone",
       });
     }
   }
@@ -145,6 +156,11 @@ module.exports = (sequelize: any, DataTypes: any) => {
       sign: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
+      },
+      deleted: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
       },
     },
     {
