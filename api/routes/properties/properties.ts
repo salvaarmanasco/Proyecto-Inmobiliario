@@ -6,9 +6,29 @@ const router = Router();
 router.get("/", async (req: any, res: any) => {
   try {
     let result = await db.Property.findAll({
-      include: {
-        model: (db.Country, db.Condition)
-      },
+      include: [
+        {
+          model: db.Country,
+        },
+        {
+          model: db.Condition,
+        },
+        {
+          model: db.Price,
+        },
+        {
+          model: db.Garden,
+        },
+        {
+          model: db.Services,
+        },
+        {
+          model: db.State,
+        },
+        // {
+        //   model: db.Zone,
+        // },
+      ],
     });
     return res.status(200).json(result);
   } catch (error) {
@@ -35,6 +55,7 @@ router.post("/", async (req: any, res: any) => {
     furnished,
     balcony,
     sign,
+    deleted,
   } = req.body;
   try {
     let result = await db.Property.create({
@@ -56,6 +77,7 @@ router.post("/", async (req: any, res: any) => {
       furnished,
       balcony,
       sign,
+      deleted,
     });
     return res.status(200).json(result);
   } catch (error) {

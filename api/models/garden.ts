@@ -14,7 +14,11 @@ module.exports = (sequelize: any, DataTypes: any) => {
     }
     id!: string;
     garden_name!: string;
-    static associate(models: any) {}
+    static associate(models: any) {
+      Garden.belongsToMany(models.Property, {
+        through: "PropertyGarden",
+      });
+    }
   }
   Garden.init(
     {
