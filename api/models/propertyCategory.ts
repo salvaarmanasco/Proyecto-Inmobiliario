@@ -1,35 +1,35 @@
 "use strict";
 import { Model } from "sequelize";
 
-interface PropertyTypesAttributes {
-  TypesId: number;
+interface PropertyCategoryAttributes {
+  CategoryId: number;
   PropertyId: string;
 }
 
 module.exports = (sequelize: any, DataTypes: any) => {
-  class PropertyTypes
-    extends Model<PropertyTypesAttributes>
-    implements PropertyTypesAttributes
+  class PropertyCategory
+    extends Model<PropertyCategoryAttributes>
+    implements PropertyCategoryAttributes
   {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    TypesId!: number;
+    CategoryId!: number;
     PropertyId!: string;
     static associate(models: any) {
       // define association here
     }
   }
-  PropertyTypes.init(
+  PropertyCategory.init(
     {
-      TypesId: {
+      CategoryId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
         references: {
-          model: "Types",
+          model: "Category",
           key: "id",
         },
       },
@@ -45,8 +45,8 @@ module.exports = (sequelize: any, DataTypes: any) => {
     },
     {
       sequelize,
-      modelName: "PropertyTypes",
+      modelName: "PropertyCategory",
     }
   );
-  return PropertyTypes;
+  return PropertyCategory;
 };

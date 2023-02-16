@@ -2,25 +2,25 @@
 
 import { Model, UUIDV4 } from "sequelize";
 
-interface TypesAttributes {
+interface CategoryAttributes {
   id: string;
-  types_name: string;
+  category_name: string;
 }
 
 module.exports = (sequelize: any, DataTypes: any) => {
-  class Types extends Model<TypesAttributes> implements TypesAttributes {
+  class Category extends Model<CategoryAttributes> implements CategoryAttributes {
     static unit(arg0: {}) {
       throw new Error("Method not implemented.");
     }
     id!: string;
-    types_name!: string;
+    category_name!: string;
     static associate(models: any) {
-      Types.belongsToMany(models.Property, {
-        through: "PropertyTypes",
+      Category.belongsToMany(models.Property, {
+        through: "PropertyCategory",
       });
     }
   }
-  Types.init(
+  Category.init(
     {
       id: {
         type: DataTypes.INTEGER,
@@ -28,15 +28,15 @@ module.exports = (sequelize: any, DataTypes: any) => {
         primaryKey: true,
         autoIncrement: true,
       },
-      types_name: {
+      category_name: {
         type: DataTypes.STRING,
         allowNull: false,
       },
     },
     {
       sequelize,
-      modelName: "Types",
+      modelName: "Category",
     }
   );
-  return Types;
+  return Category;
 };

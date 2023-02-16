@@ -1,31 +1,29 @@
 const { Router } = require("express");
-import { v4 as uuidv4 } from "uuid";
 import db from "../../models";
 const router = Router();
 
 router.get("/", async (req: any, res: any) => {
   try {
-    let result = await db.Types.findAll({
-      include: {
-        model: db.Property,
-      },
-    });
+    let result = await db.PropertyCategory.findAll();
     return res.status(200).json(result);
   } catch (error) {
-    return res.status(404).send("Types not found");
+    return res.status(404).send("Property-Category relationship not found");
   }
 });
 
 router.post("/", async (req: any, res: any) => {
-  const { types_name } = req.body;
+  const { PropertyId, CategoryId } = req.body;
   try {
-    let result = await db.Types.create({
-      types_name,
+    let result = await db.PropertyCategory.create({
+      PropertyId,
+      CategoryId,
     });
     return res.status(200).json(result);
   } catch (error) {
     console.log(error);
-    return res.status(500).send("We could not create the types");
+    return res
+      .status(500)
+      .send("We could not create the Property-Category relationship");
   }
 });
 
