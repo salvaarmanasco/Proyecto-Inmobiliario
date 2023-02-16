@@ -79,6 +79,9 @@ module.exports = (sequelize: any, DataTypes: any) => {
       Property.belongsToMany(models.Zone, {
         through: "PropertyZone",
       });
+      Property.belongsToMany(models.Category, {
+        through: "PropertyCategory",
+      });
     }
   }
   Property.init(

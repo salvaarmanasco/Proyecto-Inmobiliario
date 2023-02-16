@@ -25,6 +25,9 @@ router.get("/", async (req: any, res: any) => {
         {
           model: db.State,
         },
+        {
+          model: db.Category,
+        },
         // {
         //   model: db.Zone,
         // },
@@ -32,6 +35,7 @@ router.get("/", async (req: any, res: any) => {
     });
     return res.status(200).json(result);
   } catch (error) {
+    console.log(error)
     return res.status(404).send("Property not found");
   }
 });
