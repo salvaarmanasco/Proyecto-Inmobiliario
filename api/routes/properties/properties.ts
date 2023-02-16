@@ -25,9 +25,9 @@ router.get("/", async (req: any, res: any) => {
         {
           model: db.State,
         },
-        // {
-        //   model: db.Zone,
-        // },
+        {
+          model: db.Zone,
+        },
       ],
     });
     return res.status(200).json(result);
