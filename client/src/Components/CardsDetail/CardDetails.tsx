@@ -16,8 +16,14 @@ import {
   List,
   ListItem,
 } from "@chakra-ui/react";
-import { FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
+
+import { AiFillHeart } from "react-icons/ai";
+import { FaBed, FaBath } from "react-icons/fa";
+import { SlSizeFullscreen } from "react-icons/sl";
 import { MdLocalShipping } from "react-icons/md";
+
+import mapsImage from "../../Assets/maps.png";
+import casaBase from "../../Assets/casaBase.jpg";
 
 export default function CardDetails() {
   return (
@@ -26,9 +32,7 @@ export default function CardDetails() {
         <Image
           rounded={"md"}
           alt={"product image"}
-          src={
-            "https://images.unsplash.com/photo-1596516109370-29001ec8ec36?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyODE1MDl8MHwxfGFsbHx8fHx8fHx8fDE2Mzg5MzY2MzE&ixlib=rb-1.2.1&q=80&w=1080"
-          }
+          src={casaBase}
           fit={"cover"}
           align={"center"}
           w={"100%"}
@@ -43,22 +47,87 @@ export default function CardDetails() {
       >
         <Stack spacing={{ base: 6, md: 10 }}>
           <Box as={"header"}>
+            <Box backgroundColor={"red.500"} width={"80px"} borderRadius="2xl">
+              <Text
+                fontSize={{ base: "16px", lg: "18px" }}
+                color={"white"}
+                fontWeight={"500"}
+                mb={"4"}
+                textAlign="center"
+              >
+                Venta
+              </Text>
+            </Box>
             <Heading
               lineHeight={1.1}
               fontWeight={600}
               fontSize={{ base: "2xl", sm: "4xl", lg: "5xl" }}
             >
-              Automatic Watch
+              TITULO PROPIEDAD
             </Heading>
             <Text
               color={useColorModeValue("gray.900", "gray.400")}
               fontWeight={300}
               fontSize={"2xl"}
+              marginTop={{ base: "3", md: "6" }}
             >
-              $350.00 USD
+              $80.000 USD (Dolares)
             </Text>
           </Box>
+          <Box>
+            <Text
+              fontSize={{ base: "16px", lg: "18px" }}
+              color={useColorModeValue("red.500", "red.300")}
+              fontWeight={"500"}
+              textTransform={"uppercase"}
+              mb={"4"}
+            >
+              Caracteristicas
+            </Text>
 
+            <SimpleGrid columns={{ base: 1, md: 2 }}>
+              <List spacing={2}>
+                <Stack direction={"row"} alignItems="center">
+                  <Stack marginRight={4} marginTop={2}>
+                    <FaBed size={"30px"} />
+                  </Stack>
+                  <ListItem>3 Habitaciones</ListItem>
+                </Stack>
+                <Stack direction={"row"} alignItems="center">
+                  <Stack
+                    justifyContent={"center"}
+                    marginRight={4}
+                    marginTop={2}
+                  >
+                    <FaBath size={"30px"} />
+                  </Stack>
+                  <ListItem>2 Baños</ListItem>
+                </Stack>
+              </List>
+              <List spacing={2} marginTop={{ base: 4, md: 0 }}>
+                <Stack direction={"row"} alignItems="center">
+                  <Stack
+                    justifyContent={"center"}
+                    marginRight={4}
+                    marginTop={2}
+                  >
+                    <SlSizeFullscreen size={"30px"} />
+                  </Stack>
+                  <ListItem>200 m2 totales</ListItem>
+                </Stack>
+                <Stack direction={"row"} alignItems="center">
+                  <Stack
+                    justifyContent={"center"}
+                    marginRight={4}
+                    marginTop={2}
+                  >
+                    <SlSizeFullscreen size={"30px"} />
+                  </Stack>
+                  <ListItem>120 m2 cubiertos</ListItem>
+                </Stack>
+              </List>
+            </SimpleGrid>
+          </Box>
           <Stack
             spacing={{ base: 4, sm: 6 }}
             direction={"column"}
@@ -74,95 +143,134 @@ export default function CardDetails() {
                 fontSize={"2xl"}
                 fontWeight={"300"}
               >
-                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-                diam nonumy eirmod tempor invidunt ut labore
+                Ubicación: Lote en Tierra de Sueños Puerto San Martin. Manzana
+                78, lote 1814.Esta Ubicado sobre Autopista Rosario- Santa Fe y
+                RP. No18. Brinda una propuesta de vida que reúne todos los
+                requisitos para la mayor comodidad de una familia en la
+                actualidad.El barrio cuenta con red eléctrica, salón multi
+                evento, red de AGUA POTABLE, telefonía, forestación, bar,
+                restaurant, piscina con parque acuático, canchas de futbol 5 y
+                tenis, entre otros. Y actualmente estan haciendo las cloacas.
+                Descripción: Terreno de 12 metros de frente x 24 metros de
+                fondo, superficie total de 288m2 Son 2300 Lotes en 122
+                Hectáreas.
               </Text>
-              <Text fontSize={"lg"}>
+              {/* <Text fontSize={"lg"}>
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad
                 aliquid amet at delectus doloribus dolorum expedita hic, ipsum
                 maxime modi nam officiis porro, quae, quisquam quos
                 reprehenderit velit? Natus, totam.
-              </Text>
+              </Text> */}
             </VStack>
             <Box>
               <Text
                 fontSize={{ base: "16px", lg: "18px" }}
-                color={useColorModeValue("yellow.500", "yellow.300")}
+                color={useColorModeValue("red.500", "red.300")}
                 fontWeight={"500"}
                 textTransform={"uppercase"}
                 mb={"4"}
               >
-                Features
+                Detalles
               </Text>
-
-              <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
-                <List spacing={2}>
-                  <ListItem>Chronograph</ListItem>
-                  <ListItem>Master Chronometer Certified</ListItem>{" "}
-                  <ListItem>Tachymeter</ListItem>
-                </List>
-                <List spacing={2}>
-                  <ListItem>Anti‑magnetic</ListItem>
-                  <ListItem>Chronometer</ListItem>
-                  <ListItem>Small seconds</ListItem>
-                </List>
-              </SimpleGrid>
-            </Box>
-            <Box>
-              <Text
-                fontSize={{ base: "16px", lg: "18px" }}
-                color={useColorModeValue("yellow.500", "yellow.300")}
-                fontWeight={"500"}
-                textTransform={"uppercase"}
-                mb={"4"}
-              >
-                Product Details
-              </Text>
-
               <List spacing={2}>
-                <ListItem>
-                  <Text as={"span"} fontWeight={"bold"}>
-                    Between lugs:
-                  </Text>{" "}
-                  20 mm
-                </ListItem>
-                <ListItem>
-                  <Text as={"span"} fontWeight={"bold"}>
-                    Bracelet:
-                  </Text>{" "}
-                  leather strap
-                </ListItem>
-                <ListItem>
-                  <Text as={"span"} fontWeight={"bold"}>
-                    Case:
-                  </Text>{" "}
-                  Steel
-                </ListItem>
-                <ListItem>
-                  <Text as={"span"} fontWeight={"bold"}>
-                    Case diameter:
-                  </Text>{" "}
-                  42 mm
-                </ListItem>
-                <ListItem>
-                  <Text as={"span"} fontWeight={"bold"}>
-                    Dial color:
-                  </Text>{" "}
-                  Black
-                </ListItem>
-                <ListItem>
-                  <Text as={"span"} fontWeight={"bold"}>
-                    Crystal:
-                  </Text>{" "}
-                  Domed, scratch‑resistant sapphire crystal with anti‑reflective
-                  treatment inside
-                </ListItem>
-                <ListItem>
-                  <Text as={"span"} fontWeight={"bold"}>
-                    Water resistance:
-                  </Text>{" "}
-                  5 bar (50 metres / 167 feet){" "}
-                </ListItem>
+                <SimpleGrid columns={2}>
+                  <ListItem>
+                    <Text as={"span"} fontWeight={"bold"}>
+                      Direccion:
+                    </Text>{" "}
+                    San martin 2000
+                  </ListItem>
+                  <ListItem>
+                    <Text as={"span"} fontWeight={"bold"}>
+                      Servicios:
+                    </Text>{" "}
+                    Luz / Agua / Gas / Cloacas
+                  </ListItem>
+                  <ListItem>
+                    <Text as={"span"} fontWeight={"bold"}>
+                      Ciudad:
+                    </Text>{" "}
+                    Santa Fe Capital
+                  </ListItem>
+                  <ListItem>
+                    <Text as={"span"} fontWeight={"bold"}>
+                      Tipo de propiedad:
+                    </Text>{" "}
+                    Departamento
+                  </ListItem>
+                  <ListItem>
+                    <Text as={"span"} fontWeight={"bold"}>
+                      Provincia:
+                    </Text>{" "}
+                    Santa Fe
+                  </ListItem>
+                  <ListItem>
+                    <Text as={"span"} fontWeight={"bold"}>
+                      Patio:
+                    </Text>{" "}
+                    Si (Verde)
+                  </ListItem>
+                  <ListItem>
+                    <Text as={"span"} fontWeight={"bold"}>
+                      Pais:
+                    </Text>{" "}
+                    Argentina
+                  </ListItem>
+                  <ListItem>
+                    <Text as={"span"} fontWeight={"bold"}>
+                      Barrio:
+                    </Text>{" "}
+                    Centro
+                  </ListItem>
+                  <ListItem>
+                    <Text as={"span"} fontWeight={"bold"}>
+                      Antiguedad:
+                    </Text>{" "}
+                    10 años
+                  </ListItem>
+                  <ListItem>
+                    <Text as={"span"} fontWeight={"bold"}>
+                      Ascensor:
+                    </Text>{" "}
+                    Si (1)
+                  </ListItem>
+                  <ListItem>
+                    <Text as={"span"} fontWeight={"bold"}>
+                      Piso:
+                    </Text>{" "}
+                    2
+                  </ListItem>
+                  <ListItem>
+                    <Text as={"span"} fontWeight={"bold"}>
+                      Garage:
+                    </Text>{" "}
+                    No
+                  </ListItem>
+                  <ListItem>
+                    <Text as={"span"} fontWeight={"bold"}>
+                      Amenities:
+                    </Text>{" "}
+                    No
+                  </ListItem>
+                  <ListItem>
+                    <Text as={"span"} fontWeight={"bold"}>
+                      Balcon:
+                    </Text>{" "}
+                    Si (1)
+                  </ListItem>
+                  <ListItem>
+                    <Text as={"span"} fontWeight={"bold"}>
+                      Amoblado:
+                    </Text>{" "}
+                    No
+                  </ListItem>
+                  <ListItem>
+                    <Text as={"span"} fontWeight={"bold"}>
+                      Orientacion:
+                    </Text>{" "}
+                    Norte
+                  </ListItem>
+                </SimpleGrid>
               </List>
             </Box>
           </Stack>
@@ -173,6 +281,7 @@ export default function CardDetails() {
             mt={8}
             size={"lg"}
             py={"7"}
+            mr={"4"}
             bg={useColorModeValue("gray.900", "gray.50")}
             color={useColorModeValue("white", "gray.900")}
             textTransform={"uppercase"}
@@ -181,14 +290,24 @@ export default function CardDetails() {
               boxShadow: "lg",
             }}
           >
-            Add to cart
+            <Text mr={1}>Agregar a favoritos</Text>
+            <AiFillHeart />
           </Button>
-
-          <Stack direction="row" alignItems="center" justifyContent={"center"}>
+          {/* <Stack direction="row" alignItems="center" justifyContent={"center"}>
             <MdLocalShipping />
             <Text>2-3 business days delivery</Text>
-          </Stack>
+          </Stack> */}
         </Stack>
+        <Image
+          rounded={"md"}
+          alt={"maps preventivo"}
+          src={mapsImage}
+          fit={"cover"}
+          align={"center"}
+          w={"100%"}
+          h={{ base: "100%", sm: "400px", lg: "500px" }}
+          mt={10}
+        />
       </SimpleGrid>
     </Container>
   );
