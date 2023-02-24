@@ -266,12 +266,12 @@ const NAV_ITEMS: Array<NavItem> = [
       {
         label: "Encontra lo que buscas",
         // subLabel: "Trending Design to inspire you",
-        href: "#",
+        href: "/properties",
       },
       {
         label: "Quiero vender mi propiedad",
         // subLabel: "Up-and-coming Designers",
-        href: "#",
+        href: "#contact",
       },
     ],
   },
@@ -281,12 +281,12 @@ const NAV_ITEMS: Array<NavItem> = [
       {
         label: "Encontra lo que buscas",
         // subLabel: "Encontra lo que buscas",
-        href: "#",
+        href: "/properties",
       },
       {
         label: "Quiero alquilar mi propiedad",
         // subLabel: "An exclusive list for contract work",
-        href: "#",
+        href: "#contact",
       },
     ],
   },
