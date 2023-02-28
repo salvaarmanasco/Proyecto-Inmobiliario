@@ -6,13 +6,11 @@ import countryRouter from "./country/country";
 import priceRouter from "./price/price";
 import stateRouter from "./state/state";
 import servicesRouter from "./services/services";
-
 import zoneRouter from "./zone/zone";
-
 import categoryRouter from "./category/category";
-
-
 import gardenRouter from "./garden/garden";
+import imageRouter from "./image/image";
+
 import propertyConditionRouter from "./propertyCondition/propertyCondition";
 import propertyCountryRouter from "./propertyCountry/propertyCountry";
 import propertyPriceRouter from "./propertyPrice/propertyPrice";
@@ -21,6 +19,7 @@ import propertyCategoryRouter from "./propertyCategory/propertyCategory";
 import propertyGardenRouter from "./propertyGarden/propertyGarden";
 import propertyServicesRouter from "./propertyServices/propertyServices";
 import propertyZoneRouter from "./propertyZone/propertyZone";
+import propertyImage from "./propertyImage/propertyImage";
 
 const { Router } = require("express");
 const router = Router();
@@ -34,10 +33,9 @@ router.use("/condition", conditionRouter);
 router.use("/country", countryRouter);
 router.use("/price", priceRouter);
 router.use("/state", stateRouter);
-
 router.use("/zone", zoneRouter);
-
 router.use("/category", categoryRouter);
+router.use("/image", imageRouter);
 
 router.use("/propertycondition", propertyConditionRouter);
 router.use("/propertycountry", propertyCountryRouter);
@@ -47,5 +45,6 @@ router.use("/propertyCategory", propertyCategoryRouter);
 router.use("/propertygarden", propertyGardenRouter);
 router.use("/propertyservices", propertyServicesRouter);
 router.use("/propertyzone", propertyZoneRouter);
+router.use("/propertyimage", propertyImage);
 
 export default router;

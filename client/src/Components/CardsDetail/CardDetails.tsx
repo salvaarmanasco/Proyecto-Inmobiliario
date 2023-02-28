@@ -24,6 +24,7 @@ import { MdLocalShipping } from "react-icons/md";
 
 import mapsImage from "../../Assets/maps.png";
 import casaBase from "../../Assets/casaBase.jpg";
+import Maps from "../Maps/Maps";
 
 export default function CardDetails() {
   return (
@@ -63,7 +64,7 @@ export default function CardDetails() {
               fontWeight={600}
               fontSize={{ base: "2xl", sm: "4xl", lg: "5xl" }}
             >
-              TITULO PROPIEDAD
+              CASA EN COSTANERA ESTE. IDEAL INVERSOR
             </Heading>
             <Text
               color={useColorModeValue("gray.900", "gray.400")}
@@ -143,24 +144,33 @@ export default function CardDetails() {
                 fontSize={"2xl"}
                 fontWeight={"300"}
               >
-                Ubicación: Lote en Tierra de Sueños Puerto San Martin. Manzana
-                78, lote 1814.Esta Ubicado sobre Autopista Rosario- Santa Fe y
-                RP. No18. Brinda una propuesta de vida que reúne todos los
-                requisitos para la mayor comodidad de una familia en la
-                actualidad.El barrio cuenta con red eléctrica, salón multi
-                evento, red de AGUA POTABLE, telefonía, forestación, bar,
-                restaurant, piscina con parque acuático, canchas de futbol 5 y
-                tenis, entre otros. Y actualmente estan haciendo las cloacas.
-                Descripción: Terreno de 12 metros de frente x 24 metros de
-                fondo, superficie total de 288m2 Son 2300 Lotes en 122
-                Hectáreas.
+                Ubicación: El Estadio Brigadier General Estanislao López también
+                conocido popularmente como el Cementerio de los Elefantes, es un
+                estadio de fútbol ubicado en la ciudad de Santa Fe, Argentina.
+                Fue inaugurado en 1946 y es propiedad del Club Atlético Colón,
+                que ejerce allí su localía. En 1952 se adoptó el nombre de
+                Estadio Eva Perón, en honor a la primera dama, quien apoyó la
+                afiliación de Colón a la AFA en 1948,7​ y más tarde ayudo
+                económicamente a la institución para la construcción de las
+                primeras tribunas de cemento y la iluminación artificial. Sin
+                embargo, tras el golpe de Estado que derrocó al militar Juan
+                Domingo Perón, los nombres del mandatario y de su esposa fueron
+                prohibidos, por lo que el estadio fue renombrado como Brigadier
+                General Estanislao López, en honor al caudillo argentino que
+                gobernó la provincia de Santa Fe entre 1818 y 1838. Desde hace
+                tiempo también se lo conoce como el Cementerio de los
+                Elefantes,nota 1​ debido a las victorias de Colón frente a
+                grandes equipos que visitaron Santa Fe. Uno de ellos fue el
+                famoso Santos de Pelé que en 1964 cayó por 2-1.8​ Dicho conjunto
+                brasilero poseía un récord de 43 partidos invicto y era
+                bicampeón intercontinental en aquel momento. El mismo equipo de
+                Colón, más tarde le ganó a la propia selección argentina por
+                2-0.9​ Otros conjuntos que salieron derrotados del estadio
+                fueron: Peñarol de Montevideo en 1967 (campeón de la Copa
+                Intercontinental 1966),10​ Millonarios de Colombia (con un
+                presente muy exitoso en ese momento), Olimpia, U. de Chile,
+                Alianza Lima, Atlético Mineiro, entre otros. Hectáreas.
               </Text>
-              {/* <Text fontSize={"lg"}>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad
-                aliquid amet at delectus doloribus dolorum expedita hic, ipsum
-                maxime modi nam officiis porro, quae, quisquam quos
-                reprehenderit velit? Natus, totam.
-              </Text> */}
             </VStack>
             <Box>
               <Text
@@ -293,21 +303,8 @@ export default function CardDetails() {
             <Text mr={1}>Agregar a favoritos</Text>
             <AiFillHeart />
           </Button>
-          {/* <Stack direction="row" alignItems="center" justifyContent={"center"}>
-            <MdLocalShipping />
-            <Text>2-3 business days delivery</Text>
-          </Stack> */}
         </Stack>
-        <Image
-          rounded={"md"}
-          alt={"maps preventivo"}
-          src={mapsImage}
-          fit={"cover"}
-          align={"center"}
-          w={"100%"}
-          h={{ base: "100%", sm: "400px", lg: "500px" }}
-          mt={10}
-        />
+        <Maps />
       </SimpleGrid>
     </Container>
   );

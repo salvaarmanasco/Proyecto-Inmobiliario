@@ -1,18 +1,23 @@
 import React from "react";
-import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
-import style from "./Maps.module.css";
+import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
+import { Center } from "@chakra-ui/react";
 
 const containerStyle = {
   width: "600px",
   height: "600px",
 };
 
-const center = {
-  lat: -31.3922,
-  lng: -59.0169,
-};
-
 function Maps() {
+  const center = {
+    lat: -31.64881,
+    lng: -60.70868,
+  };
+
+  const position = {
+    lat: -31.662622239399617,
+    lng: -60.72541936116279,
+  };
+
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: "AIzaSyCKNGyH3YVhuCzzVmj6AFbhf_12QeBEBTg",
@@ -20,28 +25,21 @@ function Maps() {
 
   const [map, setMap] = React.useState(null);
 
-  const onLoad = React.useCallback(function callback(map: any) {
-    const bounds = new window.google.maps.LatLngBounds();
-    map.fitBounds(bounds);
-    setMap(map);
-  }, []);
-
   const onUnmount = React.useCallback(function callback(map: any) {
     setMap(null);
   }, []);
 
   return isLoaded ? (
-    <div className={style.map}>
+    <Center>
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={center}
-        zoom={1}
-        onLoad={onLoad}
+        zoom={12}
         onUnmount={onUnmount}
       >
-        <></>
+        <Marker position={position} />
       </GoogleMap>
-    </div>
+    </Center>
   ) : (
     <></>
   );

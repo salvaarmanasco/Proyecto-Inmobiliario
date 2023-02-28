@@ -18,7 +18,6 @@ const LandingPage = () => {
       <Newsletter />
       <JoinTeam />
       <Counter />
-      <Maps />
     </>
   );
 };
