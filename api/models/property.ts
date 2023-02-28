@@ -82,6 +82,9 @@ module.exports = (sequelize: any, DataTypes: any) => {
       Property.belongsToMany(models.Category, {
         through: "PropertyCategory",
       });
+      Property.belongsToMany(models.Image, {
+        through: "PropertyImage",
+      });
     }
   }
   Property.init(

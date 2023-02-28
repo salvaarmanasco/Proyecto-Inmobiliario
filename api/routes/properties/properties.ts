@@ -31,6 +31,9 @@ router.get("/", async (req: any, res: any) => {
         {
           model: db.Category,
         },
+        {
+          model: db.Image,
+        },
       ],
     });
     return res.status(200).json(result);
