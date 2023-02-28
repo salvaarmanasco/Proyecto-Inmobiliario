@@ -6,6 +6,7 @@ import Carrousel from "../Carrousel/Carrousel";
 import Newsletter from "../Newsletter/Newsletter";
 import JoinTeam from "../JoinTeam/JoinTeam";
 import Counter from "../Counter/Counter";
+import Maps from "../Maps/Maps";
 
 const LandingPage = () => {
   return (
@@ -17,6 +18,7 @@ const LandingPage = () => {
       <Newsletter />
       <JoinTeam />
       <Counter />
+      <Maps />
     </>
   );
 };
