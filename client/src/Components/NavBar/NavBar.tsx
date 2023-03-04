@@ -72,14 +72,16 @@ const NavBar = () => {
             aria-label={"Toggle Navigation"}
           />
         </Flex>
-        <Image
-          src={RaesLogo}
-          alt="Raes Logo"
-          width={12}
-          height={12}
-          margin={{ base: "1", md: "2" }}
-          padding={{ base: "-12" }}
-        />
+        <Link href="/">
+          <Image
+            src={RaesLogo}
+            alt="Raes Logo"
+            width={12}
+            height={12}
+            margin={{ base: "1", md: "2" }}
+            padding={{ base: "-12" }}
+          />
+        </Link>
         <Flex flex={{ base: 1 }} justify={{ base: "center", md: "start" }}>
           <Flex display={{ base: "none", md: "flex" }}>
             <DesktopNav />
@@ -262,41 +264,39 @@ interface NavItem {
 const NAV_ITEMS: Array<NavItem> = [
   {
     label: "Venta",
+    href: "/properties",
     children: [
       {
         label: "Encontra lo que buscas",
-        // subLabel: "Trending Design to inspire you",
         href: "/properties",
       },
-      {
-        label: "Quiero vender mi propiedad",
-        // subLabel: "Up-and-coming Designers",
-        href: "#contact",
-      },
+      // {
+      //   label: "Quiero vender mi propiedad",
+      //   href: "#contact",
+      // },
     ],
   },
   {
     label: "Alquiler",
+    href: "/properties",
     children: [
       {
         label: "Encontra lo que buscas",
-        // subLabel: "Encontra lo que buscas",
         href: "/properties",
       },
-      {
-        label: "Quiero alquilar mi propiedad",
-        // subLabel: "An exclusive list for contract work",
-        href: "#contact",
-      },
+      // {
+      //   label: "Quiero alquilar mi propiedad",
+      //   href: "#contact",
+      // },
     ],
   },
   {
     label: "Franquicia",
-    href: "#",
+    href: "/franchise",
   },
   {
     label: "Nosotros",
-    href: "#",
+    href: "/about",
   },
 ];
 

@@ -52,7 +52,6 @@ const Franchise = () => {
                 p={8}
                 color={useColorModeValue("gray.700", "whiteAlpha.900")}
                 shadow="base"
-                opacity={0.8}
               >
                 <VStack spacing={5}>
                   <Box display="flex" gap={4}>
