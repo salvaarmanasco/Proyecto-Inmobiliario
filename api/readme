@@ -16,6 +16,8 @@
 "furnished": false,
 "balcony": false,
 "sign": true,
+"lat": -31.662622239399617,
+"long": -60.72541936116279,
 "deleted": false
 },
 {
@@ -36,6 +38,8 @@
 "furnished": false,
 "balcony": false,
 "sign": true,
+"lat": -31.662622239399617,
+"long": -60.72541936116279,
 "deleted": false
 },
 {
@@ -56,6 +60,8 @@
 "furnished": false,
 "balcony": false,
 "sign": true,
+"lat": -31.662622239399617,
+"long": -60.72541936116279,
 "deleted": false
 },
 {
@@ -76,6 +82,8 @@
 "furnished": false,
 "balcony": false,
 "sign": true,
+"lat": -31.662622239399617,
+"long": -60.72541936116279,
 "deleted": false
 },
 {
@@ -96,7 +104,8 @@
 "furnished": false,
 "balcony": false,
 "sign": true,
+"lat": -31.662622239399617,
+"long": -60.72541936116279,
 "deleted": false
 }
-
 ]
