@@ -9,6 +9,7 @@ import {
   Center,
   HStack,
   SimpleGrid,
+  Link,
   Input,
 } from "@chakra-ui/react";
 import { BsArrowUpRight, BsHeartFill, BsHeart } from "react-icons/bs";
@@ -17,11 +18,11 @@ import Filter from "../Filter/Filter";
 
 const PropertiesPage = () => {
   const [liked, setLiked] = useState(false);
-  const [num] = useState([0]);
+  const [num] = useState<any>([0]);
 
   const quintas = [
     {
-      id: 1,
+      id: "c0759f5c-6768-4a11-bd23-b9a5421e9b60",
       img: "https://q-xx.bstatic.com/xdata/images/hotel/max500/187204839.jpg?k=638396d2be86160db74d7cdf3971464250161d714349103e4503ff17a4535108&o=",
       barrio: "Barrio Nebel",
       titulo: "Quinta",
@@ -29,7 +30,7 @@ const PropertiesPage = () => {
         "quinta refaccionada a estrenar con todas las comodidas para pasar unos dias en familia",
     },
     {
-      id: 2,
+      id: "6fe953b6-34ba-4de7-b701-2a9b60b7c84f",
       img: "https://images.sparairnos.com/property/89647/images/993598/full/1fd1d812-178c-42ad-b3aa-e9f5f11a69d2",
       titulo: "CasaQuinta El Sorsal",
       barrio: "Pinar del Lago",
@@ -37,49 +38,14 @@ const PropertiesPage = () => {
         "Casaquinta amoblada para pasar los fin de semana sobre la costa del lago",
     },
     {
-      id: 3,
+      id: "ce436638-051d-4e51-9aad-bc40747c1395",
       img: "https://i.ytimg.com/vi/8wXRq7NApec/maxresdefault.jpg",
       titulo: "Duplex",
       barrio: "14 puñaladas",
       descripcion: "Duplex a estrenar en el centro a metros de la peatonal",
     },
     {
-      id: 4,
-      img: "https://http2.mlstatic.com/D_NQ_NP_600940-MLA47977549360_102021-O.jpg",
-      titulo: "Casa",
-      barrio: "14 puñaladas",
-      descripcion: "Duplex a estrenar en el centro a metros de la peatonal",
-    },
-    {
-      id: 5,
-      img: "https://http2.mlstatic.com/D_NQ_NP_600940-MLA47977549360_102021-O.jpg",
-      titulo: "Casa",
-      barrio: "14 puñaladas",
-      descripcion: "Duplex a estrenar en el centro a metros de la peatonal",
-    },
-    {
-      id: 6,
-      img: "https://http2.mlstatic.com/D_NQ_NP_600940-MLA47977549360_102021-O.jpg",
-      titulo: "Casa",
-      barrio: "14 puñaladas",
-      descripcion: "Duplex a estrenar en el centro a metros de la peatonal",
-    },
-    {
-      id: 7,
-      img: "https://http2.mlstatic.com/D_NQ_NP_600940-MLA47977549360_102021-O.jpg",
-      titulo: "Casa",
-      barrio: "14 puñaladas",
-      descripcion: "Duplex a estrenar en el centro a metros de la peatonal",
-    },
-    {
-      id: 8,
-      img: "https://http2.mlstatic.com/D_NQ_NP_600940-MLA47977549360_102021-O.jpg",
-      titulo: "Casa",
-      barrio: "14 puñaladas",
-      descripcion: "Duplex a estrenar en el centro a metros de la peatonal",
-    },
-    {
-      id: 9,
+      id: "e446f63d-6274-4963-b544-d53d6ec51dc3",
       img: "https://http2.mlstatic.com/D_NQ_NP_600940-MLA47977549360_102021-O.jpg",
       titulo: "Casa",
       barrio: "14 puñaladas",
@@ -87,7 +53,7 @@ const PropertiesPage = () => {
     },
   ];
 
-  const handleFavourite = (id: number) => {
+  const handleFavourite = (id: any) => {
     setLiked(!liked);
     num.includes(id) ? num.splice(num.indexOf(id), 1) : num.push(id);
   };
@@ -166,7 +132,9 @@ const PropertiesPage = () => {
                   <Text fontSize={"md"} fontWeight={"semibold"}>
                     View more
                   </Text>
-                  <BsArrowUpRight />
+                  <Link href={`/properties/${id}`}>
+                    <BsArrowUpRight />
+                  </Link>
                 </Flex>
                 <Flex
                   p={4}

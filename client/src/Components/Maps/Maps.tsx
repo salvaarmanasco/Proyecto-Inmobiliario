@@ -7,15 +7,17 @@ const containerStyle = {
   height: "600px",
 };
 
-function Maps() {
+function Maps(props: { lat: number; long: number }) {
+  let { lat, long } = props;
+
   const center = {
     lat: -31.64881,
     lng: -60.70868,
   };
 
   const position = {
-    lat: -31.662622239399617,
-    lng: -60.72541936116279,
+    lat: lat,
+    lng: long,
   };
 
   const { isLoaded } = useJsApiLoader({

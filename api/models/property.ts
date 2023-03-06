@@ -6,6 +6,7 @@ interface PropertyAttributes {
   id: string;
   antiquity: number;
   address: string;
+  title: string;
   bedrooms: number;
   bathrooms: number;
   environments: number;
@@ -21,6 +22,8 @@ interface PropertyAttributes {
   furnished: boolean;
   balcony: boolean;
   sign: boolean;
+  lat: number;
+  long: number;
   deleted: boolean;
 }
 
@@ -39,6 +42,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
      * The `models/index` file will call this method automatically.
      */
     id!: string;
+    title!: string;
     antiquity!: number;
     address!: string;
     bedrooms!: number;
@@ -57,6 +61,9 @@ module.exports = (sequelize: any, DataTypes: any) => {
     balcony!: boolean;
     sign!: boolean;
     deleted!: boolean;
+    lat!: number;
+    long!: number;
+
     static associate(models: any) {
       Property.belongsToMany(models.Condition, {
         through: "PropertyCondition",
@@ -100,6 +107,10 @@ module.exports = (sequelize: any, DataTypes: any) => {
         allowNull: false,
       },
       address: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      title: {
         type: DataTypes.STRING,
         allowNull: true,
       },
@@ -161,6 +172,14 @@ module.exports = (sequelize: any, DataTypes: any) => {
       },
       sign: {
         type: DataTypes.BOOLEAN,
+        allowNull: false,
+      },
+      lat: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+      },
+      long: {
+        type: DataTypes.FLOAT,
         allowNull: false,
       },
       deleted: {
