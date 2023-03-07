@@ -18,43 +18,17 @@ import { useDispatch } from "react-redux";
 import { fetchProperties } from "../../Redux/reducer/Properties";
 import { RootState } from "../../Redux/store";
 import { ThunkDispatch } from "redux-thunk";
-
-export interface Property {
-  id: number;
-  name: string;
-  antiquity: number;
-  address: string;
-  title: string;
-  bedrooms: number;
-  bathrooms: number;
-  environments: number;
-  pool: boolean;
-  elevator: boolean;
-  floor_th: number;
-  orientation: string;
-  m2_totals: number;
-  m2_covered: number;
-  garage: boolean;
-  amenities: boolean;
-  description: string;
-  furnished: boolean;
-  balcony: boolean;
-  sign: boolean;
-  lat: number;
-  long: number;
-  deleted: boolean;
-  Conditions: any;
-}
+import Property from "../../Interfaces/Property";
 
 export default function Cards() {
   const dispatch: ThunkDispatch<RootState, undefined, any> = useDispatch();
-  const [allProperties, setAllProperties] = useState<Property[]>([]);
+  const [fourProperties, setFourProperties] = useState<Property[]>([]);
 
   useEffect(() => {
     dispatch(fetchProperties())
       .then((action) => {
         if (action.payload) {
-          setAllProperties(action.payload);
+          setFourProperties(action.payload);
         }
       })
       .catch((error) => {
@@ -70,7 +44,7 @@ export default function Cards() {
     num.includes(id) ? num.splice(num.indexOf(id), 1) : num.push(id);
   };
 
-  console.log(allProperties);
+  console.log(fourProperties);
 
   return (
     <Center py={6}>
@@ -80,7 +54,7 @@ export default function Cards() {
         spacingX="10px"
         spacingY="20px"
       >
-        {allProperties
+        {fourProperties
           .slice(4, 8)
           .map(({ id, title, description, Conditions }) => (
             <Box
