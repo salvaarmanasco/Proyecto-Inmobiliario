@@ -12,11 +12,11 @@ router.get("/", async (req: any, res: any) => {
 });
 
 router.post("/", async (req: any, res: any) => {
-  const { PropertyId, CountryId } = req.body;
+  const { PropertyId, GardenId } = req.body;
   try {
     let result = await db.PropertyGarden.create({
       PropertyId,
-      CountryId,
+      GardenId,
     });
     return res.status(200).json(result);
   } catch (error) {

@@ -107,6 +107,7 @@ router.post("/", async (req: any, res: any) => {
     deleted,
     lat,
     long,
+    firstImage,
   } = req.body;
   try {
     let result = await db.Property.create({
@@ -132,6 +133,7 @@ router.post("/", async (req: any, res: any) => {
       deleted,
       lat,
       long,
+      firstImage,
     });
     return res.status(200).json(result);
   } catch (error) {

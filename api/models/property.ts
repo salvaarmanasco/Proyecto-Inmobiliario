@@ -24,6 +24,7 @@ interface PropertyAttributes {
   sign: boolean;
   lat: number;
   long: number;
+  firstImage: string;
   deleted: boolean;
 }
 
@@ -63,6 +64,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
     deleted!: boolean;
     lat!: number;
     long!: number;
+    firstImage!: string;
 
     static associate(models: any) {
       Property.belongsToMany(models.Condition, {
@@ -186,6 +188,12 @@ module.exports = (sequelize: any, DataTypes: any) => {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false,
+      },
+      firstImage: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue:
+          "https://www.bienesrosario.com/resources/inmobiliarias/logo/raes3.jpg",
       },
     },
     {

@@ -1,3 +1,4 @@
+import Property from "../../Interfaces/Property";
 import {
   Box,
   chakra,
@@ -14,65 +15,47 @@ import {
   useColorModeValue,
   List,
   ListItem,
+  Grid,
 } from "@chakra-ui/react";
 
 import { AiFillHeart } from "react-icons/ai";
 import { FaBed, FaBath } from "react-icons/fa";
 import { SlSizeFullscreen } from "react-icons/sl";
 
-import casaBase from "../../Assets/casaBase.jpg";
 import Maps from "../Maps/Maps";
 
-import { useEffect, useState } from "react";
+import {
+  JSXElementConstructor,
+  ReactElement,
+  ReactFragment,
+  ReactPortal,
+  useEffect,
+  useState,
+} from "react";
 import { useDispatch } from "react-redux";
 import { fetchPropertiesId } from "../../Redux/reducer/Properties";
 import { RootState } from "../../Redux/store";
 import { ThunkDispatch } from "redux-thunk";
 
 import { RouteComponentProps } from "react-router-dom";
+import CardDetailCarrousel from "../CardDetailCarrousel/CardDetailCarrousel";
 
 interface MatchParams {
   id: string;
-}
-
-export interface Property {
-  id: number;
-  name: string;
-  antiquity: number;
-  address: string;
-  title: string;
-  bedrooms: number;
-  bathrooms: number;
-  environments: number;
-  pool: boolean;
-  elevator: boolean;
-  floor_th: number;
-  orientation: string;
-  m2_totals: number;
-  m2_covered: number;
-  garage: boolean;
-  amenities: boolean;
-  description: string;
-  furnished: boolean;
-  balcony: boolean;
-  sign: boolean;
-  lat: number;
-  long: number;
-  deleted: boolean;
 }
 
 export default function CardDetails({
   match,
 }: RouteComponentProps<MatchParams>) {
   const dispatch: ThunkDispatch<RootState, undefined, any> = useDispatch();
-  const [prop1, setProp1] = useState<Property | null>(null);
+  const [detailProp, setDetailProp] = useState<Property | null>(null);
 
   useEffect(() => {
     const { id } = match.params;
     dispatch(fetchPropertiesId(id))
       .then((action) => {
         if (action.payload) {
-          setProp1(action.payload);
+          setDetailProp(action.payload);
         }
       })
       .catch((error) => {
@@ -80,7 +63,9 @@ export default function CardDetails({
       });
   }, [dispatch]);
 
-  console.log(prop1);
+  console.log(detailProp);
+  const gardenCount = detailProp?.Gardens?.length;
+  const imagesCarrousel = detailProp?.Images;
 
   // ------------------------------------------------------------------------------------------------------------
   const bgColorWhiteGray800 = useColorModeValue("gray.800", "white");
@@ -92,13 +77,13 @@ export default function CardDetails({
 
   return (
     <>
-      {prop1 !== null ? (
+      {detailProp !== null ? (
         <Container maxW={"7xl"}>
           <Flex>
             <Image
               rounded={"md"}
               alt={"product image"}
-              src={casaBase}
+              src={detailProp.firstImage}
               fit={"cover"}
               align={"center"}
               w={"100%"}
@@ -133,7 +118,7 @@ export default function CardDetails({
                   fontWeight={600}
                   fontSize={{ base: "2xl", sm: "4xl", lg: "5xl" }}
                 >
-                  <Text>{prop1.title}</Text>
+                  <Text>{detailProp.title}</Text>
                 </Heading>
                 <Text
                   color={colorGray900Gray400}
@@ -161,7 +146,7 @@ export default function CardDetails({
                       <Stack marginRight={4} marginTop={2}>
                         <FaBed size={"30px"} />
                       </Stack>
-                      <ListItem>{prop1.bedrooms} Habitaciones</ListItem>
+                      <ListItem>{detailProp.bedrooms} Habitaciones</ListItem>
                     </Stack>
                     <Stack direction={"row"} alignItems="center">
                       <Stack
@@ -171,7 +156,7 @@ export default function CardDetails({
                       >
                         <FaBath size={"30px"} />
                       </Stack>
-                      <ListItem>{prop1.bathrooms} Baños</ListItem>
+                      <ListItem>{detailProp.bathrooms} Baños</ListItem>
                     </Stack>
                   </List>
                   <List spacing={2} marginTop={{ base: 4, md: 0 }}>
@@ -183,7 +168,7 @@ export default function CardDetails({
                       >
                         <SlSizeFullscreen size={"30px"} />
                       </Stack>
-                      <ListItem>{prop1.m2_totals} m2 totales</ListItem>
+                      <ListItem>{detailProp.m2_totals} m2 totales</ListItem>
                     </Stack>
                     <Stack direction={"row"} alignItems="center">
                       <Stack
@@ -193,7 +178,7 @@ export default function CardDetails({
                       >
                         <SlSizeFullscreen size={"30px"} />
                       </Stack>
-                      <ListItem>{prop1.m2_covered} m2 cubiertos</ListItem>
+                      <ListItem>{detailProp.m2_covered} m2 cubiertos</ListItem>
                     </Stack>
                   </List>
                 </SimpleGrid>
@@ -209,7 +194,7 @@ export default function CardDetails({
                     fontSize={"2xl"}
                     fontWeight={"300"}
                   >
-                    {prop1.description}
+                    {detailProp.description}
                   </Text>
                 </VStack>
                 <Box>
@@ -228,25 +213,25 @@ export default function CardDetails({
                         <Text as={"span"} fontWeight={"bold"}>
                           Direccion:
                         </Text>{" "}
-                        {prop1.address}
+                        {detailProp.address}
                       </ListItem>
                       <ListItem>
                         <Text as={"span"} fontWeight={"bold"}>
                           Servicios:
                         </Text>{" "}
-                        Luz / Agua / Gas / Cloacas
+                        {detailProp.Services?.[0]?.services_name}
                       </ListItem>
                       <ListItem>
                         <Text as={"span"} fontWeight={"bold"}>
                           Ciudad:
                         </Text>{" "}
-                        Santa Fe Capital
+                        {detailProp.States?.[0]?.state_name}
                       </ListItem>
                       <ListItem>
                         <Text as={"span"} fontWeight={"bold"}>
                           Tipo de propiedad:
                         </Text>{" "}
-                        Departamento
+                        {detailProp.Categories?.[0]?.category_name}
                       </ListItem>
                       <ListItem>
                         <Text as={"span"} fontWeight={"bold"}>
@@ -255,70 +240,82 @@ export default function CardDetails({
                         Santa Fe
                       </ListItem>
                       <ListItem>
-                        <Text as={"span"} fontWeight={"bold"}>
-                          Patio:
-                        </Text>{" "}
-                        Si (Verde)
+                        <SimpleGrid columns={{ base: 1, lg: 2 }}>
+                          <Text as={"span"} fontWeight={"bold"} gridColumn={-4}>
+                            Patio:
+                          </Text>
+                          <SimpleGrid columns={2} pl={1}>
+                            {detailProp.Gardens?.map(
+                              (g: { garden_name: string }, index: number) => (
+                                <Text>
+                                  {index === gardenCount - 1
+                                    ? g.garden_name
+                                    : `${g.garden_name}, `}
+                                </Text>
+                              )
+                            )}
+                          </SimpleGrid>
+                        </SimpleGrid>
                       </ListItem>
                       <ListItem>
                         <Text as={"span"} fontWeight={"bold"}>
                           Pais:
                         </Text>{" "}
-                        Argentina
+                        {detailProp.Countries?.[0]?.country_name}
                       </ListItem>
                       <ListItem>
                         <Text as={"span"} fontWeight={"bold"}>
                           Barrio:
                         </Text>{" "}
-                        Centro
+                        {detailProp.Zones?.[0]?.zone_name}
                       </ListItem>
                       <ListItem>
                         <Text as={"span"} fontWeight={"bold"}>
                           Antiguedad:
                         </Text>{" "}
-                        {prop1.antiquity} años
+                        {detailProp.antiquity} años
                       </ListItem>
                       <ListItem>
                         <Text as={"span"} fontWeight={"bold"}>
                           Ascensor:
                         </Text>{" "}
-                        {prop1.elevator}
+                        {detailProp.elevator == false ? "No posee" : "Si"}
                       </ListItem>
                       <ListItem>
                         <Text as={"span"} fontWeight={"bold"}>
                           Piso:
                         </Text>{" "}
-                        {prop1.floor_th}
+                        {detailProp.floor_th}
                       </ListItem>
                       <ListItem>
                         <Text as={"span"} fontWeight={"bold"}>
                           Garage:
                         </Text>{" "}
-                        {prop1.garage}
+                        {detailProp.garage == false ? "No posee" : "Si"}
                       </ListItem>
                       <ListItem>
                         <Text as={"span"} fontWeight={"bold"}>
                           Amenities:
                         </Text>{" "}
-                        {prop1.amenities}
+                        {detailProp.amenities == false ? "No posee" : "Si"}
                       </ListItem>
                       <ListItem>
                         <Text as={"span"} fontWeight={"bold"}>
                           Balcon:
                         </Text>{" "}
-                        {prop1.balcony}
+                        {detailProp.balcony == false ? "No posee" : "Si"}
                       </ListItem>
                       <ListItem>
                         <Text as={"span"} fontWeight={"bold"}>
                           Amoblado:
                         </Text>{" "}
-                        {prop1.furnished}
+                        {detailProp.furnished == false ? "No posee" : "Si"}
                       </ListItem>
                       <ListItem>
                         <Text as={"span"} fontWeight={"bold"}>
                           Orientacion:
                         </Text>{" "}
-                        {prop1.orientation}
+                        {detailProp.orientation}
                       </ListItem>
                     </SimpleGrid>
                   </List>
@@ -344,8 +341,9 @@ export default function CardDetails({
                 <AiFillHeart />
               </Button>
             </Stack>
-            <Maps lat={prop1.lat} long={prop1.long} />
+            <Maps lat={detailProp.lat} long={detailProp.long} />
           </SimpleGrid>
+          <CardDetailCarrousel images={imagesCarrousel} />
         </Container>
       ) : (
         <>
