@@ -91,10 +91,14 @@ export default function CardDetails({
               mt={10}
             />
           </Flex>
+          <Flex mt={3} justifyContent="end">
+            <CardDetailCarrousel images={imagesCarrousel} />
+          </Flex>
           <SimpleGrid
             columns={{ base: 1, lg: 2 }}
             spacing={{ base: 8, md: 10 }}
-            py={{ base: 18, md: 24 }}
+            pb={{ base: 18, md: 24 }}
+            pt={{ base: 10, md: 10 }}
           >
             <Stack spacing={{ base: 6, md: 10 }}>
               <Box as={"header"}>
@@ -301,6 +305,12 @@ export default function CardDetails({
                       </ListItem>
                       <ListItem>
                         <Text as={"span"} fontWeight={"bold"}>
+                          Piscina:
+                        </Text>{" "}
+                        {detailProp.pool == false ? "No posee" : "Si"}
+                      </ListItem>
+                      <ListItem>
+                        <Text as={"span"} fontWeight={"bold"}>
                           Balcon:
                         </Text>{" "}
                         {detailProp.balcony == false ? "No posee" : "Si"}
@@ -343,7 +353,6 @@ export default function CardDetails({
             </Stack>
             <Maps lat={detailProp.lat} long={detailProp.long} />
           </SimpleGrid>
-          <CardDetailCarrousel images={imagesCarrousel} />
         </Container>
       ) : (
         <>

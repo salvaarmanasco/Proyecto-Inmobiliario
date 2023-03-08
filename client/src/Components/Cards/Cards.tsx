@@ -55,8 +55,8 @@ export default function Cards() {
         spacingY="20px"
       >
         {fourProperties
-          .slice(4, 8)
-          .map(({ id, title, description, Conditions }) => (
+          .slice(0, 4)
+          .map(({ id, title, description, Conditions, firstImage }) => (
             <Box
               key={id}
               w="xs" /* ancho de cards */
@@ -72,14 +72,14 @@ export default function Cards() {
               <Box h={"200px"} borderBottom={"1px"} borderColor="black">
                 {" "}
                 {/* longitud de la card */}
-                {/* <Img
-                src={img}
-                roundedTop={"sm"}
-                objectFit="cover"
-                h="full"
-                w="full"
-                alt={"Blog Image"}
-              /> */}
+                <Img
+                  src={firstImage}
+                  roundedTop={"sm"}
+                  objectFit="cover"
+                  h="full"
+                  w="full"
+                  alt={"Blog Image"}
+                />
               </Box>
               <Box p={4}>
                 <Box
