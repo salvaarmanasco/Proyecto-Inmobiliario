@@ -1,0 +1,23 @@
+export default interface FormData {
+  title: string;
+  antiquity: number;
+  address: string;
+  bedrooms: number;
+  bathrooms: number;
+  environments: number;
+  pool: boolean;
+  elevator: boolean;
+  floor_th: number;
+  orientation: string;
+  m2_totals: number;
+  m2_covered: number;
+  garage: boolean;
+  amenities: boolean;
+  description: string;
+  furnished: boolean;
+  balcony: boolean;
+  sign: boolean;
+  firstImage: string;
+  lat: number;
+  long: number;
+}
