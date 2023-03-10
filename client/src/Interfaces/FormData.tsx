@@ -18,6 +18,6 @@ export default interface FormData {
   balcony: boolean;
   sign: boolean;
   firstImage: string;
-  lat: number;
-  long: number;
+  lat: any;
+  long: any;
 }

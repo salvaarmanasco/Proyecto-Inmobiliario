@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   SimpleGrid,
   FormControl,
@@ -10,9 +10,30 @@ import {
   Stack,
   Center,
   GridItem,
+  Text,
 } from "@chakra-ui/react";
 
 import FormData from "../../Interfaces/FormData";
+
+// -----------------------------------------------GOOGLE MAPS-------------------------------------------------
+import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
+
+interface MapProps {
+  center: {
+    lat: number;
+    lng: number;
+  };
+  zoom: number;
+}
+
+interface MarkerProps {
+  position: {
+    lat: number;
+    lng: number;
+  };
+  onClick?: () => void;
+}
+// ------------------------------------------------------------------------------------------------------------
 
 const initialFormData: FormData = {
   title: "",
@@ -38,7 +59,7 @@ const initialFormData: FormData = {
   long: -60.710534,
 };
 
-export default function Form() {
+export default function Form(props: MapProps) {
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -88,6 +109,43 @@ export default function Form() {
       [name]: newValue,
     });
   };
+
+  const [marker, setMarker] = useState<MarkerProps | null>(null);
+  const { isLoaded } = useJsApiLoader({
+    id: "google-map-script",
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY || "",
+  });
+
+  const handleMarkerClick = () => {
+    console.log("Marker clicked");
+  };
+
+  const handleMapClick = (event: any) => {
+    setMarker({
+      position: {
+        lat: event.latLng.lat(),
+        lng: event.latLng.lng(),
+      },
+      onClick: handleMarkerClick,
+    });
+    setFormData({
+      ...formData,
+      lat: marker?.position?.lat,
+      long: marker?.position?.lng,
+    });
+    console.log(marker?.position);
+  };
+
+  useEffect(() => {
+    if (marker) {
+      setFormData({
+        ...formData,
+        lat: marker.position?.lat,
+        long: marker.position?.lng,
+      });
+      console.log(marker.position);
+    }
+  }, [marker]);
 
   return (
     <Center my={4}>
@@ -184,24 +242,6 @@ export default function Form() {
                 onChange={handleInputChange}
               />
             </FormControl>
-            <FormControl id="lat" isRequired>
-              <FormLabel>Latitud</FormLabel>
-              <Input
-                type="number"
-                name="lat"
-                value={lat}
-                onChange={handleInputChange}
-              />
-            </FormControl>
-            <FormControl id="long" isRequired>
-              <FormLabel>Longitud</FormLabel>
-              <Input
-                type="number"
-                name="long"
-                value={long}
-                onChange={handleInputChange}
-              />
-            </FormControl>
             <GridItem colSpan={2}>
               <FormControl id="description" isRequired>
                 <FormLabel>Descripción</FormLabel>
@@ -291,14 +331,33 @@ export default function Form() {
               </Checkbox>
             </FormControl>
           </SimpleGrid>
-          <Button
-            type="submit"
-            isLoading={isSubmitting}
-            loadingText="Submitting..."
-          >
-            Crear
-          </Button>
         </Stack>
+        <Text textAlign="center" my={5} fontSize={20} fontWeight={10}>
+          Colocar ubicación{" "}
+        </Text>
+        <div style={{ height: "50vh", width: "100%" }}>
+          {isLoaded && (
+            <GoogleMap
+              mapContainerStyle={{ height: "100%", width: "100%" }}
+              zoom={12}
+              center={{ lat: -31.64881, lng: -60.70868 }}
+              onClick={handleMapClick}
+            >
+              {marker && (
+                <Marker position={marker.position} onClick={marker.onClick} />
+              )}
+            </GoogleMap>
+          )}
+        </div>
+        <Button
+          type="submit"
+          isLoading={isSubmitting}
+          loadingText="Submitting..."
+          width={500}
+          my={10}
+        >
+          Crear
+        </Button>
       </form>
     </Center>
   );
