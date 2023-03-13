@@ -50,6 +50,16 @@ export const fetchPropertiesId = createAsyncThunk(
     return response.data;
   }
 );
+export const createProperty = createAsyncThunk(
+  "properties/createProperty",
+  async (newProperty: any) => {
+    const response = await axios.post(
+      `http://localhost:3001/properties`,
+      newProperty
+    );
+    return response.data;
+  }
+);
 
 // Define el slice de Redux que manejará el estado de las propiedades
 const propertiesSlice = createSlice({
@@ -61,9 +71,7 @@ const propertiesSlice = createSlice({
   } as PropertiesState,
   reducers: {},
   extraReducers: (builder) => {
-    // Añade el reducer generado por createAsyncThunk para manejar los resultados de la acción asíncrona
     builder.addCase(fetchProperties.fulfilled, (state, action) => {
-      // Actualiza el estado con los datos recibidos de la acción asíncrona
       state.properties = action.payload;
       state.loading = false;
       state.error = null;
@@ -86,6 +94,9 @@ const propertiesSlice = createSlice({
     builder.addCase(fetchPropertiesId.rejected, (state, action) => {
       state.loading = false;
       state.error = "No se pudo cargar las propiedades";
+    });
+    builder.addCase(createProperty.fulfilled, (state, action) => {
+      state.properties.push(action.payload);
     });
   },
 });

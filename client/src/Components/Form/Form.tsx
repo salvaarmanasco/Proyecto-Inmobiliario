@@ -355,6 +355,7 @@ export default function Form(props: MapProps) {
           loadingText="Submitting..."
           width={500}
           my={10}
+          onClick={() => {}}
         >
           Crear
         </Button>
