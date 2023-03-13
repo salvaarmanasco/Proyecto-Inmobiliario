@@ -1,7 +1,6 @@
 import Property from "../../Interfaces/Property";
 import {
   Box,
-  chakra,
   Container,
   Stack,
   Text,
@@ -15,7 +14,6 @@ import {
   useColorModeValue,
   List,
   ListItem,
-  Grid,
 } from "@chakra-ui/react";
 
 import { AiFillHeart } from "react-icons/ai";
@@ -24,14 +22,7 @@ import { SlSizeFullscreen } from "react-icons/sl";
 
 import Maps from "../Maps/Maps";
 
-import {
-  JSXElementConstructor,
-  ReactElement,
-  ReactFragment,
-  ReactPortal,
-  useEffect,
-  useState,
-} from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { fetchPropertiesId } from "../../Redux/reducer/Properties";
 import { RootState } from "../../Redux/store";

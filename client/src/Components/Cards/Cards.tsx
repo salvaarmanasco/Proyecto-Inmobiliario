@@ -8,7 +8,6 @@ import {
   Center,
   HStack,
   SimpleGrid,
-  Button,
   Link,
 } from "@chakra-ui/react";
 import { BsArrowUpRight, BsHeartFill, BsHeart } from "react-icons/bs";
