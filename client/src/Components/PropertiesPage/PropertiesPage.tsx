@@ -13,26 +13,19 @@ import {
 } from "@chakra-ui/react";
 import { BsArrowUpRight, BsHeartFill, BsHeart } from "react-icons/bs";
 import Filter from "../Filter/Filter";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchProperties } from "../../Redux/reducer/Properties";
 import { RootState } from "../../Redux/store";
 import { ThunkDispatch } from "redux-thunk";
-import Property from "../../Interfaces/Property";
 // ---------------------------------------FetchProperties-------------------------------------------------------
 const PropertiesPage = () => {
   const dispatch: ThunkDispatch<RootState, undefined, any> = useDispatch();
-  const [allProperties, setAllProperties] = useState<Property[]>([]);
+  const allProperties = useSelector(
+    (state: RootState) => state.properties.propertiesFilter
+  );
 
   useEffect(() => {
-    dispatch(fetchProperties())
-      .then((action) => {
-        if (action.payload) {
-          setAllProperties(action.payload);
-        }
-      })
-      .catch((error) => {
-        console.log("Error fetching properties:", error);
-      });
+    dispatch(fetchProperties());
   }, [dispatch]);
 
   //  ---------------------------------------Favourties--------------------------------------------------------

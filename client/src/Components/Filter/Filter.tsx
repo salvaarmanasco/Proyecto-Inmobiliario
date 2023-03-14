@@ -126,7 +126,7 @@ const Filter = () => {
               <RangeSlider
                 defaultValue={[0, 5000]}
                 min={0}
-                max={10000}
+                max={5000}
                 colorScheme="red"
                 onChange={(value) =>
                   setM2Terrain({ min: value[0], max: value[1] })
@@ -150,7 +150,7 @@ const Filter = () => {
               <RangeSlider
                 defaultValue={[0, 1500]}
                 min={0}
-                max={3000}
+                max={1500}
                 colorScheme="red"
                 onChange={(value) =>
                   setM2cover({ min: value[0], max: value[1] })
@@ -179,7 +179,7 @@ const Filter = () => {
                 >
                   <Text>Habitaciones</Text>
                   <NumberInput w={100} min={0}>
-                    <NumberInputField />
+                    <NumberInputField placeholder="Hasta..." />
                   </NumberInput>
                 </Box>
                 <Box
@@ -190,7 +190,7 @@ const Filter = () => {
                 >
                   <Text>Baños</Text>
                   <NumberInput w={100} min={0}>
-                    <NumberInputField />
+                    <NumberInputField placeholder="Hasta..." />
                   </NumberInput>
                 </Box>
                 <Box
@@ -214,30 +214,12 @@ const Filter = () => {
                 <Box
                   display="flex"
                   flexDirection="row"
-                  mt={5}
-                  justifyContent="space-between"
-                >
-                  <Text>Gas Natural</Text>
-                  <Switch colorScheme="red" size="md" />
-                </Box>
-                <Box
-                  display="flex"
-                  flexDirection="row"
-                  mt={5}
-                  justifyContent="space-between"
-                >
-                  <Text>Cloacas</Text>
-                  <Switch colorScheme="red" size="md" />
-                </Box>
-                <Box
-                  display="flex"
-                  flexDirection="row"
                   justifyContent="space-between"
                   mt={5}
                 >
                   <Text>Antiguedad</Text>
                   <NumberInput w={100} min={0}>
-                    <NumberInputField />
+                    <NumberInputField placeholder="Hasta..." />
                   </NumberInput>
                 </Box>
               </Flex>
