@@ -1,4 +1,8 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { ThunkDispatch } from "redux-thunk";
+import { createProperty } from "../../Redux/reducer/Properties";
+import { RootState } from "../../Redux/store";
 import {
   SimpleGrid,
   FormControl,
@@ -14,6 +18,7 @@ import {
 } from "@chakra-ui/react";
 
 import FormData from "../../Interfaces/FormData";
+import { useHistory } from "react-router-dom";
 
 // -----------------------------------------------GOOGLE MAPS-------------------------------------------------
 import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
@@ -33,6 +38,7 @@ interface MarkerProps {
   };
   onClick?: () => void;
 }
+
 // ------------------------------------------------------------------------------------------------------------
 
 const initialFormData: FormData = {
@@ -62,6 +68,8 @@ const initialFormData: FormData = {
 export default function Form(props: MapProps) {
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const dispatch: ThunkDispatch<RootState, undefined, any> = useDispatch();
+  const history = useHistory();
 
   const {
     title,
@@ -87,12 +95,37 @@ export default function Form(props: MapProps) {
     long,
   } = formData;
 
+  // const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  //   event.preventDefault();
+  //   setIsSubmitting(true);
+  //   setIsSubmitting(false);
+  //   console.log(formData);
+  //   dispatch(createProperty(formData)).catch((error) => {
+  //     console.log("Error creating properties:", error);
+  //   });
+  //   const itemProp = formData;
+  //   setFormData(initialFormData);
+  //   history.push("/form2", { itemProp });
+  // };
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsSubmitting(true);
-    setIsSubmitting(false);
-    console.log(formData);
-    setFormData(initialFormData);
+
+    try {
+      const response = await dispatch(createProperty(formData));
+      const createdProperty = response.payload; // assuming response payload is the created property
+      setIsSubmitting(false);
+      console.log(formData);
+      console.log("Property created:", createdProperty);
+      setFormData(initialFormData);
+      history.push({
+        pathname: "/form2",
+        state: { itemProp: createdProperty },
+      });
+    } catch (error) {
+      console.log("Error creating properties:", error);
+      setIsSubmitting(false);
+    }
   };
 
   const handleInputChange = (
@@ -355,7 +388,6 @@ export default function Form(props: MapProps) {
           loadingText="Submitting..."
           width={500}
           my={10}
-          onClick={() => {}}
         >
           Crear
         </Button>
