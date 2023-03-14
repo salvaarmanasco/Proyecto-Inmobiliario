@@ -1,16 +1,16 @@
-import {
-  JSXElementConstructor,
-  Key,
-  ReactElement,
-  ReactFragment,
-  useEffect,
-  useState,
-} from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { fetchPropertiesId } from "../../Redux/reducer/Properties";
+import {
+  createPropertyCategory,
+  createPropertyCondition,
+  createPropertyCountry,
+  createPropertyGarden,
+  createPropertyServices,
+  createPropertyState,
+} from "../../Redux/reducer/Relations";
 import { RootState } from "../../Redux/store";
 import { ThunkDispatch } from "redux-thunk";
-import Property from "../../Interfaces/Property";
+
 import {
   fetchCategory,
   fetchCondition,
@@ -177,9 +177,13 @@ function Form2({ location }: { location: ItemDetailsProps }) {
         PropertyId: itemProp2.toString(),
         CategoryId: Number(categorySelected),
       };
-      // const response = await dispatch(createProperty());
-      // const createdProperty = response.payload; // assuming response payload is the created property
-      // setIsSubmitting(false);
+      await dispatch(createPropertyCondition(propertyCondition));
+      await dispatch(createPropertyCategory(propertyCategory));
+      await dispatch(createPropertyGarden(propertyGarden));
+      await dispatch(createPropertyState(propertyState));
+      await dispatch(createPropertyServices(propertyServices));
+      await dispatch(createPropertyCountry(propertyCountry));
+      setIsSubmitting(false);
     } catch (error) {
       console.log("Error creating properties:", error);
       setIsSubmitting(false);
