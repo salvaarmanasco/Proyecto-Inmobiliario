@@ -1,35 +1,30 @@
 "use strict";
 import { Model } from "sequelize";
 
-interface PropertyConditionAttributes {
-  ConditionId: number;
+interface PropertyCountryAttributes {
+  CountryId: number;
   PropertyId: string;
 }
 
 module.exports = (sequelize: any, DataTypes: any) => {
-  class PropertyCondition
-    extends Model<PropertyConditionAttributes>
-    implements PropertyConditionAttributes
+  class PropertyCountry
+    extends Model<PropertyCountryAttributes>
+    implements PropertyCountryAttributes
   {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    ConditionId!: number;
+    CountryId!: number;
     PropertyId!: string;
     static associate(models: any) {
       // define association here
     }
   }
-  PropertyCondition.init(
+  PropertyCountry.init(
     {
-      ConditionId: {
+      CountryId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
         references: {
-          model: "Condition",
+          model: "Country",
           key: "id",
         },
       },
@@ -45,8 +40,8 @@ module.exports = (sequelize: any, DataTypes: any) => {
     },
     {
       sequelize,
-      modelName: "PropertyCondition",
+      modelName: "PropertyCountry",
     }
   );
-  return PropertyCondition;
+  return PropertyCountry;
 };
