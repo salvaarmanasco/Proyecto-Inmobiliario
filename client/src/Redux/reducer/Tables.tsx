@@ -14,47 +14,41 @@ export interface TablesState {
 
 // Acciones asincronicas
 export const fetchCategory = createAsyncThunk(
-  "properties/fetchCategory",
+  "tables/fetchCategory",
   async () => {
     const response = await axios.get(`http://localhost:3001/category/`);
     return response.data;
   }
 );
 export const fetchCondition = createAsyncThunk(
-  "properties/fetchCondtion",
+  "tables/fetchCondtion",
   async () => {
     const response = await axios.get(`http://localhost:3001/condition/`);
     return response.data;
   }
 );
 export const fetchCountry = createAsyncThunk(
-  "properties/fetchCountry",
+  "tables/fetchCountry",
   async () => {
     const response = await axios.get(`http://localhost:3001/country/`);
     return response.data;
   }
 );
-export const fetchGarden = createAsyncThunk(
-  "properties/fetchGarden",
-  async () => {
-    const response = await axios.get(`http://localhost:3001/garden/`);
-    return response.data;
-  }
-);
+export const fetchGarden = createAsyncThunk("tables/fetchGarden", async () => {
+  const response = await axios.get(`http://localhost:3001/garden/`);
+  return response.data;
+});
 export const fetchServices = createAsyncThunk(
-  "properties/fetchServices",
+  "tables/fetchServices",
   async () => {
     const response = await axios.get(`http://localhost:3001/services/`);
     return response.data;
   }
 );
-export const fetchState = createAsyncThunk(
-  "properties/fetchState",
-  async () => {
-    const response = await axios.get(`http://localhost:3001/state/`);
-    return response.data;
-  }
-);
+export const fetchState = createAsyncThunk("tables/fetchState", async () => {
+  const response = await axios.get(`http://localhost:3001/state/`);
+  return response.data;
+});
 
 // slice
 
