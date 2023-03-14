@@ -95,18 +95,6 @@ export default function Form(props: MapProps) {
     long,
   } = formData;
 
-  // const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-  //   event.preventDefault();
-  //   setIsSubmitting(true);
-  //   setIsSubmitting(false);
-  //   console.log(formData);
-  //   dispatch(createProperty(formData)).catch((error) => {
-  //     console.log("Error creating properties:", error);
-  //   });
-  //   const itemProp = formData;
-  //   setFormData(initialFormData);
-  //   history.push("/form2", { itemProp });
-  // };
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsSubmitting(true);
