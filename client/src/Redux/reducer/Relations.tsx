@@ -11,6 +11,8 @@ export interface RelationsState {
   PropertyServices: boolean;
   PropertyState: boolean;
   PropertyZone: boolean;
+  Price: boolean;
+  Zone: boolean;
   loading: boolean;
   error: string | null;
 }
@@ -18,10 +20,10 @@ export interface RelationsState {
 // Acciones asincronicas para crear relaciones
 export const createPropertyCondition = createAsyncThunk(
   "relations/createPropertyCondition",
-  async (properyCondition: any) => {
+  async (propertyCondition: any) => {
     const response = await axios.post(
       "http://localhost:3001/propertycondition",
-      properyCondition
+      propertyCondition
       // id propiedas y el id de la condicion 3
     );
     return response.data;
@@ -30,10 +32,10 @@ export const createPropertyCondition = createAsyncThunk(
 
 export const createPropertyCategory = createAsyncThunk(
   "relations/createPropertyCategory",
-  async (properyCategory: any) => {
+  async (propertyCategory: any) => {
     const response = await axios.post(
       "http://localhost:3001/propertyCategory",
-      properyCategory
+      propertyCategory
       // id propiedas y el id de la condicion 3
     );
     return response.data;
@@ -42,10 +44,10 @@ export const createPropertyCategory = createAsyncThunk(
 
 export const createPropertyCountry = createAsyncThunk(
   "relations/createPropertyCountry",
-  async (properyCountry: any) => {
+  async (propertyCountry: any) => {
     const response = await axios.post(
       "http://localhost:3001/propertycountry",
-      properyCountry
+      propertyCountry
       // id propiedas y el id de la condicion 3
     );
     return response.data;
@@ -54,10 +56,10 @@ export const createPropertyCountry = createAsyncThunk(
 
 export const createPropertyGarden = createAsyncThunk(
   "relations/createPropertyGarden",
-  async (properyGarden: any) => {
+  async (propertyGarden: any) => {
     const response = await axios.post(
       "http://localhost:3001/propertygarden",
-      properyGarden
+      propertyGarden
       // id propiedas y el id de la condicion 3
     );
     return response.data;
@@ -66,22 +68,10 @@ export const createPropertyGarden = createAsyncThunk(
 
 export const createPropertyImage = createAsyncThunk(
   "relations/createPropertyImage",
-  async (properyImage: any) => {
+  async (propertyImage: any) => {
     const response = await axios.post(
       "http://localhost:3001/propertyimage",
-      properyImage
-      // id propiedas y el id de la condicion 3
-    );
-    return response.data;
-  }
-);
-
-export const createPropertyPrice = createAsyncThunk(
-  "relations/createPropertyPrice",
-  async (properyPrice: any) => {
-    const response = await axios.post(
-      "http://localhost:3001/propertyprice",
-      properyPrice
+      propertyImage
       // id propiedas y el id de la condicion 3
     );
     return response.data;
@@ -90,10 +80,10 @@ export const createPropertyPrice = createAsyncThunk(
 
 export const createPropertyServices = createAsyncThunk(
   "relations/createPropertyServices",
-  async (properyServices: any) => {
+  async (propertyServices: any) => {
     const response = await axios.post(
       "http://localhost:3001/propertyservices",
-      properyServices
+      propertyServices
       // id propiedas y el id de la condicion 3
     );
     return response.data;
@@ -102,23 +92,10 @@ export const createPropertyServices = createAsyncThunk(
 
 export const createPropertyState = createAsyncThunk(
   "relations/createPropertyState",
-  async (properyState: any) => {
+  async (propertyState: any) => {
     const response = await axios.post(
       "http://localhost:3001/propertystate",
-      properyState
-      // id propiedas y el id de la condicion 3
-    );
-    return response.data;
-  }
-);
-
-export const createPropertyZone = createAsyncThunk(
-  "relations/createPropertyZone",
-  async (properyZone: any) => {
-    const response = await axios.post(
-      "http://localhost:3001/propertyzone",
-      properyZone
-      // id propiedas y el id de la condicion 3
+      propertyState
     );
     return response.data;
   }
@@ -138,6 +115,8 @@ const RelationsSlice = createSlice({
     PropertyServices: false,
     PropertyState: false,
     PropertyZone: false,
+    Price: false,
+    Zone: false,
     loading: false,
     error: null,
   } as RelationsState,
@@ -195,19 +174,6 @@ const RelationsSlice = createSlice({
       state.loading = false;
       state.error = "Cago tu PropertyImage";
     });
-    builder.addCase(createPropertyPrice.fulfilled, (state, action) => {
-      state.PropertyPrice = true;
-      state.loading = false;
-      state.error = null;
-    });
-    builder.addCase(createPropertyPrice.pending, (state, action) => {
-      state.loading = true;
-    });
-    builder.addCase(createPropertyPrice.rejected, (state, action) => {
-      state.PropertyPrice = false;
-      state.loading = false;
-      state.error = "Cago tu PropertyPrice";
-    });
     builder.addCase(createPropertyServices.fulfilled, (state, action) => {
       state.PropertyServices = true;
       state.loading = false;
@@ -233,19 +199,6 @@ const RelationsSlice = createSlice({
       state.PropertyState = false;
       state.loading = false;
       state.error = "Cago tu PropertyState";
-    });
-    builder.addCase(createPropertyZone.fulfilled, (state, action) => {
-      state.PropertyZone = true;
-      state.loading = false;
-      state.error = null;
-    });
-    builder.addCase(createPropertyZone.pending, (state, action) => {
-      state.loading = true;
-    });
-    builder.addCase(createPropertyZone.rejected, (state, action) => {
-      state.PropertyZone = false;
-      state.loading = false;
-      state.error = "Cago tu PropertyZone";
     });
   },
 });

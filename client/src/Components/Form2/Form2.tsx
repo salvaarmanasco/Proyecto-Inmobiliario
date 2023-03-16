@@ -59,6 +59,8 @@ interface ItemDetailsProps {
       firstImage: string;
       lat: any;
       long: any;
+      price: number;
+      zone: string;
     };
   };
 }
@@ -139,15 +141,6 @@ function Form2({ location }: { location: ItemDetailsProps }) {
       });
   }, [dispatch]);
 
-  console.log([
-    countrySelected,
-    categorySelected,
-    stateSelected,
-    gardenSelected,
-    servicesSelected,
-    conditionSelected,
-  ]);
-
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsSubmitting(true);
@@ -177,6 +170,7 @@ function Form2({ location }: { location: ItemDetailsProps }) {
         PropertyId: itemProp2.toString(),
         CategoryId: Number(categorySelected),
       };
+
       await dispatch(createPropertyCondition(propertyCondition));
       await dispatch(createPropertyCategory(propertyCategory));
       await dispatch(createPropertyGarden(propertyGarden));
@@ -193,6 +187,7 @@ function Form2({ location }: { location: ItemDetailsProps }) {
   return (
     <Center my={4}>
       <form onSubmit={handleSubmit}>
+        <FormLabel>Tipo de propiedad</FormLabel>
         <Select
           value={categorySelected}
           onChange={(e) => setCategorySelected(e.target.value)}
@@ -208,6 +203,7 @@ function Form2({ location }: { location: ItemDetailsProps }) {
             )
           )}
         </Select>
+        <FormLabel>Condición</FormLabel>
         <Select
           value={conditionSelected}
           onChange={(e) => setConditionSelected(e.target.value)}
@@ -226,6 +222,23 @@ function Form2({ location }: { location: ItemDetailsProps }) {
             )
           )}
         </Select>
+        <FormLabel>Pais</FormLabel>
+        <Select
+          value={countrySelected}
+          onChange={(e) => setCountrySelected(e.target.value)}
+        >
+          <option value="" disabled>
+            Seleccione una opción
+          </option>
+          {country.map(
+            (opcion: { id: number; country_name: any | null | undefined }) => (
+              <option key={opcion.id} value={opcion.id}>
+                {opcion.country_name}
+              </option>
+            )
+          )}
+        </Select>
+        <FormLabel>Provincia</FormLabel>
         <Select
           value={stateSelected}
           onChange={(e) => setStateSelected(e.target.value)}
@@ -241,6 +254,8 @@ function Form2({ location }: { location: ItemDetailsProps }) {
             )
           )}
         </Select>
+
+        <FormLabel>Patio</FormLabel>
         <Select
           value={gardenSelected}
           onChange={(e) => setGardenSelected(e.target.value)}
@@ -256,6 +271,7 @@ function Form2({ location }: { location: ItemDetailsProps }) {
             )
           )}
         </Select>
+        <FormLabel>Servicios</FormLabel>
         <Select
           value={servicesSelected}
           onChange={(e) => setServicesSelected(e.target.value)}
@@ -267,21 +283,6 @@ function Form2({ location }: { location: ItemDetailsProps }) {
             (opcion: { id: number; services_name: any | null | undefined }) => (
               <option key={opcion.id} value={opcion.id}>
                 {opcion.services_name}
-              </option>
-            )
-          )}
-        </Select>
-        <Select
-          value={countrySelected}
-          onChange={(e) => setCountrySelected(e.target.value)}
-        >
-          <option value="" disabled>
-            Seleccione una opción
-          </option>
-          {country.map(
-            (opcion: { id: number; country_name: any | null | undefined }) => (
-              <option key={opcion.id} value={opcion.id}>
-                {opcion.country_name}
               </option>
             )
           )}

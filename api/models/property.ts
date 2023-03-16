@@ -24,6 +24,8 @@ interface PropertyAttributes {
   sign: boolean;
   lat: number;
   long: number;
+  price: number;
+  zone: string;
   firstImage: string;
   deleted: boolean;
 }
@@ -63,6 +65,8 @@ module.exports = (sequelize: any, DataTypes: any) => {
     sign!: boolean;
     deleted!: boolean;
     lat!: number;
+    price!: number;
+    zone!: string;
     long!: number;
     firstImage!: string;
 
@@ -73,9 +77,6 @@ module.exports = (sequelize: any, DataTypes: any) => {
       Property.belongsToMany(models.Country, {
         through: "PropertyCountry",
       });
-      Property.belongsToMany(models.Price, {
-        through: "PropertyPrice",
-      });
       Property.belongsToMany(models.State, {
         through: "PropertyState",
       });
@@ -84,9 +85,6 @@ module.exports = (sequelize: any, DataTypes: any) => {
       });
       Property.belongsToMany(models.Services, {
         through: "PropertyServices",
-      });
-      Property.belongsToMany(models.Zone, {
-        through: "PropertyZone",
       });
       Property.belongsToMany(models.Category, {
         through: "PropertyCategory",
@@ -182,6 +180,14 @@ module.exports = (sequelize: any, DataTypes: any) => {
       },
       long: {
         type: DataTypes.FLOAT,
+        allowNull: false,
+      },
+      price: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      zone: {
+        type: DataTypes.STRING,
         allowNull: false,
       },
       deleted: {

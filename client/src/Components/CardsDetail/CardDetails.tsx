@@ -122,6 +122,7 @@ export default function CardDetails({
                   marginTop={{ base: "3", md: "6" }}
                 >
                   $80.000 USD (Dolares)
+                  {detailProp.price}
                 </Text>
               </Box>
               <Box>
@@ -262,7 +263,7 @@ export default function CardDetails({
                         <Text as={"span"} fontWeight={"bold"}>
                           Barrio:
                         </Text>{" "}
-                        {detailProp.Zones?.[0]?.zone_name}
+                        {detailProp.zone}
                       </ListItem>
                       <ListItem>
                         <Text as={"span"} fontWeight={"bold"}>
