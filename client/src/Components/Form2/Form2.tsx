@@ -10,7 +10,7 @@ import {
 } from "../../Redux/reducer/Relations";
 import { RootState } from "../../Redux/store";
 import { ThunkDispatch } from "redux-thunk";
-
+import { useHistory } from "react-router-dom";
 import {
   fetchCategory,
   fetchCondition,
@@ -83,6 +83,7 @@ function Form2({ location }: { location: ItemDetailsProps }) {
   const [servicesSelected, setServicesSelected] = useState("");
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const history = useHistory();
 
   useEffect(() => {
     dispatch(fetchCategory())
@@ -178,6 +179,9 @@ function Form2({ location }: { location: ItemDetailsProps }) {
       await dispatch(createPropertyServices(propertyServices));
       await dispatch(createPropertyCountry(propertyCountry));
       setIsSubmitting(false);
+      history.push({
+        pathname: "/",
+      });
     } catch (error) {
       console.log("Error creating properties:", error);
       setIsSubmitting(false);

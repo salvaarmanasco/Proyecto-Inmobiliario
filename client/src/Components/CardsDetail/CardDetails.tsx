@@ -121,8 +121,7 @@ export default function CardDetails({
                   fontSize={"2xl"}
                   marginTop={{ base: "3", md: "6" }}
                 >
-                  $80.000 USD (Dolares)
-                  {detailProp.price}
+                  ${detailProp.price} (Dolares)
                 </Text>
               </Box>
               <Box>
