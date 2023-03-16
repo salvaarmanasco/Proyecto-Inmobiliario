@@ -95,14 +95,14 @@ const propertiesSlice = createSlice({
       );
     },
     filterPropertiesByGarage: (state, action) => {
-      if (action.payload === "yes") {
+      if (action.payload) {
         state.propertiesFilter = state.propertiesFilter.filter(
           (property) => property.garage === true
         );
       }
     },
     filterPropertiesByGarden: (state, action) => {
-      if (action.payload === "yes") {
+      if (action.payload) {
         state.propertiesFilter = state.propertiesFilter.filter(
           (property) => property.Gardens.length > 0
         );
