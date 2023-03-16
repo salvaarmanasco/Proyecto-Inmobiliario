@@ -122,6 +122,8 @@ export default function CardDetails({
                   marginTop={{ base: "3", md: "6" }}
                 >
                   $80.000 USD (Dolares)
+                  {detailProp.Price?.[0]?.price_value}
+                  {detailProp.Services?.[0]?.services_name}
                 </Text>
               </Box>
               <Box>

@@ -7,6 +7,10 @@ import {
   createPropertyGarden,
   createPropertyServices,
   createPropertyState,
+  createPrice,
+  createZone,
+  createPropertyPrice,
+  createPropertyZone,
 } from "../../Redux/reducer/Relations";
 import { RootState } from "../../Redux/store";
 import { ThunkDispatch } from "redux-thunk";
@@ -79,6 +83,8 @@ function Form2({ location }: { location: ItemDetailsProps }) {
   const [countrySelected, setCountrySelected] = useState("");
   const [gardenSelected, setGardenSelected] = useState("");
   const [servicesSelected, setServicesSelected] = useState("");
+  const [priceSelected, setPriceSelected] = useState<any>(0);
+  const [zoneSelected, setZoneSelected] = useState<any>("");
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -139,14 +145,8 @@ function Form2({ location }: { location: ItemDetailsProps }) {
       });
   }, [dispatch]);
 
-  console.log([
-    countrySelected,
-    categorySelected,
-    stateSelected,
-    gardenSelected,
-    servicesSelected,
-    conditionSelected,
-  ]);
+  console.log(zoneSelected);
+  console.log(priceSelected);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -177,12 +177,27 @@ function Form2({ location }: { location: ItemDetailsProps }) {
         PropertyId: itemProp2.toString(),
         CategoryId: Number(categorySelected),
       };
+      const ZoneIdFetch = await dispatch(createZone(zoneSelected.toString()));
+      console.log(ZoneIdFetch);
+      const propertyZone = {
+        PropertyId: itemProp2.toString(),
+        ZoneId: Number(ZoneIdFetch),
+      };
+      const PriceIdFetch = await dispatch(
+        createPrice(priceSelected.toString())
+      );
+      const propertyPrice = {
+        PropertyId: itemProp2.toString(),
+        PriceId: Number(PriceIdFetch),
+      };
       await dispatch(createPropertyCondition(propertyCondition));
       await dispatch(createPropertyCategory(propertyCategory));
       await dispatch(createPropertyGarden(propertyGarden));
       await dispatch(createPropertyState(propertyState));
       await dispatch(createPropertyServices(propertyServices));
       await dispatch(createPropertyCountry(propertyCountry));
+      await dispatch(createPropertyZone(propertyZone));
+      await dispatch(createPropertyPrice(propertyPrice));
       setIsSubmitting(false);
     } catch (error) {
       console.log("Error creating properties:", error);
@@ -193,6 +208,7 @@ function Form2({ location }: { location: ItemDetailsProps }) {
   return (
     <Center my={4}>
       <form onSubmit={handleSubmit}>
+        <FormLabel>Tipo de propiedad</FormLabel>
         <Select
           value={categorySelected}
           onChange={(e) => setCategorySelected(e.target.value)}
@@ -208,6 +224,7 @@ function Form2({ location }: { location: ItemDetailsProps }) {
             )
           )}
         </Select>
+        <FormLabel>Condición</FormLabel>
         <Select
           value={conditionSelected}
           onChange={(e) => setConditionSelected(e.target.value)}
@@ -226,51 +243,7 @@ function Form2({ location }: { location: ItemDetailsProps }) {
             )
           )}
         </Select>
-        <Select
-          value={stateSelected}
-          onChange={(e) => setStateSelected(e.target.value)}
-        >
-          <option value="" disabled>
-            Seleccione una opción
-          </option>
-          {state.map(
-            (opcion: { id: number; state_name: any | null | undefined }) => (
-              <option key={opcion.id} value={opcion.id}>
-                {opcion.state_name}
-              </option>
-            )
-          )}
-        </Select>
-        <Select
-          value={gardenSelected}
-          onChange={(e) => setGardenSelected(e.target.value)}
-        >
-          <option value="" disabled>
-            Seleccione una opción
-          </option>
-          {garden.map(
-            (opcion: { id: number; garden_name: any | null | undefined }) => (
-              <option key={opcion.id} value={opcion.id}>
-                {opcion.garden_name}
-              </option>
-            )
-          )}
-        </Select>
-        <Select
-          value={servicesSelected}
-          onChange={(e) => setServicesSelected(e.target.value)}
-        >
-          <option value="" disabled>
-            Seleccione una opción
-          </option>
-          {services.map(
-            (opcion: { id: number; services_name: any | null | undefined }) => (
-              <option key={opcion.id} value={opcion.id}>
-                {opcion.services_name}
-              </option>
-            )
-          )}
-        </Select>
+        <FormLabel>Pais</FormLabel>
         <Select
           value={countrySelected}
           onChange={(e) => setCountrySelected(e.target.value)}
@@ -286,6 +259,68 @@ function Form2({ location }: { location: ItemDetailsProps }) {
             )
           )}
         </Select>
+        <FormLabel>Provincia</FormLabel>
+        <Select
+          value={stateSelected}
+          onChange={(e) => setStateSelected(e.target.value)}
+        >
+          <option value="" disabled>
+            Seleccione una opción
+          </option>
+          {state.map(
+            (opcion: { id: number; state_name: any | null | undefined }) => (
+              <option key={opcion.id} value={opcion.id}>
+                {opcion.state_name}
+              </option>
+            )
+          )}
+        </Select>
+        <FormLabel>Barrio</FormLabel>
+        <Input
+          type="text"
+          name="zone"
+          value={zoneSelected}
+          onChange={(e) => setZoneSelected(e.target.value)}
+        />
+        <FormLabel>Patio</FormLabel>
+        <Select
+          value={gardenSelected}
+          onChange={(e) => setGardenSelected(e.target.value)}
+        >
+          <option value="" disabled>
+            Seleccione una opción
+          </option>
+          {garden.map(
+            (opcion: { id: number; garden_name: any | null | undefined }) => (
+              <option key={opcion.id} value={opcion.id}>
+                {opcion.garden_name}
+              </option>
+            )
+          )}
+        </Select>
+        <FormLabel>Servicios</FormLabel>
+        <Select
+          value={servicesSelected}
+          onChange={(e) => setServicesSelected(e.target.value)}
+        >
+          <option value="" disabled>
+            Seleccione una opción
+          </option>
+          {services.map(
+            (opcion: { id: number; services_name: any | null | undefined }) => (
+              <option key={opcion.id} value={opcion.id}>
+                {opcion.services_name}
+              </option>
+            )
+          )}
+        </Select>
+        <FormLabel>Precio de publicación</FormLabel>
+        <Input
+          type="number"
+          name="price"
+          value={priceSelected}
+          onChange={(e) => setPriceSelected(e.target.value)}
+        />
         <Button
           type="submit"
           isLoading={isSubmitting}
