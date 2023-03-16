@@ -15,7 +15,6 @@ import { RootState } from "../../Redux/store";
 const Counter = () => {
   const tables = useSelector((state: RootState) => state.tables);
   const dispatch: ThunkDispatch<RootState, undefined, any> = useDispatch();
-  console.log(tables);
 
   useEffect(() => {
     dispatch(fetchCategory());
