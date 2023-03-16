@@ -175,13 +175,22 @@ export default function Form(props: MapProps) {
   return (
     <Center my={4}>
       <form onSubmit={handleSubmit}>
-        <Stack spacing={3} width={500}>
+        <Stack spacing={2} width={500}>
           <FormControl id="title" isRequired>
             <FormLabel>Título de la publicación</FormLabel>
             <Input
               type="text"
               name="title"
               value={title}
+              onChange={handleInputChange}
+            />
+          </FormControl>
+          <FormControl id="price" isRequired>
+            <FormLabel>Precio</FormLabel>
+            <Input
+              type="number"
+              name="price"
+              value={price}
               onChange={handleInputChange}
             />
           </FormControl>
@@ -194,6 +203,17 @@ export default function Form(props: MapProps) {
               onChange={handleInputChange}
             />
           </FormControl>
+          <GridItem colSpan={2}>
+            <FormControl id="zone" isRequired>
+              <FormLabel>Barrio</FormLabel>
+              <Input
+                type="text"
+                name="zone"
+                value={zone}
+                onChange={handleInputChange}
+              />
+            </FormControl>
+          </GridItem>
           <SimpleGrid columns={2} gap={2}>
             <FormControl id="bedrooms" isRequired>
               <FormLabel>Dormitorios</FormLabel>
@@ -250,7 +270,7 @@ export default function Form(props: MapProps) {
               />
             </FormControl>
             <FormControl id="m2_totals" isRequired>
-              <FormLabel>TM2 totales</FormLabel>
+              <FormLabel>M2 totales</FormLabel>
               <Input
                 type="number"
                 name="m2_totals"
@@ -267,27 +287,6 @@ export default function Form(props: MapProps) {
                 onChange={handleInputChange}
               />
             </FormControl>
-
-            <FormControl id="price" isRequired>
-              <FormLabel>Precio</FormLabel>
-              <Input
-                type="number"
-                name="price"
-                value={price}
-                onChange={handleInputChange}
-              />
-            </FormControl>
-
-            <FormControl id="zone" isRequired>
-              <FormLabel>Barrio</FormLabel>
-              <Input
-                type="text"
-                name="zone"
-                value={zone}
-                onChange={handleInputChange}
-              />
-            </FormControl>
-
             <GridItem colSpan={2}>
               <FormControl id="description" isRequired>
                 <FormLabel>Descripción</FormLabel>
