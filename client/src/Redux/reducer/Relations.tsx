@@ -78,18 +78,6 @@ export const createPropertyImage = createAsyncThunk(
   }
 );
 
-export const createPropertyPrice = createAsyncThunk(
-  "relations/createPropertyPrice",
-  async (propertyPrice: any) => {
-    const response = await axios.post(
-      "http://localhost:3001/propertyprice",
-      propertyPrice
-      // id propiedas y el id de la condicion 3
-    );
-    return response.data;
-  }
-);
-
 export const createPropertyServices = createAsyncThunk(
   "relations/createPropertyServices",
   async (propertyServices: any) => {
@@ -113,31 +101,6 @@ export const createPropertyState = createAsyncThunk(
   }
 );
 
-export const createPropertyZone = createAsyncThunk(
-  "relations/createPropertyZone",
-  async (propertyZone: any) => {
-    const response = await axios.post(
-      "http://localhost:3001/propertyzone",
-      propertyZone
-    );
-    return response.data;
-  }
-);
-// price and zone
-export const createZone = createAsyncThunk(
-  "relations/createZone",
-  async (zone: any) => {
-    const response = await axios.post("http://localhost:3001/zone", zone);
-    return response.data;
-  }
-);
-export const createPrice = createAsyncThunk(
-  "relations/createPrice",
-  async (price: any) => {
-    const response = await axios.post("http://localhost:3001/price", price);
-    return response.data;
-  }
-);
 //slice
 
 const RelationsSlice = createSlice({
@@ -211,19 +174,6 @@ const RelationsSlice = createSlice({
       state.loading = false;
       state.error = "Cago tu PropertyImage";
     });
-    builder.addCase(createPropertyPrice.fulfilled, (state, action) => {
-      state.PropertyPrice = true;
-      state.loading = false;
-      state.error = null;
-    });
-    builder.addCase(createPropertyPrice.pending, (state, action) => {
-      state.loading = true;
-    });
-    builder.addCase(createPropertyPrice.rejected, (state, action) => {
-      state.PropertyPrice = false;
-      state.loading = false;
-      state.error = "Cago tu PropertyPrice";
-    });
     builder.addCase(createPropertyServices.fulfilled, (state, action) => {
       state.PropertyServices = true;
       state.loading = false;
@@ -249,45 +199,6 @@ const RelationsSlice = createSlice({
       state.PropertyState = false;
       state.loading = false;
       state.error = "Cago tu PropertyState";
-    });
-    builder.addCase(createPropertyZone.fulfilled, (state, action) => {
-      state.PropertyZone = true;
-      state.loading = false;
-      state.error = null;
-    });
-    builder.addCase(createPropertyZone.pending, (state, action) => {
-      state.loading = true;
-    });
-    builder.addCase(createPropertyZone.rejected, (state, action) => {
-      state.PropertyZone = false;
-      state.loading = false;
-      state.error = "Cago tu PropertyZone";
-    });
-    builder.addCase(createZone.fulfilled, (state, action) => {
-      state.Zone = true;
-      state.loading = false;
-      state.error = null;
-    });
-    builder.addCase(createZone.pending, (state, action) => {
-      state.loading = true;
-    });
-    builder.addCase(createZone.rejected, (state, action) => {
-      state.Zone = false;
-      state.loading = false;
-      state.error = "Cago tu Zone";
-    });
-    builder.addCase(createPrice.fulfilled, (state, action) => {
-      state.Price = true;
-      state.loading = false;
-      state.error = null;
-    });
-    builder.addCase(createPrice.pending, (state, action) => {
-      state.loading = true;
-    });
-    builder.addCase(createPrice.rejected, (state, action) => {
-      state.Price = false;
-      state.loading = false;
-      state.error = "Cago tu Zone";
     });
   },
 });

@@ -13,9 +13,7 @@ router.get("/", async (req: any, res: any) => {
         {
           model: db.Condition,
         },
-        {
-          model: db.Price,
-        },
+
         {
           model: db.Garden,
         },
@@ -25,9 +23,7 @@ router.get("/", async (req: any, res: any) => {
         {
           model: db.State,
         },
-        {
-          model: db.Zone,
-        },
+
         {
           model: db.Category,
         },
@@ -54,9 +50,7 @@ router.get("/:id", async (req: any, res: any) => {
         {
           model: db.Condition,
         },
-        {
-          model: db.Price,
-        },
+
         {
           model: db.Garden,
         },
@@ -66,9 +60,7 @@ router.get("/:id", async (req: any, res: any) => {
         {
           model: db.State,
         },
-        {
-          model: db.Zone,
-        },
+
         {
           model: db.Category,
         },
@@ -107,6 +99,8 @@ router.post("/", async (req: any, res: any) => {
     deleted,
     lat,
     long,
+    price,
+    zone,
     firstImage,
   } = req.body;
   try {
@@ -133,6 +127,8 @@ router.post("/", async (req: any, res: any) => {
       deleted,
       lat,
       long,
+      price,
+      zone,
       firstImage,
     });
     return res.status(200).json(result);

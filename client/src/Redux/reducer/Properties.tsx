@@ -32,6 +32,8 @@ export interface Property {
   sign: boolean;
   lat: number;
   long: number;
+  price: number;
+  zone: string;
   deleted: boolean;
 }
 

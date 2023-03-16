@@ -7,10 +7,6 @@ import {
   createPropertyGarden,
   createPropertyServices,
   createPropertyState,
-  createPrice,
-  createZone,
-  createPropertyPrice,
-  createPropertyZone,
 } from "../../Redux/reducer/Relations";
 import { RootState } from "../../Redux/store";
 import { ThunkDispatch } from "redux-thunk";
@@ -63,6 +59,8 @@ interface ItemDetailsProps {
       firstImage: string;
       lat: any;
       long: any;
+      price: number;
+      zone: string;
     };
   };
 }
@@ -83,8 +81,6 @@ function Form2({ location }: { location: ItemDetailsProps }) {
   const [countrySelected, setCountrySelected] = useState("");
   const [gardenSelected, setGardenSelected] = useState("");
   const [servicesSelected, setServicesSelected] = useState("");
-  const [priceSelected, setPriceSelected] = useState<any>(0);
-  const [zoneSelected, setZoneSelected] = useState<any>("");
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -145,9 +141,6 @@ function Form2({ location }: { location: ItemDetailsProps }) {
       });
   }, [dispatch]);
 
-  console.log(zoneSelected);
-  console.log(priceSelected);
-
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsSubmitting(true);
@@ -177,27 +170,13 @@ function Form2({ location }: { location: ItemDetailsProps }) {
         PropertyId: itemProp2.toString(),
         CategoryId: Number(categorySelected),
       };
-      const ZoneIdFetch = await dispatch(createZone(zoneSelected.toString()));
-      console.log(ZoneIdFetch);
-      const propertyZone = {
-        PropertyId: itemProp2.toString(),
-        ZoneId: Number(ZoneIdFetch),
-      };
-      const PriceIdFetch = await dispatch(
-        createPrice(priceSelected.toString())
-      );
-      const propertyPrice = {
-        PropertyId: itemProp2.toString(),
-        PriceId: Number(PriceIdFetch),
-      };
+
       await dispatch(createPropertyCondition(propertyCondition));
       await dispatch(createPropertyCategory(propertyCategory));
       await dispatch(createPropertyGarden(propertyGarden));
       await dispatch(createPropertyState(propertyState));
       await dispatch(createPropertyServices(propertyServices));
       await dispatch(createPropertyCountry(propertyCountry));
-      await dispatch(createPropertyZone(propertyZone));
-      await dispatch(createPropertyPrice(propertyPrice));
       setIsSubmitting(false);
     } catch (error) {
       console.log("Error creating properties:", error);
@@ -275,13 +254,7 @@ function Form2({ location }: { location: ItemDetailsProps }) {
             )
           )}
         </Select>
-        <FormLabel>Barrio</FormLabel>
-        <Input
-          type="text"
-          name="zone"
-          value={zoneSelected}
-          onChange={(e) => setZoneSelected(e.target.value)}
-        />
+
         <FormLabel>Patio</FormLabel>
         <Select
           value={gardenSelected}
@@ -314,13 +287,6 @@ function Form2({ location }: { location: ItemDetailsProps }) {
             )
           )}
         </Select>
-        <FormLabel>Precio de publicación</FormLabel>
-        <Input
-          type="number"
-          name="price"
-          value={priceSelected}
-          onChange={(e) => setPriceSelected(e.target.value)}
-        />
         <Button
           type="submit"
           isLoading={isSubmitting}

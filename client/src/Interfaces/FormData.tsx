@@ -20,4 +20,6 @@ export default interface FormData {
   firstImage: string;
   lat: any;
   long: any;
+  price: number;
+  zone: string;
 }
