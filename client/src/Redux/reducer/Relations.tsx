@@ -18,10 +18,10 @@ export interface RelationsState {
 // Acciones asincronicas para crear relaciones
 export const createPropertyCondition = createAsyncThunk(
   "relations/createPropertyCondition",
-  async (ConditionId: any, PropertyId: any) => {
+  async (properyCondition: any) => {
     const response = await axios.post(
       "http://localhost:3001/propertycondition",
-      { ConditionId, PropertyId }
+      properyCondition
       // id propiedas y el id de la condicion 3
     );
     return response.data;
@@ -30,10 +30,10 @@ export const createPropertyCondition = createAsyncThunk(
 
 export const createPropertyCategory = createAsyncThunk(
   "relations/createPropertyCategory",
-  async (CategoryId: any, PropertyId: any) => {
+  async (properyCategory: any) => {
     const response = await axios.post(
       "http://localhost:3001/propertyCategory",
-      { PropertyId, CategoryId }
+      properyCategory
       // id propiedas y el id de la condicion 3
     );
     return response.data;
@@ -42,10 +42,10 @@ export const createPropertyCategory = createAsyncThunk(
 
 export const createPropertyCountry = createAsyncThunk(
   "relations/createPropertyCountry",
-  async (CountryId: any, PropertyId: any) => {
+  async (properyCountry: any) => {
     const response = await axios.post(
       "http://localhost:3001/propertycountry",
-      { PropertyId, CountryId }
+      properyCountry
       // id propiedas y el id de la condicion 3
     );
     return response.data;
@@ -54,10 +54,10 @@ export const createPropertyCountry = createAsyncThunk(
 
 export const createPropertyGarden = createAsyncThunk(
   "relations/createPropertyGarden",
-  async (GardenId: any, PropertyId: any) => {
+  async (properyGarden: any) => {
     const response = await axios.post(
       "http://localhost:3001/propertygarden",
-      { PropertyId, GardenId }
+      properyGarden
       // id propiedas y el id de la condicion 3
     );
     return response.data;
@@ -66,10 +66,10 @@ export const createPropertyGarden = createAsyncThunk(
 
 export const createPropertyImage = createAsyncThunk(
   "relations/createPropertyImage",
-  async (ImageId: any, PropertyId: any) => {
+  async (properyImage: any) => {
     const response = await axios.post(
       "http://localhost:3001/propertyimage",
-      { PropertyId, ImageId }
+      properyImage
       // id propiedas y el id de la condicion 3
     );
     return response.data;
@@ -78,10 +78,10 @@ export const createPropertyImage = createAsyncThunk(
 
 export const createPropertyPrice = createAsyncThunk(
   "relations/createPropertyPrice",
-  async (PriceId: any, PropertyId: any) => {
+  async (properyPrice: any) => {
     const response = await axios.post(
       "http://localhost:3001/propertyprice",
-      { PropertyId, PriceId }
+      properyPrice
       // id propiedas y el id de la condicion 3
     );
     return response.data;
@@ -90,10 +90,10 @@ export const createPropertyPrice = createAsyncThunk(
 
 export const createPropertyServices = createAsyncThunk(
   "relations/createPropertyServices",
-  async (ServiceId: any, PropertyId: any) => {
+  async (properyServices: any) => {
     const response = await axios.post(
       "http://localhost:3001/propertyservices",
-      { PropertyId, ServiceId }
+      properyServices
       // id propiedas y el id de la condicion 3
     );
     return response.data;
@@ -102,10 +102,10 @@ export const createPropertyServices = createAsyncThunk(
 
 export const createPropertyState = createAsyncThunk(
   "relations/createPropertyState",
-  async (StateId: any, PropertyId: any) => {
+  async (properyState: any) => {
     const response = await axios.post(
       "http://localhost:3001/propertystate",
-      { PropertyId, StateId }
+      properyState
       // id propiedas y el id de la condicion 3
     );
     return response.data;
@@ -114,10 +114,10 @@ export const createPropertyState = createAsyncThunk(
 
 export const createPropertyZone = createAsyncThunk(
   "relations/createPropertyZone",
-  async (ZoneId: any, PropertyId: any) => {
+  async (properyZone: any) => {
     const response = await axios.post(
       "http://localhost:3001/propertyzone",
-      { PropertyId, ZoneId }
+      properyZone
       // id propiedas y el id de la condicion 3
     );
     return response.data;
@@ -144,7 +144,7 @@ const RelationsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(createPropertyCondition.fulfilled, (state, action) => {
-      state.PropertyCategory = true;
+      state.PropertyCondition = action.payload;
       state.loading = false;
       state.error = null;
     });
@@ -152,7 +152,7 @@ const RelationsSlice = createSlice({
       state.loading = true;
     });
     builder.addCase(createPropertyCondition.rejected, (state, action) => {
-      state.PropertyCategory = false;
+      state.PropertyCondition = false;
       state.loading = false;
       state.error = "Cago tu PropertyCondition";
     });

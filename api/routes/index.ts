@@ -41,7 +41,7 @@ router.use("/propertycondition", propertyConditionRouter);
 router.use("/propertycountry", propertyCountryRouter);
 router.use("/propertyprice", propertyPriceRouter);
 router.use("/propertystate", propertyStateRouter);
-router.use("/propertyCategory", propertyCategoryRouter);
+router.use("/propertycategory", propertyCategoryRouter);
 router.use("/propertygarden", propertyGardenRouter);
 router.use("/propertyservices", propertyServicesRouter);
 router.use("/propertyzone", propertyZoneRouter);
