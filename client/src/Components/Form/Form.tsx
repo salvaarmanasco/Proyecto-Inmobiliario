@@ -63,6 +63,8 @@ const initialFormData: FormData = {
   firstImage: "https://www.raesinversiones.com:8899/Imagenes/Oficina/6.jpg",
   lat: -31.657441,
   long: -60.710534,
+  price: 1,
+  zone: "",
 };
 
 export default function Form(props: MapProps) {
@@ -93,6 +95,8 @@ export default function Form(props: MapProps) {
     firstImage,
     lat,
     long,
+    price,
+    zone,
   } = formData;
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -101,7 +105,7 @@ export default function Form(props: MapProps) {
 
     try {
       const response = await dispatch(createProperty(formData));
-      const createdProperty = response.payload; // assuming response payload is the created property
+      const createdProperty = response.payload;
       setIsSubmitting(false);
       console.log(formData);
       console.log("Property created:", createdProperty);
@@ -263,6 +267,27 @@ export default function Form(props: MapProps) {
                 onChange={handleInputChange}
               />
             </FormControl>
+
+            <FormControl id="price" isRequired>
+              <FormLabel>Precio</FormLabel>
+              <Input
+                type="number"
+                name="price"
+                value={price}
+                onChange={handleInputChange}
+              />
+            </FormControl>
+
+            <FormControl id="zone" isRequired>
+              <FormLabel>Barrio</FormLabel>
+              <Input
+                type="text"
+                name="zone"
+                value={zone}
+                onChange={handleInputChange}
+              />
+            </FormControl>
+
             <GridItem colSpan={2}>
               <FormControl id="description" isRequired>
                 <FormLabel>Descripción</FormLabel>

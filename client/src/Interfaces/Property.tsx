@@ -21,13 +21,13 @@ export default interface Property {
   sign: boolean;
   lat: number;
   long: number;
+  price: number;
+  zone: string;
   deleted: boolean;
   firstImage: string;
   Conditions: any;
   Categories: any;
-  Zones: any;
   States: any;
-  Price: any;
   Countries: any;
   Gardens: any;
   Services: any;
