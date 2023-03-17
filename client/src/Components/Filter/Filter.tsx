@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   useDisclosure,
   Button,
@@ -13,10 +13,6 @@ import {
   Divider,
   Stack,
   Checkbox,
-  RangeSlider,
-  RangeSliderTrack,
-  RangeSliderFilledTrack,
-  RangeSliderThumb,
   Flex,
   Input,
   NumberInput,
@@ -24,63 +20,38 @@ import {
   Box,
 } from "@chakra-ui/react";
 import { useDispatch } from "react-redux";
-import { propertiesActions } from "../../Redux/reducer/Properties";
+import { filterProperties } from "../../Redux/reducer/Properties";
 
 export interface AllFilters {
   condition: Array<string>;
   categories: Array<string>;
-  minCoveredM2: number;
-  maxCoveredM2: number;
-  mintotalM2: number;
-  maxtotalM2: number;
+  coveredM2: number;
+  totalM2: number;
   numBedrooms: number;
   numBathrooms: number;
   numAntiquity: number;
   garage: boolean;
   garden: boolean;
+  clean: boolean;
 }
 
 const Filter = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const {
-    filterPropertiesByAntiquity,
-    filterPropertiesByBathrooms,
-    filterPropertiesByCategory,
-    filterPropertiesByCondition,
-    filterPropertiesByCoveredM2,
-    filterPropertiesByGarage,
-    filterPropertiesByGarden,
-    filterPropertiesByRooms,
-    filterPropertiesByTotalM2,
-  } = propertiesActions;
   const dispatch = useDispatch();
   const btnRef = React.useRef(null);
-  const [m2Terrrain, setM2Terrain] = useState({
-    min: 0,
-    max: 5000,
-  });
-  const [m2cover, setM2cover] = useState({
-    min: 0,
-    max: 1500,
-  });
 
   const [filter, setFilter] = useState<AllFilters>({
     condition: [],
     categories: [],
-    minCoveredM2: 0,
-    maxCoveredM2: 0,
-    mintotalM2: 0,
-    maxtotalM2: 0,
+    coveredM2: 0,
+    totalM2: 0,
     numBedrooms: 0,
     numBathrooms: 0,
     numAntiquity: 0,
     garage: false,
     garden: false,
+    clean: false,
   });
-
-  useEffect(() => {
-    console.log(filter);
-  }, [filter]);
 
   const handleFilterChange = (key: string, value: any) => {
     setFilter((prevFilter) => ({
@@ -89,15 +60,27 @@ const Filter = () => {
     }));
   };
 
-  // const handleSubmit = () => {
-  //   dispatch()
-  // };
+  const handleSubmit = () => {
+    dispatch(filterProperties(filter));
+    onClose();
+  };
 
   return (
     <>
-      <Button colorScheme="red" ml={2} ref={btnRef} onClick={onOpen}>
+      <Button
+        colorScheme="red"
+        ml={2}
+        ref={btnRef}
+        onClick={onOpen}
+        mb={{ base: 3, md: 0 }}
+      >
         Mas filtros
       </Button>
+      <a href="http://localhost:3000/properties">
+        <Button colorScheme="red" ml={2} ref={btnRef}>
+          Limpiar filtros
+        </Button>
+      </a>
 
       <Modal
         onClose={onClose}
@@ -117,6 +100,11 @@ const Filter = () => {
               </Text>
               <Divider />
               <Flex direction="column">
+                {filter.condition.length === 0 && (
+                  <Text color="red" pb={2}>
+                    * Debe marcar al menos un tipo de operacion
+                  </Text>
+                )}
                 <Checkbox
                   colorScheme="red"
                   onChange={(e) =>
@@ -165,6 +153,11 @@ const Filter = () => {
               </Text>
               <Divider />
               <Flex direction="column">
+                {filter.categories.length === 0 && (
+                  <Text color="red" pb={2}>
+                    * Debe marcar al menos un tipo de propiedad
+                  </Text>
+                )}
                 <Checkbox
                   colorScheme="red"
                   onChange={(e) =>
@@ -358,58 +351,35 @@ const Filter = () => {
                 Superficie del terreno
               </Text>
               <Divider />
-              <RangeSlider
-                defaultValue={[m2Terrrain.min, m2Terrrain.max]}
-                min={0}
-                max={5000}
-                colorScheme="red"
-                onChange={(value) => {
-                  setM2Terrain({ min: value[0], max: value[1] });
-                  setFilter({
-                    ...filter,
-                    mintotalM2: value[0],
-                    maxtotalM2: value[1],
-                  });
-                }}
-              >
-                <RangeSliderTrack>
-                  <RangeSliderFilledTrack />
-                </RangeSliderTrack>
-                <RangeSliderThumb index={0} />
-                <RangeSliderThumb index={1} />
-              </RangeSlider>
-              <Text>
-                {m2Terrrain.min} m2 - {m2Terrrain.max} m2
-              </Text>
+              <NumberInput w={100} min={0}>
+                <NumberInputField
+                  name="totalM2"
+                  placeholder="Desde..."
+                  value={filter.totalM2}
+                  onChange={(e) =>
+                    handleFilterChange("totalM2", Number(e.target.value))
+                  }
+                />
+              </NumberInput>
+              <Text>Desde {filter.totalM2} m2</Text>
             </Stack>
             <Stack mt={5}>
               <Text fontSize="xl" as="b">
                 Superficie cubierta
               </Text>
               <Divider />
-              <RangeSlider
-                defaultValue={[m2cover.min, m2cover.max]}
-                min={0}
-                max={1500}
-                colorScheme="red"
-                onChange={(value) => {
-                  setM2cover({ min: value[0], max: value[1] });
-                  setFilter({
-                    ...filter,
-                    minCoveredM2: value[0],
-                    maxCoveredM2: value[1],
-                  });
-                }}
-              >
-                <RangeSliderTrack>
-                  <RangeSliderFilledTrack />
-                </RangeSliderTrack>
-                <RangeSliderThumb index={0} />
-                <RangeSliderThumb index={1} />
-              </RangeSlider>
-              <Text>
-                {m2cover.min} m2 - {m2cover.max} m2
-              </Text>
+
+              <NumberInput w={100} min={0}>
+                <NumberInputField
+                  name="coveredM2"
+                  placeholder="Desde..."
+                  value={filter.coveredM2}
+                  onChange={(e) =>
+                    handleFilterChange("coveredM2", Number(e.target.value))
+                  }
+                />
+              </NumberInput>
+              <Text>Desde {filter.coveredM2} m2</Text>
             </Stack>
             <Stack mt={5}>
               <Text fontSize="xl" as="b">
@@ -521,7 +491,14 @@ const Filter = () => {
             </Stack>
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme="red" mr={3}>
+            <Button
+              colorScheme="red"
+              mr={3}
+              onClick={handleSubmit}
+              isDisabled={
+                filter.condition.length === 0 || filter.categories.length === 0
+              }
+            >
               Guardar
             </Button>
             <Button onClick={onClose}>Cancelar</Button>

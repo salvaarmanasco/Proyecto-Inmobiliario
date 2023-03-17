@@ -48,73 +48,79 @@ const propertiesSlice = createSlice({
     error: null,
   } as PropertiesState,
   reducers: {
-    filterPropertiesByCategory: (state, action) => {
-      const { nameCategory } = action.payload;
-      state.propertiesFilter = state.propertiesFilter.filter(
-        (property) =>
-          property.Categories[0].category_name.toLowerCase() ===
-          nameCategory.toLowerCase()
-      );
-    },
-    filterPropertiesByCondition: (state, action) => {
-      const { nameCondition } = action.payload;
-      state.propertiesFilter = state.propertiesFilter.filter(
-        (property) =>
-          property.Categories[0].condition_name.toLowerCase() ===
-          nameCondition.toLowerCase()
-      );
-    },
-    filterPropertiesByCoveredM2: (state, action) => {
-      const { numMin, numMax } = action.payload;
-      state.propertiesFilter = state.propertiesFilter.filter((property) => {
-        if (property.m2_covered > numMin && property.m2_covered < numMax) {
-          return true;
-        }
-        return false;
-      });
-    },
-    filterPropertiesByTotalM2: (state, action) => {
-      const { numMin, numMax } = action.payload;
-      state.propertiesFilter = state.propertiesFilter.filter((property) => {
-        if (property.m2_totals > numMin && property.m2_totals < numMax) {
-          return true;
-        }
-        return false;
-      });
-    },
-    filterPropertiesByRooms: (state, action) => {
-      const { numBedrooms } = action.payload;
-      state.propertiesFilter = state.propertiesFilter.filter(
-        (property) => property.bedrooms <= numBedrooms
-      );
-    },
-    filterPropertiesByBathrooms: (state, action) => {
-      const { numBathrooms } = action.payload;
-      state.propertiesFilter = state.propertiesFilter.filter(
-        (property) => property.bathrooms <= numBathrooms
-      );
-    },
-    filterPropertiesByGarage: (state, action) => {
-      if (action.payload) {
-        state.propertiesFilter = state.propertiesFilter.filter(
-          (property) => property.garage === true
-        );
+    filterProperties: (state, action) => {
+      const {
+        categories,
+        condition,
+        garage,
+        garden,
+        totalM2,
+        coveredM2,
+        numAntiquity,
+        numBedrooms,
+        numBathrooms,
+        clean,
+      } = action.payload;
+
+      if (clean) {
+        state.propertiesFilter = state.properties;
+      } else {
+        state.propertiesFilter = state.properties
+          ?.filter((property) => {
+            if (garage && !property.garage) {
+              return false;
+            }
+            if (garden && property.Gardens.length === 0) {
+              return false;
+            }
+            if (coveredM2 && property.m2_covered < coveredM2) {
+              return false;
+            }
+            if (totalM2 && property.m2_totals < totalM2) {
+              return false;
+            }
+            if (numAntiquity && numAntiquity < property.antiquity) {
+              return false;
+            }
+            if (numBathrooms && numBathrooms < property.bathrooms) {
+              return false;
+            }
+            if (numBedrooms && numBedrooms < property.bedrooms) {
+              return false;
+            }
+            return true;
+          })
+          ?.filter((property) => {
+            if (
+              condition &&
+              condition.find(
+                (condition: string) =>
+                  condition.toLowerCase() ===
+                  property.Conditions[0].condition_name.toLowerCase()
+              ) === undefined
+            ) {
+              return false;
+            }
+
+            return true;
+          })
+          ?.filter((property) => {
+            if (
+              categories &&
+              categories.length > 0 &&
+              categories.some(
+                (category: string) =>
+                  property.Categories[0].category_name.toLowerCase() ===
+                  category.toLowerCase()
+              )
+            ) {
+              return true;
+            }
+
+            return false;
+          });
       }
     },
-    filterPropertiesByGarden: (state, action) => {
-      if (action.payload) {
-        state.propertiesFilter = state.propertiesFilter.filter(
-          (property) => property.Gardens.length > 0
-        );
-      }
-    },
-    filterPropertiesByAntiquity: (state, action) => {
-      const { numAntiquity } = action.payload;
-      state.propertiesFilter = state.propertiesFilter.filter(
-        (property) => property.antiquity <= numAntiquity
-      );
-    },
-    filterPropertiesByInput: (state, action) => {},
   },
   extraReducers: (builder) => {
     builder.addCase(fetchProperties.fulfilled, (state, action) => {
@@ -149,5 +155,6 @@ const propertiesSlice = createSlice({
 });
 
 // Exporta la acción asíncrona y el reducer generado por createSlice
+export const { filterProperties } = propertiesSlice.actions;
 export const { actions: propertiesActions, reducer: propertiesReducer } =
   propertiesSlice;
