@@ -35,7 +35,7 @@ const Contact = () => {
               }}
               color="white"
             >
-              Quieres unirte a nosotros?
+              Contactanos!
             </Heading>
 
             <Stack

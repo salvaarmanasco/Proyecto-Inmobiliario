@@ -2,25 +2,25 @@
 
 import { Model, UUIDV4 } from "sequelize";
 
-interface PriceAttributes {
+interface CategoryAttributes {
   id: string;
-  price_value: number;
+  category_name: string;
 }
 
 module.exports = (sequelize: any, DataTypes: any) => {
-  class Price extends Model<PriceAttributes> implements PriceAttributes {
+  class Category extends Model<CategoryAttributes> implements CategoryAttributes {
     static unit(arg0: {}) {
       throw new Error("Method not implemented.");
     }
     id!: string;
-    price_value!: number;
+    category_name!: string;
     static associate(models: any) {
-      Price.belongsToMany(models.Property, {
-        through: "PropertyPrice",
+      Category.belongsToMany(models.Property, {
+        through: "PropertyCategory",
       });
     }
   }
-  Price.init(
+  Category.init(
     {
       id: {
         type: DataTypes.INTEGER,
@@ -28,15 +28,15 @@ module.exports = (sequelize: any, DataTypes: any) => {
         primaryKey: true,
         autoIncrement: true,
       },
-      price_value: {
-        type: DataTypes.INTEGER,
+      category_name: {
+        type: DataTypes.STRING,
         allowNull: false,
       },
     },
     {
       sequelize,
-      modelName: "Price",
+      modelName: "Category",
     }
   );
-  return Price;
+  return Category;
 };

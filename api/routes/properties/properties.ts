@@ -13,9 +13,7 @@ router.get("/", async (req: any, res: any) => {
         {
           model: db.Condition,
         },
-        {
-          model: db.Price,
-        },
+
         {
           model: db.Garden,
         },
@@ -25,19 +23,62 @@ router.get("/", async (req: any, res: any) => {
         {
           model: db.State,
         },
-        // {
-        //   model: db.Zone,
-        // },
+
+        {
+          model: db.Category,
+        },
+        {
+          model: db.Image,
+        },
       ],
     });
     return res.status(200).json(result);
   } catch (error) {
+    console.log(error);
+    return res.status(404).send("Property not found");
+  }
+});
+
+router.get("/:id", async (req: any, res: any) => {
+  let { id } = req.params;
+  try {
+    let result = await db.Property.findByPk(id, {
+      include: [
+        {
+          model: db.Country,
+        },
+        {
+          model: db.Condition,
+        },
+
+        {
+          model: db.Garden,
+        },
+        {
+          model: db.Services,
+        },
+        {
+          model: db.State,
+        },
+
+        {
+          model: db.Category,
+        },
+        {
+          model: db.Image,
+        },
+      ],
+    });
+    return res.status(200).json(result);
+  } catch (error) {
+    console.log(error);
     return res.status(404).send("Property not found");
   }
 });
 
 router.post("/", async (req: any, res: any) => {
   const {
+    title,
     antiquity,
     address,
     bedrooms,
@@ -56,11 +97,17 @@ router.post("/", async (req: any, res: any) => {
     balcony,
     sign,
     deleted,
+    lat,
+    long,
+    price,
+    zone,
+    firstImage,
   } = req.body;
   try {
     let result = await db.Property.create({
       id: uuidv4(),
       antiquity,
+      title,
       address,
       bedrooms,
       bathrooms,
@@ -78,6 +125,11 @@ router.post("/", async (req: any, res: any) => {
       balcony,
       sign,
       deleted,
+      lat,
+      long,
+      price,
+      zone,
+      firstImage,
     });
     return res.status(200).json(result);
   } catch (error) {

@@ -4,26 +4,29 @@ const router = Router();
 
 router.get("/", async (req: any, res: any) => {
   try {
-    let result = await db.PropertyPrice.findAll();
+    let result = await db.Image.findAll({
+      include: {
+        model: db.Property,
+      },
+    });
     return res.status(200).json(result);
   } catch (error) {
-    return res.status(404).send("Property-Price relationship not found");
+    return res.status(404).send("Image not found");
   }
 });
 
 router.post("/", async (req: any, res: any) => {
-  const { PropertyId, PriceId } = req.body;
+  const { image_url, image_description, deleted } = req.body;
   try {
-    let result = await db.PropertyPrice.create({
-      PropertyId,
-      PriceId,
+    let result = await db.Image.create({
+      image_url,
+      image_description,
+      deleted,
     });
     return res.status(200).json(result);
   } catch (error) {
     console.log(error);
-    return res
-      .status(500)
-      .send("We could not create the Property-Price relationship");
+    return res.status(500).send("We could not create the image");
   }
 });
 

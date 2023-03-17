@@ -6,6 +6,7 @@ interface PropertyAttributes {
   id: string;
   antiquity: number;
   address: string;
+  title: string;
   bedrooms: number;
   bathrooms: number;
   environments: number;
@@ -21,6 +22,11 @@ interface PropertyAttributes {
   furnished: boolean;
   balcony: boolean;
   sign: boolean;
+  lat: number;
+  long: number;
+  price: number;
+  zone: string;
+  firstImage: string;
   deleted: boolean;
 }
 
@@ -39,6 +45,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
      * The `models/index` file will call this method automatically.
      */
     id!: string;
+    title!: string;
     antiquity!: number;
     address!: string;
     bedrooms!: number;
@@ -57,15 +64,18 @@ module.exports = (sequelize: any, DataTypes: any) => {
     balcony!: boolean;
     sign!: boolean;
     deleted!: boolean;
+    lat!: number;
+    price!: number;
+    zone!: string;
+    long!: number;
+    firstImage!: string;
+
     static associate(models: any) {
       Property.belongsToMany(models.Condition, {
         through: "PropertyCondition",
       });
       Property.belongsToMany(models.Country, {
         through: "PropertyCountry",
-      });
-      Property.belongsToMany(models.Price, {
-        through: "PropertyPrice",
       });
       Property.belongsToMany(models.State, {
         through: "PropertyState",
@@ -76,8 +86,11 @@ module.exports = (sequelize: any, DataTypes: any) => {
       Property.belongsToMany(models.Services, {
         through: "PropertyServices",
       });
-      Property.belongsToMany(models.Zone, {
-        through: "PropertyZone",
+      Property.belongsToMany(models.Category, {
+        through: "PropertyCategory",
+      });
+      Property.belongsToMany(models.Image, {
+        through: "PropertyImage",
       });
     }
   }
@@ -94,6 +107,10 @@ module.exports = (sequelize: any, DataTypes: any) => {
         allowNull: false,
       },
       address: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      title: {
         type: DataTypes.STRING,
         allowNull: true,
       },
@@ -157,10 +174,32 @@ module.exports = (sequelize: any, DataTypes: any) => {
         type: DataTypes.BOOLEAN,
         allowNull: false,
       },
+      lat: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+      },
+      long: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+      },
+      price: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      zone: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
       deleted: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false,
+      },
+      firstImage: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue:
+          "https://www.bienesrosario.com/resources/inmobiliarias/logo/raes3.jpg",
       },
     },
     {

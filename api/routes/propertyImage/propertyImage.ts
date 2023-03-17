@@ -1,31 +1,29 @@
 const { Router } = require("express");
-import { v4 as uuidv4 } from "uuid";
 import db from "../../models";
 const router = Router();
 
 router.get("/", async (req: any, res: any) => {
   try {
-    let result = await db.Zone.findAll({
-      include: {
-        model: db.Property,
-      },
-    });
+    let result = await db.PropertyImage.findAll();
     return res.status(200).json(result);
   } catch (error) {
-    return res.status(404).send("Zone not found");
+    return res.status(404).send("Property-Image relationship not found");
   }
 });
 
 router.post("/", async (req: any, res: any) => {
-  const { zone_name } = req.body;
+  const { PropertyId, ImageId } = req.body;
   try {
-    let result = await db.Zone.create({
-      zone_name,
+    let result = await db.PropertyImage.create({
+      PropertyId,
+      ImageId,
     });
     return res.status(200).json(result);
   } catch (error) {
     console.log(error);
-    return res.status(500).send("We could not create the zone");
+    return res
+      .status(500)
+      .send("We could not create the Property-Image relationship");
   }
 });
 

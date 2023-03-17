@@ -8,6 +8,8 @@ import Franchise from "./Components/Franchise/Franchise";
 import Page404 from "./Components/Page404/Page404";
 import PropertiesPage from "./Components/PropertiesPage/PropertiesPage";
 import CardDetails from "./Components/CardsDetail/CardDetails";
+import Form from "./Components/Form/Form";
+import Form2 from "./Components/Form2/Form2";
 
 export const App = () => (
   <ChakraProvider theme={theme}>
@@ -18,6 +20,8 @@ export const App = () => (
       <Route exact path="/properties/:id" component={CardDetails} />
       <Route exact path="/about" component={About} />
       <Route exact path="/franchise" component={Franchise} />
+      <Route exact path="/form" component={Form} />
+      <Route exact path="/form2" component={Form2} />
       <Route path="*" component={Page404} />
     </Switch>
     <Footer />

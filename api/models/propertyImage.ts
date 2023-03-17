@@ -1,35 +1,35 @@
 "use strict";
 import { Model } from "sequelize";
 
-interface PropertyZoneAttributes {
-  ZoneId: number;
+interface PropertyImageAttributes {
+  ImageId: number;
   PropertyId: string;
 }
 
 module.exports = (sequelize: any, DataTypes: any) => {
-  class PropertyZone
-    extends Model<PropertyZoneAttributes>
-    implements PropertyZoneAttributes
+  class PropertyImage
+    extends Model<PropertyImageAttributes>
+    implements PropertyImageAttributes
   {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    ZoneId!: number;
+    ImageId!: number;
     PropertyId!: string;
     static associate(models: any) {
       // define association here
     }
   }
-  PropertyZone.init(
+  PropertyImage.init(
     {
-      ZoneId: {
+      ImageId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
         references: {
-          model: "Zone",
+          model: "Image",
           key: "id",
         },
       },
@@ -45,8 +45,8 @@ module.exports = (sequelize: any, DataTypes: any) => {
     },
     {
       sequelize,
-      modelName: "PropertyZone",
+      modelName: "PropertyImage",
     }
   );
-  return PropertyZone;
+  return PropertyImage;
 };

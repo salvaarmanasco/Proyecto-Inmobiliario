@@ -1,37 +1,21 @@
-import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
-import { persistStore, persistReducer } from "redux-persist";
-import storage from "redux-persist/lib/storage";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { propertiesReducer, PropertiesState } from "./reducer/Properties";
+import { tablesReducer, TablesState } from "./reducer/Tables";
 
-import loadingReducer from "./Slices/loading";
+export interface RootState {
+  properties: PropertiesState;
+  tables: TablesState;
+  // Aquí puedes agregar otras propiedades del estado si las tienes
+}
 
-const persistLoadingConfig = {
-  key: "settings",
-  storage,
-  whitelist: ["isLoading"],
-};
-
-const store = configureStore({
-  reducer: {
-    isLoading: persistReducer<ReturnType<typeof loadingReducer>>(
-      persistLoadingConfig,
-      loadingReducer
-    ),
-    // middleware: (defaultMiddleware) =>
-    //   defaultMiddleware({
-    //     serializableCheck: false,
-    //   }),
-  },
+const rootReducer = combineReducers({
+  properties: propertiesReducer,
+  tables: tablesReducer,
+  // Aquí puedes agregar otros reducers si los tienes
 });
 
-export type RootState = ReturnType<typeof store.getState>;
-export type Dispatch = typeof store.dispatch;
-export type Thunk = ThunkAction<
-  Promise<unknown>,
-  RootState,
-  unknown,
-  Action<unknown>
->;
-
-export const persistor = persistStore(store);
+const store = configureStore({
+  reducer: rootReducer,
+});
 
 export default store;
