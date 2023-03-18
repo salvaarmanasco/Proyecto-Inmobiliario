@@ -1,5 +1,3 @@
-"use strict";
-
 import { Model, UUIDV4 } from "sequelize";
 
 interface UserAttributes {
@@ -9,21 +7,18 @@ interface UserAttributes {
   email: string;
   phone: number;
   photo: string;
+  wishList: string[];
 }
 
 module.exports = (sequelize: any, DataTypes: any) => {
   class User extends Model<UserAttributes> implements UserAttributes {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     id!: string;
     name!: string;
     lastname!: string;
     email!: string;
     phone!: number;
     photo!: string;
+    wishList!: string[];
     static associate(models: any) {
       User.belongsTo(models.UserType);
     }
@@ -56,6 +51,19 @@ module.exports = (sequelize: any, DataTypes: any) => {
       photo: {
         type: DataTypes.STRING,
         allowNull: true,
+      },
+      wishList: {
+        type: DataTypes.TEXT,
+        get() {
+          const rawValue: any = this.getDataValue("wishList");
+          if (typeof rawValue === "string" && rawValue.length > 0) {
+            return rawValue.split(",");
+          }
+          return null;
+        },
+        set(value: any) {
+          this.setDataValue("wishList", value ? value.join(",") : null);
+        },
       },
     },
     {
