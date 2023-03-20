@@ -202,19 +202,13 @@ export default function CardDetails({
                   >
                     Detalles
                   </Text>
-                  <List spacing={2}>
+                  <List spacing={3}>
                     <SimpleGrid columns={2}>
                       <ListItem>
                         <Text as={"span"} fontWeight={"bold"}>
                           Direccion:
-                        </Text>{" "}
+                        </Text>
                         {detailProp.address}
-                      </ListItem>
-                      <ListItem>
-                        <Text as={"span"} fontWeight={"bold"}>
-                          Servicios:
-                        </Text>{" "}
-                        {detailProp.Services?.[0]?.services_name}
                       </ListItem>
                       <ListItem>
                         <Text as={"span"} fontWeight={"bold"}>
@@ -233,24 +227,6 @@ export default function CardDetails({
                           Provincia:
                         </Text>{" "}
                         Santa Fe
-                      </ListItem>
-                      <ListItem>
-                        <SimpleGrid columns={{ base: 1, lg: 2 }}>
-                          <Text as={"span"} fontWeight={"bold"} gridColumn={-4}>
-                            Patio:
-                          </Text>
-                          <SimpleGrid columns={2} pl={1}>
-                            {detailProp.Gardens?.map(
-                              (g: { garden_name: string }, index: number) => (
-                                <Text>
-                                  {index === gardenCount - 1
-                                    ? g.garden_name
-                                    : `${g.garden_name}, `}
-                                </Text>
-                              )
-                            )}
-                          </SimpleGrid>
-                        </SimpleGrid>
                       </ListItem>
                       <ListItem>
                         <Text as={"span"} fontWeight={"bold"}>
@@ -318,6 +294,32 @@ export default function CardDetails({
                         </Text>{" "}
                         {detailProp.orientation}
                       </ListItem>
+                      <ListItem>
+                        <SimpleGrid columns={{ base: 1, lg: 2 }}>
+                          <Text as={"span"} fontWeight={"bold"} gridColumn={-4}>
+                            Servicios:
+                          </Text>
+                          <SimpleGrid columns={1} pl={1}>
+                            {detailProp.Services?.map(
+                              (s: { services_name: string }, index: number) => (
+                                <Text>{s.services_name}</Text>
+                              )
+                            )}
+                          </SimpleGrid>
+                        </SimpleGrid>
+                      </ListItem>
+                    </SimpleGrid>
+                    <SimpleGrid columns={{ base: 1, lg: 2 }}>
+                      <Text as={"span"} fontWeight={"bold"} gridColumn={-4}>
+                        Patio:
+                      </Text>
+                      <SimpleGrid columns={1} pl={1}>
+                        {detailProp.Gardens?.map(
+                          (g: { garden_name: string }, index: number) => (
+                            <Text>{g.garden_name}</Text>
+                          )
+                        )}
+                      </SimpleGrid>
                     </SimpleGrid>
                   </List>
                 </Box>

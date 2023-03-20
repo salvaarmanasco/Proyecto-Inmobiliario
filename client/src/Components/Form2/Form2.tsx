@@ -72,16 +72,21 @@ function Form2({ location }: { location: ItemDetailsProps }) {
   const [condition, setCondition] = useState([]);
   const [state, setState] = useState([]);
   const [country, setCountry] = useState([]);
-  const [garden, setGarden] = useState([]);
-  const [services, setServices] = useState([]);
+  const [garden, setGarden] = useState<
+    { id: number; garden_name: string | null | undefined }[]
+  >([]);
+  const [services, setServices] = useState<
+    { id: number; services_name: string | null | undefined }[]
+  >([]);
 
   const [categorySelected, setCategorySelected] = useState("");
   const [conditionSelected, setConditionSelected] = useState("");
   const [stateSelected, setStateSelected] = useState("");
   const [countrySelected, setCountrySelected] = useState("");
-  const [gardenSelected, setGardenSelected] = useState("");
-  const [servicesSelected, setServicesSelected] = useState("");
-
+  const [gardenSelected, setGardenSelected] = useState<Set<number>>(new Set());
+  const [servicesSelected, setServicesSelected] = useState<Set<number>>(
+    new Set()
+  );
   const [isSubmitting, setIsSubmitting] = useState(false);
   const history = useHistory();
 
@@ -159,24 +164,32 @@ function Form2({ location }: { location: ItemDetailsProps }) {
         PropertyId: itemProp2.toString(),
         StateId: Number(stateSelected),
       };
-      const propertyGarden = {
+      const propertyGardens = Array.from(gardenSelected).map((gardenId) => ({
         PropertyId: itemProp2.toString(),
-        GardenId: Number(gardenSelected),
-      };
-      const propertyServices = {
-        PropertyId: itemProp2.toString(),
-        ServiceId: Number(servicesSelected),
-      };
+        GardenId: gardenId,
+      }));
+      const propertyServices = Array.from(servicesSelected).map(
+        (serviceId) => ({
+          PropertyId: itemProp2.toString(),
+          ServiceId: serviceId,
+        })
+      );
       const propertyCategory = {
         PropertyId: itemProp2.toString(),
         CategoryId: Number(categorySelected),
       };
 
+      await Promise.all(
+        propertyGardens.map((garden) => dispatch(createPropertyGarden(garden)))
+      );
+      await Promise.all(
+        propertyServices.map((service) =>
+          dispatch(createPropertyServices(service))
+        )
+      );
       await dispatch(createPropertyCondition(propertyCondition));
       await dispatch(createPropertyCategory(propertyCategory));
-      await dispatch(createPropertyGarden(propertyGarden));
       await dispatch(createPropertyState(propertyState));
-      await dispatch(createPropertyServices(propertyServices));
       await dispatch(createPropertyCountry(propertyCountry));
       setIsSubmitting(false);
       history.push({
@@ -187,6 +200,9 @@ function Form2({ location }: { location: ItemDetailsProps }) {
       setIsSubmitting(false);
     }
   };
+
+  console.log(gardenSelected);
+  console.log(servicesSelected);
 
   return (
     <Center my={4}>
@@ -258,39 +274,72 @@ function Form2({ location }: { location: ItemDetailsProps }) {
             )
           )}
         </Select>
-
-        <FormLabel>Patio</FormLabel>
+        <FormLabel>Patios</FormLabel>
         <Select
-          value={gardenSelected}
-          onChange={(e) => setGardenSelected(e.target.value)}
+          value=""
+          onChange={(e) => {
+            const gardenId = Number(e.target.value);
+            if (gardenId && !gardenSelected.has(gardenId)) {
+              setGardenSelected(new Set([...gardenSelected, gardenId]));
+            }
+          }}
         >
           <option value="" disabled>
             Seleccione una opción
           </option>
-          {garden.map(
-            (opcion: { id: number; garden_name: any | null | undefined }) => (
-              <option key={opcion.id} value={opcion.id}>
-                {opcion.garden_name}
-              </option>
-            )
-          )}
+          {garden.map((option) => (
+            <option key={option.id} value={option.id}>
+              {option.garden_name}
+            </option>
+          ))}
         </Select>
+        {gardenSelected.size > 0 ? (
+          <>
+            <Text fontWeight="bold" mb="2">
+              Opciones seleccionadas:
+            </Text>
+            <Stack spacing="1">
+              {garden
+                .filter((option) => gardenSelected.has(option.id))
+                .map((option) => (
+                  <Text key={option.id}>{option.garden_name}</Text>
+                ))}
+            </Stack>
+          </>
+        ) : null}
         <FormLabel>Servicios</FormLabel>
         <Select
-          value={servicesSelected}
-          onChange={(e) => setServicesSelected(e.target.value)}
+          value=""
+          onChange={(e) => {
+            const serviceId = Number(e.target.value);
+            if (serviceId && !servicesSelected.has(serviceId)) {
+              setServicesSelected(new Set([...servicesSelected, serviceId]));
+            }
+          }}
         >
           <option value="" disabled>
             Seleccione una opción
           </option>
-          {services.map(
-            (opcion: { id: number; services_name: any | null | undefined }) => (
-              <option key={opcion.id} value={opcion.id}>
-                {opcion.services_name}
-              </option>
-            )
-          )}
+          {services.map((option) => (
+            <option key={option.id} value={option.id}>
+              {option.services_name}
+            </option>
+          ))}
         </Select>
+        {servicesSelected.size > 0 ? (
+          <>
+            <Text fontWeight="bold" mb="2">
+              Opciones seleccionadas:
+            </Text>
+            <Stack spacing="1">
+              {services
+                .filter((option) => servicesSelected.has(option.id))
+                .map((option) => (
+                  <Text key={option.id}>{option.services_name}</Text>
+                ))}
+            </Stack>
+          </>
+        ) : null}
         <Button
           type="submit"
           isLoading={isSubmitting}
