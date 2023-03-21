@@ -75,7 +75,7 @@ export default function CardDetails({
               rounded={"md"}
               alt={"product image"}
               src={detailProp.firstImage}
-              fit={"cover"}
+              fit={"contain"}
               align={"center"}
               w={"100%"}
               h={{ base: "100%", sm: "400px", lg: "500px" }}

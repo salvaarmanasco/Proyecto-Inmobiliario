@@ -20,16 +20,11 @@ import {
   fetchState,
 } from "../../Redux/reducer/Tables";
 import {
-  SimpleGrid,
-  FormControl,
   FormLabel,
-  Input,
-  Textarea,
-  Checkbox,
+  Box,
   Button,
   Stack,
   Center,
-  GridItem,
   Text,
   Select,
 } from "@chakra-ui/react";
@@ -294,18 +289,16 @@ function Form2({ location }: { location: ItemDetailsProps }) {
           ))}
         </Select>
         {gardenSelected.size > 0 ? (
-          <>
+          <Box mt={2} mb={4}>
             <Text fontWeight="bold" mb="2">
               Opciones seleccionadas:
             </Text>
-            <Stack spacing="1">
-              {garden
-                .filter((option) => gardenSelected.has(option.id))
-                .map((option) => (
-                  <Text key={option.id}>{option.garden_name}</Text>
-                ))}
-            </Stack>
-          </>
+            {garden
+              .filter((option) => gardenSelected.has(option.id))
+              .map((option) => (
+                <Text key={option.id}>{option.garden_name}</Text>
+              ))}
+          </Box>
         ) : null}
         <FormLabel>Servicios</FormLabel>
         <Select
@@ -327,18 +320,16 @@ function Form2({ location }: { location: ItemDetailsProps }) {
           ))}
         </Select>
         {servicesSelected.size > 0 ? (
-          <>
+          <Box mt={2} mb={4}>
             <Text fontWeight="bold" mb="2">
               Opciones seleccionadas:
             </Text>
-            <Stack spacing="1">
-              {services
-                .filter((option) => servicesSelected.has(option.id))
-                .map((option) => (
-                  <Text key={option.id}>{option.services_name}</Text>
-                ))}
-            </Stack>
-          </>
+            {services
+              .filter((option) => servicesSelected.has(option.id))
+              .map((option) => (
+                <Text key={option.id}>{option.services_name}</Text>
+              ))}
+          </Box>
         ) : null}
         <Button
           type="submit"
