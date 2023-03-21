@@ -263,31 +263,13 @@ interface NavItem {
 
 const NAV_ITEMS: Array<NavItem> = [
   {
-    label: "Venta",
+    label: "Propiedades",
     href: "/properties",
     children: [
       {
         label: "Encontra lo que buscas",
         href: "/properties",
       },
-      // {
-      //   label: "Quiero vender mi propiedad",
-      //   href: "#contact",
-      // },
-    ],
-  },
-  {
-    label: "Alquiler",
-    href: "/properties",
-    children: [
-      {
-        label: "Encontra lo que buscas",
-        href: "/properties",
-      },
-      // {
-      //   label: "Quiero alquilar mi propiedad",
-      //   href: "#contact",
-      // },
     ],
   },
   {

@@ -59,6 +59,7 @@ const propertiesSlice = createSlice({
         numAntiquity,
         numBedrooms,
         numBathrooms,
+        inputLocalitation,
         clean,
       } = action.payload;
 
@@ -68,6 +69,13 @@ const propertiesSlice = createSlice({
         state.propertiesFilter = state.properties
           ?.filter((property) => {
             if (garage && !property.garage) {
+              return false;
+            }
+            if (
+              inputLocalitation &&
+              inputLocalitation.toLowerCase() !==
+                property.States?.[0]?.state_name.toLowerCase()
+            ) {
               return false;
             }
             if (garden && property.Gardens.length === 0) {
