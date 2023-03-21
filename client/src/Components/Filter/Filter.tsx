@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   useDisclosure,
   Button,
@@ -25,6 +25,7 @@ import { filterProperties } from "../../Redux/reducer/Properties";
 export interface AllFilters {
   condition: Array<string>;
   categories: Array<string>;
+  inputLocalitation: string;
   coveredM2: number;
   totalM2: number;
   numBedrooms: number;
@@ -46,6 +47,7 @@ const Filter = () => {
     coveredM2: 0,
     totalM2: 0,
     numBedrooms: 0,
+    inputLocalitation: "",
     numBathrooms: 0,
     numAntiquity: 0,
     garage: false,
@@ -142,10 +144,21 @@ const Filter = () => {
             </Stack>
             <Stack mt={5}>
               <Text fontSize="xl" as="b">
-                Ubicacion o palabra clave
+                Ubicación / ciudad
               </Text>
               <Divider />
-              <Input focusBorderColor="red.500" />
+              <Input
+                focusBorderColor="red.500"
+                onChange={(e) =>
+                  handleFilterChange("inputLocalitation", e.target.value)
+                }
+              />
+              <Text fontSize="md">
+                propiedades en{" "}
+                {filter.inputLocalitation.length > 0 &&
+                  filter.inputLocalitation}
+                ...
+              </Text>
             </Stack>
             <Stack mt={5}>
               <Text fontSize="xl" as="b">
@@ -392,7 +405,7 @@ const Filter = () => {
                   flexDirection="row"
                   justifyContent="space-between"
                 >
-                  <Text>Habitaciones</Text>
+                  <Text>Habitaciones </Text>
                   <NumberInput w={100} min={0}>
                     <NumberInputField
                       name="numBedrooms"

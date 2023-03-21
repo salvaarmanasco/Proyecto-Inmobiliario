@@ -1,5 +1,5 @@
-import { Box, Stack, Input, Select } from "@chakra-ui/react";
-import { ChevronDownIcon } from "@chakra-ui/icons";
+import { Box, Stack, Button } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 
 const SearchBar = () => {
   return (
@@ -9,20 +9,11 @@ const SearchBar = () => {
         align="center"
         direction={{ base: "column", sm: "column", md: "row" }}
       >
-        <Select
-          icon={<ChevronDownIcon />}
-          placeholder="Tipo de operacion"
-          w="180px"
-        >
-          <option>Venta</option>
-          <option>Alquiler</option>
-        </Select>
-
-        <Input
-          placeholder="Busqueda"
-          size="md"
-          width={{ base: "80%", md: "40%" }}
-        />
+        <Link to="/properties">
+          <Button colorScheme="red" size="lg">
+            Ver propiedades
+          </Button>
+        </Link>
       </Stack>
     </Box>
   );

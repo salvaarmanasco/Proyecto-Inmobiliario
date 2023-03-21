@@ -9,7 +9,6 @@ import {
   HStack,
   SimpleGrid,
   Link,
-  Input,
 } from "@chakra-ui/react";
 import { BsArrowUpRight, BsHeartFill, BsHeart } from "react-icons/bs";
 import Filter from "../Filter/Filter";
@@ -17,6 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchProperties } from "../../Redux/reducer/Properties";
 import { RootState } from "../../Redux/store";
 import { ThunkDispatch } from "redux-thunk";
+
 // ---------------------------------------FetchProperties-------------------------------------------------------
 const PropertiesPage = () => {
   const dispatch: ThunkDispatch<RootState, undefined, any> = useDispatch();
@@ -49,11 +49,6 @@ const PropertiesPage = () => {
         pt={10}
         w={{ base: "100%", md: "90%" }}
       >
-        <Input
-          mb={{ base: 3, md: 0 }}
-          width={{ base: "90%", sm: "30%", md: "25%" }}
-          focusBorderColor="red.500"
-        />
         <Filter />
       </Box>
 
