@@ -27,7 +27,9 @@ export default function Cards() {
     dispatch(fetchProperties())
       .then((action) => {
         if (action.payload) {
-          setFourProperties(action.payload);
+          setFourProperties(
+            action.payload.filter((e: any) => e.Conditions.length > 0)
+          );
         }
       })
       .catch((error) => {
