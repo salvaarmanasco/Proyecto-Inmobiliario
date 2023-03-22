@@ -11,7 +11,7 @@ const SearchBar = () => {
       >
         <Link to="/properties">
           <Button colorScheme="red" size="lg">
-            Ver propiedades
+            Ver mas propiedades
           </Button>
         </Link>
       </Stack>

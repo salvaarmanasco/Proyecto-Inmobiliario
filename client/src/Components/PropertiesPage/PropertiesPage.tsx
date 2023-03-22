@@ -102,7 +102,7 @@ const PropertiesPage = () => {
                     <Heading color={"black"} fontSize={"2xl"} noOfLines={1}>
                       {title}
                     </Heading>
-                    <Text color={"gray.500"} noOfLines={2}>
+                    <Text color={"gray.500"} noOfLines={2} height={50}>
                       {description}
                     </Text>
                   </Box>
