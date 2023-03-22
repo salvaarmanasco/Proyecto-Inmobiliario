@@ -295,31 +295,28 @@ export default function CardDetails({
                         {detailProp.orientation}
                       </ListItem>
                       <ListItem>
-                        <SimpleGrid columns={{ base: 1, lg: 2 }}>
-                          <Text as={"span"} fontWeight={"bold"} gridColumn={-4}>
-                            Servicios:
-                          </Text>
-                          <SimpleGrid columns={1} pl={1}>
-                            {detailProp.Services?.map(
-                              (s: { services_name: string }, index: number) => (
-                                <Text>{s.services_name}</Text>
-                              )
-                            )}
-                          </SimpleGrid>
-                        </SimpleGrid>
+                        <Text as={"span"} fontWeight={"bold"}></Text>{" "}
                       </ListItem>
-                    </SimpleGrid>
-                    <SimpleGrid columns={{ base: 1, lg: 2 }}>
-                      <Text as={"span"} fontWeight={"bold"} gridColumn={-4}>
-                        Patio:
-                      </Text>
-                      <SimpleGrid columns={1} pl={1}>
+                      <ListItem>
+                        <Text as={"span"} fontWeight={"bold"} gridColumn={-4}>
+                          Patio:
+                        </Text>
                         {detailProp.Gardens?.map(
                           (g: { garden_name: string }, index: number) => (
                             <Text>{g.garden_name}</Text>
                           )
                         )}
-                      </SimpleGrid>
+                      </ListItem>
+                      <ListItem>
+                        <Text as={"span"} fontWeight={"bold"} gridColumn={-4}>
+                          Servicios:
+                        </Text>
+                        {detailProp.Services?.map(
+                          (s: { services_name: string }, index: number) => (
+                            <Text>{s.services_name}</Text>
+                          )
+                        )}
+                      </ListItem>
                     </SimpleGrid>
                   </List>
                 </Box>

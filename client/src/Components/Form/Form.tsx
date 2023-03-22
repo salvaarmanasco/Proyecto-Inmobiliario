@@ -15,9 +15,11 @@ import {
   Center,
   GridItem,
   Text,
+  Box,
+  Image,
 } from "@chakra-ui/react";
 
-import FormData from "../../Interfaces/FormData";
+import FormData2 from "../../Interfaces/FormData";
 import { useHistory } from "react-router-dom";
 
 // -----------------------------------------------GOOGLE MAPS-------------------------------------------------
@@ -41,7 +43,7 @@ interface MarkerProps {
 
 // ------------------------------------------------------------------------------------------------------------
 
-const initialFormData: FormData = {
+const initialFormData: FormData2 = {
   title: "",
   antiquity: 0,
   address: "",
@@ -68,7 +70,7 @@ const initialFormData: FormData = {
 };
 
 export default function Form(props: MapProps) {
-  const [formData, setFormData] = useState<FormData>(initialFormData);
+  const [formData, setFormData] = useState<FormData2>(initialFormData);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const dispatch: ThunkDispatch<RootState, undefined, any> = useDispatch();
   const history = useHistory();
@@ -159,6 +161,37 @@ export default function Form(props: MapProps) {
       long: marker?.position?.lng,
     });
     console.log(marker?.position);
+  };
+
+  const [image, setImage] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    console.log("cambio imagen");
+  }, [formData.firstImage]);
+
+  const handleImageUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const files: any = event.target.files;
+    const data = new FormData();
+    data.append("file", files[0]);
+    data.append("upload_preset", "proyectoinmobiliario");
+    setLoading(true);
+    const res = await fetch(
+      "https://api.cloudinary.com/v1_1/dxexjxoiz/image/upload",
+      {
+        method: "POST",
+        body: data,
+      }
+    );
+    const file = await res.json();
+    setImage(file.secure_url);
+    setFormData({
+      ...formData,
+      firstImage: file.secure_url,
+    });
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -300,14 +333,18 @@ export default function Form(props: MapProps) {
             </GridItem>
             <GridItem colSpan={2}>
               <FormControl id="firstImage" isRequired>
-                <FormLabel>Link imagen principal</FormLabel>
+                <FormLabel>Imagen principal</FormLabel>
                 <Input
-                  type="text"
+                  type="file"
                   name="firstImage"
-                  value={firstImage}
-                  onChange={handleInputChange}
+                  onChange={handleImageUpload}
                 />
               </FormControl>
+              {formData.firstImage && (
+                <Box mt={4}>
+                  <Image src={formData.firstImage} alt={"Imagen principal"} />
+                </Box>
+              )}
             </GridItem>
           </SimpleGrid>
           <FormLabel textAlign="center">Extras</FormLabel>

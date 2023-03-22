@@ -1,4 +1,4 @@
-export default interface FormData {
+export default interface FormData2 {
   title: string;
   antiquity: number;
   address: string;

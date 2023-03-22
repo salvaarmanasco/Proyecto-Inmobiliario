@@ -24,6 +24,7 @@ export default function Simple() {
       // minH={'100vh'}
       align={"center"}
       justify={"center"}
+      my={6}
       // bg={useColorModeValue("gray.50", "gray.800")}
     >
       <Container
