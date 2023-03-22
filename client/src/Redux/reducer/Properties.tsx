@@ -101,6 +101,7 @@ const propertiesSlice = createSlice({
           ?.filter((property) => {
             if (
               condition &&
+              property.Conditions.length > 0 &&
               condition.find(
                 (condition: string) =>
                   condition.toLowerCase() ===
@@ -115,6 +116,7 @@ const propertiesSlice = createSlice({
           ?.filter((property) => {
             if (
               categories &&
+              property.Categories.length > 0 &&
               categories.length > 0 &&
               categories.some(
                 (category: string) =>
@@ -133,7 +135,9 @@ const propertiesSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchProperties.fulfilled, (state, action) => {
       state.properties = action.payload;
-      state.propertiesFilter = action.payload;
+      state.propertiesFilter = action.payload.filter(
+        (e: any) => e.Conditions.length > 0
+      );
       state.loading = false;
       state.error = null;
     });
