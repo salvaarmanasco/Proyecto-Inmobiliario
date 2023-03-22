@@ -21,7 +21,7 @@ export default function Simple() {
 
   return (
     <Flex
-      // minH={'100vh'}
+      mt={30}
       align={"center"}
       justify={"center"}
       // bg={useColorModeValue("gray.50", "gray.800")}

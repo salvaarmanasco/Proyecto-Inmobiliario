@@ -4,7 +4,7 @@ import Users from "../../Interfaces/Users";
 
 export interface UsersState {
   users: Users[];
-  UsersDetail: Users[];
+  usersDetail: Users[];
   loading: boolean;
   error: string | null;
 }
@@ -24,6 +24,18 @@ export const fetchUsersId = createAsyncThunk(
   "users/fetchUsersId", // nombre de la accion
   async (id: any) => {
     const response = await axios.get(`http://localhost:3001/users/${id}`);
+    return response.data;
+  }
+);
+
+// USUARIO POR EMAIL
+
+export const fetchUsersEmail = createAsyncThunk(
+  "user/fetchUsersEmail",
+  async (email: any) => {
+    const response = await axios.get(
+      `http://localhost:3001/users/email?email=${email}`
+    );
     return response.data;
   }
 );
@@ -66,7 +78,7 @@ const usersSlice = createSlice({
   name: "users",
   initialState: {
     users: [],
-    UsersDetail: [],
+    usersDetail: [],
     loading: false,
     error: null,
   } as UsersState,
@@ -85,7 +97,7 @@ const usersSlice = createSlice({
       state.error = "no se pudieron cargar los usuarios";
     });
     builder.addCase(fetchUsersId.fulfilled, (state, action) => {
-      state.UsersDetail = action.payload;
+      state.usersDetail = action.payload;
       state.loading = false;
       state.error = null;
     });
@@ -93,6 +105,18 @@ const usersSlice = createSlice({
       state.loading = true;
     });
     builder.addCase(fetchUsersId.rejected, (state, action) => {
+      state.loading = false;
+      state.error = "no se pudo cargar el usuario en cuestion";
+    });
+    builder.addCase(fetchUsersEmail.fulfilled, (state, action) => {
+      state.usersDetail = action.payload;
+      state.loading = false;
+      state.error = null;
+    });
+    builder.addCase(fetchUsersEmail.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(fetchUsersEmail.rejected, (state, action) => {
       state.loading = false;
       state.error = "no se pudo cargar el usuario en cuestion";
     });

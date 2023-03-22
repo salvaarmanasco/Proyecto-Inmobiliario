@@ -1,9 +1,27 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { Box, Button, Stack } from "@chakra-ui/react";
-import React from "react";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { fetchUsersEmail, createUsuario } from "../../Redux/reducer/Users";
+import { RootState } from "../../Redux/store";
+import { ThunkDispatch } from "redux-thunk";
 
 const LoginButton = () => {
-  const { loginWithRedirect, isAuthenticated } = useAuth0();
+  const dispatch: ThunkDispatch<RootState, undefined, any> = useDispatch();
+  const { loginWithRedirect, isAuthenticated, user } = useAuth0();
+
+  useEffect(() => {
+    if (user) {
+      dispatch(fetchUsersEmail(user.email)).then((res) => {
+        if (res.payload === null) {
+          dispatch(createUsuario({ name: user.name, email: user.email }));
+        } else {
+          console.log("The user is already exist");
+        }
+      });
+    }
+  }, [dispatch, user]);
+
   return (
     <Box>
       {!isAuthenticated && (

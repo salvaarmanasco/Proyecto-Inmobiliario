@@ -3,6 +3,29 @@ import { v4 as uuidv4 } from "uuid";
 import db from "../../models";
 const router = Router();
 
+router.get("/email", async (req: any, res: any) => {
+  let { email } = req.query; // modificar a params, lo saco del body para probar
+  try {
+    let result = await db.User.findOne({ where: { email: email } });
+
+    return res.status(200).json(result);
+  } catch (err) {
+    console.log(err);
+    return res.status(404).send("Users not found");
+  }
+});
+
+router.get("/:id", async (req: any, res: any) => {
+  let { id } = req.params; // modificar a params, lo saco del body para probar
+  try {
+    let result = await db.User.findByPk(id, {});
+    return res.status(200).json(result);
+  } catch (err) {
+    console.log(err);
+    return res.status(404).send(`Users with id ${id} not found`);
+  }
+});
+
 router.get("/", async (req: any, res: any) => {
   try {
     let result = await db.User.findAll({
@@ -15,18 +38,6 @@ router.get("/", async (req: any, res: any) => {
     return res.status(404).send("Users not found");
   }
 });
-
-router.get("/:id", async (req: any, res: any) => {
-  let { id } = req.params; // modificar a params, lo saco del body para probar
-  try {
-    let result = await db.User.findByPk(id, {});
-    return res.status(200).json(result);
-  } catch (err) {
-    console.log(err);
-    return res.status(404).send("Users not found");
-  }
-});
-
 router.post("/", async (req: any, res: any) => {
   const { name, email } = req.body;
   try {

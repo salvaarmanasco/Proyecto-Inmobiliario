@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import Tittle from "../Tittle/Tittle";
 import SearchBar from "../SearchBar/SearchBar";
 import Cards from "../Cards/Cards";
@@ -11,8 +10,8 @@ const LandingPage = () => {
   return (
     <>
       <Tittle />
-      <SearchBar />
       <Cards />
+      <SearchBar />
       <Carrousel />
       <Newsletter />
       <JoinTeam />
