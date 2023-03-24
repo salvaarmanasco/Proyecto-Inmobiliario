@@ -284,6 +284,10 @@ const NAV_ITEMS: Array<NavItem> = [
     label: "Formulario",
     href: "/form",
   },
+  {
+    label: "Perfil",
+    href: "/profile",
+  },
 ];
 
 export default NavBar;
