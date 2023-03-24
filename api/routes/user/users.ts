@@ -57,13 +57,13 @@ router.post("/", async (req: any, res: any) => {
 
 // MODIFY
 router.put("/wishlist", async (req: any, res: any) => {
-  let { UserId, wishListId } = req.body;
+  let { userId, wishListId } = req.body;
   try {
-    if (!UserId || !wishListId) {
+    if (!userId || !wishListId) {
       return res.status(500).json({ message: "Incomplete information" });
     }
 
-    let customer = await db.User.findByPk(UserId, {});
+    let customer = await db.User.findByPk(userId, {});
 
     if (!customer) {
       return res.status(500).json({ message: "User not found" });
@@ -87,13 +87,13 @@ router.put("/wishlist", async (req: any, res: any) => {
 
 //DELETE
 router.delete("/wishlist", async (req: any, res: any) => {
-  let { UserId, wishListId } = req.body;
+  let { userId, wishListId } = req.body;
   try {
-    if (!UserId || !wishListId) {
+    if (!userId || !wishListId) {
       return res.status(500).json({ message: "Incomplete information" });
     }
 
-    let costumer = await db.User.findByPk(UserId, {});
+    let costumer = await db.User.findByPk(userId, {});
 
     if (!costumer) {
       return res.status(500).json({ message: "User not found" });
