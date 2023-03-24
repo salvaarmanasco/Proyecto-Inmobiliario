@@ -10,6 +10,7 @@ import PropertiesPage from "./Components/PropertiesPage/PropertiesPage";
 import CardDetails from "./Components/CardsDetail/CardDetails";
 import Form from "./Components/Form/Form";
 import Form2 from "./Components/Form2/Form2";
+import UserPanel from "./Components/UserPanel/UserPanel";
 
 export const App = () => (
   <ChakraProvider theme={theme}>
@@ -22,6 +23,7 @@ export const App = () => (
       <Route exact path="/franchise" component={Franchise} />
       <Route exact path="/form" component={Form} />
       <Route exact path="/form2" component={Form2} />
+      <Route path="/profile" component={UserPanel} />
       <Route path="*" component={Page404} />
     </Switch>
     <Footer />
