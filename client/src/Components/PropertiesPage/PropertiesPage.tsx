@@ -9,6 +9,7 @@ import {
   HStack,
   SimpleGrid,
   Link,
+  Button,
 } from "@chakra-ui/react";
 import { BsArrowUpRight, BsHeartFill, BsHeart } from "react-icons/bs";
 import Filter from "../Filter/Filter";
@@ -38,7 +39,28 @@ const PropertiesPage = () => {
   };
 
   // -----------------------------------------------------------------------------------------------------------
+  const [propertiesRender, setPropertiesRender] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [cardsPerPage, setCardsPerPage] = useState(1);
 
+  const lastPostIndex = currentPage * cardsPerPage;
+  const firstPostIndex = lastPostIndex - cardsPerPage;
+  const currentCards = allProperties.slice(firstPostIndex, lastPostIndex);
+
+  let pages = [];
+  for (let i = 1; i <= Math.ceil(allProperties.length / cardsPerPage); i++) {
+    pages.push(i);
+  }
+
+  let pagesBreakout = pages.slice(
+    currentPage - 3 >= 0 ? currentPage - 3 : 0,
+    currentPage + 2
+  );
+
+  console.log(pages);
+  console.log(currentPage);
+  console.log(pagesBreakout);
+  // -----------------------------------------------------------------------------------------------------------
   return (
     <Box minH="100vh">
       <Box
@@ -60,7 +82,7 @@ const PropertiesPage = () => {
             spacingX="10px"
             spacingY="20px"
           >
-            {allProperties.map(
+            {currentCards.map(
               ({ id, title, description, Conditions, firstImage }) => (
                 <Box
                   key={id}
@@ -151,6 +173,115 @@ const PropertiesPage = () => {
           </Box>
         )}
       </Center>
+      <Flex flexDirection="row" justifyContent="center">
+        <Button
+          onClick={() => setCurrentPage(1)}
+          disabled={currentPage === 1}
+          width={20}
+          height={20}
+          fontWeight={600}
+          fontSize={16}
+          my={0}
+          mx={3}
+          borderRadius={6}
+          cursor="pointer"
+          transition="all 0.3s ease"
+          background="transparent"
+          color="#eee"
+          borderColor="#eee"
+          _active={{
+            fontWeight: 900,
+            borderColor: "#101010",
+            background: "#ffffff",
+            color: "#101010",
+          }}
+        >
+          First
+        </Button>
+        {pages.length <= 5
+          ? pages?.map((page, index) => {
+              return (
+                <Button
+                  key={index}
+                  onClick={() => setCurrentPage(page)}
+                  width={20}
+                  height={20}
+                  fontWeight={600}
+                  fontSize={16}
+                  my={0}
+                  mx={3}
+                  background={currentPage === page ? "red.500" : "transparent"}
+                  borderRadius={6}
+                  cursor="pointer"
+                  transition="all 0.3s ease"
+                  // background="transparent"
+                  color="#eee"
+                  borderColor="#eee"
+                  _active={{
+                    fontWeight: 900,
+                    borderColor: "#101010",
+                    background: "#ffffff",
+                    color: "#101010",
+                  }}
+                >
+                  {page}
+                </Button>
+              );
+            })
+          : pagesBreakout?.map((page, index) => {
+              return (
+                <Button
+                  key={index}
+                  onClick={() => setCurrentPage(page)}
+                  width={20}
+                  height={20}
+                  fontWeight={600}
+                  fontSize={16}
+                  my={0}
+                  mx={3}
+                  background={currentPage === page ? "red.500" : "transparent"}
+                  borderRadius={6}
+                  cursor="pointer"
+                  transition="all 0.3s ease"
+                  // background="transparent"
+                  color="#eee"
+                  borderColor="#eee"
+                  _active={{
+                    fontWeight: 900,
+                    borderColor: "#101010",
+                    background: "#ffffff",
+                    color: "#101010",
+                  }}
+                >
+                  {page}
+                </Button>
+              );
+            })}
+        <Button
+          onClick={() => setCurrentPage(pages.length)}
+          width={20}
+          height={20}
+          fontWeight={600}
+          fontSize={16}
+          my={0}
+          mx={3}
+          borderRadius={6}
+          cursor="pointer"
+          transition="all 0.3s ease"
+          background="transparent"
+          color="#eee"
+          borderColor="#eee"
+          _active={{
+            fontWeight: 900,
+            borderColor: "#101010",
+            background: "#ffffff",
+            color: "#101010",
+          }}
+          disabled={currentPage === pages.length}
+        >
+          Last
+        </Button>
+      </Flex>
     </Box>
   );
 };
