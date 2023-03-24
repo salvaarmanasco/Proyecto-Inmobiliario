@@ -66,11 +66,24 @@ export const deleteWishList = createAsyncThunk(
   async (wishListDelete: any) => {
     const response = await axios.delete(
       "http://localhost:3001/users/wishlist",
-      wishListDelete
+      { data: wishListDelete }
     );
     return response.data;
   }
 );
+
+/* export const deleteWishList = createAsyncThunk(
+  "users/deleteWishList",
+  async ({ userId, wishListId }: { userId: string; wishListId: string }) => {
+    const response = await axios.delete(
+      `http://localhost:3001/users/wishlist`,
+      {
+        data: { wishListId },
+      }
+    );
+    return response.data;
+  }
+); */
 
 // defino los slice del redux que manejaran el estado de los usuarios
 // NO ME CONVENCEN LAS DE LA WISHLIST
