@@ -4,5 +4,6 @@ export default interface Users {
   lastname: string;
   email: string;
   phone: number;
+  photo: string;
   wishList: String[];
 }

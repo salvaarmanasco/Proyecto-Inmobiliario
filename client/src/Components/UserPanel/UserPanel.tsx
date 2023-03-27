@@ -1,4 +1,4 @@
-import {
+/* import {
   Heading,
   Avatar,
   Box,
@@ -126,4 +126,118 @@ export default function UserPanel() {
       </SimpleGrid>
     </Center>
   );
+} */
+
+import {
+  Box,
+  Text,
+  Heading,
+  Grid,
+  GridItem,
+  Button,
+  Image,
+  Flex,
+} from "@chakra-ui/react";
+import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { fetchUsersId } from "../../Redux/reducer/Users";
+import { RootState } from "../../Redux/store";
+import { ThunkDispatch } from "redux-thunk";
+import { RouteComponentProps } from "react-router-dom";
+
+import Users from "../../Interfaces/Users";
+import { fetchProperties } from "../../Redux/reducer/Properties";
+
+interface WishlistItem {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
 }
+
+interface MatchParams {
+  id: string;
+}
+
+export const UserPanel = ({ match }: RouteComponentProps<MatchParams>) => {
+  const [showWishlist, setShowWishlist] = useState(false);
+
+  const dispatch: ThunkDispatch<RootState, undefined, any> = useDispatch();
+  const [UserProp, setUserProp] = useState<Users | null>(null);
+
+  useEffect(() => {
+    const { id } = match.params;
+    dispatch(fetchUsersId(id))
+      .then((action) => {
+        if (action.payload) {
+          setUserProp(action.payload);
+        }
+      })
+      .catch((error) => {
+        console.log("Error fetching users:", error);
+      });
+  }, [dispatch]);
+
+  console.log(UserProp);
+
+  return (
+    <>
+      {UserProp !== null ? (
+        <Box>
+          <Grid justifyContent="center">
+            <Heading>Panel de Usuario</Heading>
+          </Grid>
+          <Grid templateColumns="repeat(2, 1fr)" alignItems="center">
+            <Flex>
+              <Image
+                rounded={"md"}
+                alt={"product image"}
+                src={UserProp.photo}
+                fit={"contain"}
+                align={"center"}
+                w={"100%"}
+                h={{ base: "100%", sm: "400px", lg: "500px" }}
+                mt={10}
+              />
+            </Flex>
+            <Grid templateColumns="repeat(2, 1fr)" gap={6}>
+              <GridItem>
+                <Text fontWeight="bold">Nombre:</Text>
+                <Text>{UserProp.name}</Text>
+              </GridItem>
+              <GridItem>
+                <Text fontWeight="bold">Apellido:</Text>
+                <Text>{UserProp.lastname}</Text>
+              </GridItem>
+              <GridItem>
+                <Text fontWeight="bold">Email:</Text>
+                <Text>{UserProp.email}</Text>
+              </GridItem>
+              <GridItem>
+                <Text fontWeight="bold">Telefono:</Text>
+                <Text>{UserProp.phone}</Text>
+              </GridItem>
+            </Grid>
+            <GridItem padding="5" colSpan={3}>
+              <Button onClick={() => setShowWishlist(!showWishlist)}>
+                {showWishlist ? "Hide Wishlist" : "Show Wishlist"}
+              </Button>
+              {showWishlist &&
+                UserProp.wishList?.map((item, i) => (
+                  <Box key={i}>
+                    <Heading as="h3" size="md">
+                      {item}
+                    </Heading>
+                  </Box>
+                ))}
+            </GridItem>
+          </Grid>
+        </Box>
+      ) : (
+        <>
+          <Text>El usuario es puto si no aparece</Text>
+        </>
+      )}
+    </>
+  );
+};
