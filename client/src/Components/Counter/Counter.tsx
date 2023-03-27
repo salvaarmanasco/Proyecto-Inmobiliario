@@ -1,16 +1,27 @@
 
 //Este codigo implementa  funcion spin y usa estados para que el spin sea independiente en cada componente
+// ver en el componente propertipages el dispatch, y state.properties.properties, luego el redux de properties, ver los array que devuelve y los datso que necesito.
 
-import { useState } from "react";
+// estoy tratando de reproducir el useEffect del property per page y no entiendo el identado,
+
+import { useState, useEffect } from "react";
 import { Card, CardBody, Center, SimpleGrid, Text } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faKey, faUserTie, faAward } from "@fortawesome/free-solid-svg-icons";
 
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProperties } from "../../Redux/reducer/Properties";
+import { RootState } from "../../Redux/store";
+import { ThunkDispatch } from "redux-thunk";
+
+
+////------------------------------- Interfaz TS
 interface FontAwesomeIconWithSpinProps {
   icon: any;
   size: any;
 }
 
+//--------------------------------- SPIN de font awesome
 const FontAwesomeIconWithSpin = ({
   icon,
   size,
@@ -41,7 +52,16 @@ const FontAwesomeIconWithSpin = ({
   );
 };
 
-export default function Counter() {
+const Counter=()=> {
+  const dispatch: ThunkDispatch<RootState, undefined, any> = useDispatch();
+  const allProperties = useSelector(
+    (state: RootState) => state.properties.properties
+  );
+
+  useEffect(() => {
+    dispatch(fetchProperties());
+  }, [dispatch]);
+
   return (
     <Center my={5}>
       <SimpleGrid
@@ -53,10 +73,10 @@ export default function Counter() {
         >
         <Card>
           <CardBody>
-            <Text textAlign="center">Propiedades Vendidas</Text>
+            <Text textAlign="center">Propiedades Vendidas</Text> 
             <FontAwesomeIconWithSpin icon={faKey} size="3x" />
             <Text textAlign="center" fontSize="3xl">
-              450
+              {allProperties.length}
             </Text>
           </CardBody>
         </Card>
@@ -65,7 +85,7 @@ export default function Counter() {
             <Text textAlign="center">Asesores</Text>
             <FontAwesomeIconWithSpin icon={faUserTie} size="3x" />
             <Text textAlign="center" fontSize="3xl">
-              450
+              59
             </Text>
           </CardBody>
         </Card>
@@ -74,88 +94,13 @@ export default function Counter() {
             <Text textAlign="center">Años de franquicia</Text>
             <FontAwesomeIconWithSpin icon={faAward} size="3x" />
             <Text textAlign="center" fontSize="3xl">
-              450
+              17
             </Text>
           </CardBody>
         </Card>
       </SimpleGrid>
     </Center>
   );
-}
-// //este codigo dejo los iconos fijos. el siguiente implementa el splin.
-// import {
-//   Card,
-//   CardHeader,
-//   CardBody,
-//   CardFooter,
-//   Text,
-//   Box,
-//   Img,
-//   Flex,
-//   SimpleGrid,
-//   Center,
-//   Icon,
-// } from "@chakra-ui/react";
+};
 
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faKey, faUserTie, faAward } from "@fortawesome/free-solid-svg-icons";
-
-// export default function Counter() {
-//   return (
-//     <Center my={5}>
-//       <SimpleGrid
-//         gap={4}
-//         columns={3}
-//         alignContent="center"
-//         alignItems="flex-start"
-//         justifyContent="center"
-//       >
-//         <Card>
-//           <CardBody>
-//             <Text textAlign="center">Propiedades Vendidas</Text>
-//             <Center>
-//               <FontAwesomeIcon
-//                 icon={faKey}
-//                 size="3x"
-//                 style={{ paddingTop: "1rem", paddingBottom: "1rem" }}
-//               />
-//             </Center>
-//             <Text textAlign="center" fontSize="3xl">
-//               450
-//             </Text>
-//           </CardBody>
-//         </Card>
-//         <Card>
-//           <CardBody>
-//             <Text textAlign="center">Asesores</Text>
-//             <Center>
-//               <FontAwesomeIcon
-//                 icon={faUserTie}
-//                 size="3x"
-//                 style={{ paddingTop: "1rem", paddingBottom: "1rem" }}
-//               />
-//             </Center>
-//             <Text textAlign="center" fontSize="3xl">
-//               450
-//             </Text>
-//           </CardBody>
-//         </Card>
-//         <Card>
-//           <CardBody>
-//             <Text textAlign="center">Años de franquicia</Text>
-//             <Center>
-//               <FontAwesomeIcon
-//                 icon={faAward}
-//                 size="3x"
-//                 style={{ paddingTop: "1rem", paddingBottom: "1rem" }}
-//               />
-//             </Center>
-//             <Text textAlign="center" fontSize="3xl">
-//               450
-//             </Text>
-//           </CardBody>
-//         </Card>
-//       </SimpleGrid>
-//     </Center>
-//   );
-// }
+export default Counter;
