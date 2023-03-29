@@ -39,12 +39,15 @@ router.get("/", async (req: any, res: any) => {
   }
 });
 router.post("/", async (req: any, res: any) => {
-  const { name, email } = req.body;
+  const { name, lastname, email, phone, photo } = req.body;
   try {
     let result = await db.User.create({
       id: uuidv4(),
       name: name,
+      lastname: lastname,
       email: email,
+      phone: phone,
+      photo: photo,
     });
     return res.status(200).json(result);
   } catch (error) {
