@@ -9,6 +9,7 @@ import {
   HStack,
   SimpleGrid,
   Link,
+  GridItem,
 } from "@chakra-ui/react";
 import { BsArrowUpRight, BsHeartFill, BsHeart } from "react-icons/bs";
 
@@ -45,18 +46,26 @@ export default function Cards() {
     num.includes(id) ? num.splice(num.indexOf(id), 1) : num.push(id);
   };
 
-  console.log(fourProperties);
-
   return (
     <Center py={6}>
       <SimpleGrid
-        columns={{ base: 1, md: 3, xl: 4 }}
+        columns={{ base: 1, md: 2, xl: 4 }}
         alignItems="flex-start"
         spacingX="10px"
         spacingY="20px"
       >
+        <GridItem colSpan={{ base: 1, md: 2, xl: 4 }}>
+          <Heading
+            as={"h2"}
+            fontSize={{ base: "xl", sm: "2xl" }}
+            textAlign={"center"}
+            mb={5}
+          >
+            Últimos ingresos
+          </Heading>
+        </GridItem>
         {fourProperties
-          .slice(0, 4)
+          .slice(Math.max(fourProperties.length - 4, 0))
           .map(({ id, title, description, Conditions, firstImage }) => (
             <Box
               key={id}
