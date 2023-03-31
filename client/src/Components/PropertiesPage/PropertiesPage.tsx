@@ -39,9 +39,8 @@ const PropertiesPage = () => {
   };
 
   // -----------------------------------------------------------------------------------------------------------
-  const [propertiesRender, setPropertiesRender] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [cardsPerPage, setCardsPerPage] = useState(1);
+  const [cardsPerPage, setCardsPerPage] = useState(12);
 
   const lastPostIndex = currentPage * cardsPerPage;
   const firstPostIndex = lastPostIndex - cardsPerPage;
