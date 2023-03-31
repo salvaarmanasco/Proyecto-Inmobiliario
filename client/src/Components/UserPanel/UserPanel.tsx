@@ -1,133 +1,3 @@
-/* import {
-  Heading,
-  Avatar,
-  Box,
-  Center,
-  Text,
-  Stack,
-  Button,
-  Link,
-  Badge,
-  GridItem,
-  useColorModeValue,
-  SimpleGrid,
-} from "@chakra-ui/react";
-import Cards from "../Cards/Cards";
-
-export default function UserPanel() {
-  return (
-    <Center py={6}>
-      <SimpleGrid columns={1}>
-        <Box
-          maxW={"320px"}
-          w={"full"}
-          bg={useColorModeValue("white", "gray.900")}
-          boxShadow={"2xl"}
-          rounded={"lg"}
-          p={6}
-          textAlign={"center"}
-        >
-          <Avatar
-            size={"xl"}
-            src={
-              "https://images.unsplash.com/photo-1520810627419-35e362c5dc07?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
-            }
-            mb={4}
-            pos={"relative"}
-            _after={{
-              content: '""',
-              w: 4,
-              h: 4,
-              bg: "green.300",
-              border: "2px solid white",
-              rounded: "full",
-              pos: "absolute",
-              bottom: 0,
-              right: 3,
-            }}
-          />
-          <Heading fontSize={"2xl"} fontFamily={"body"}>
-            Lindsey James
-          </Heading>
-          <Text fontWeight={600} color={"gray.500"} mb={4}>
-            @lindsey_jam3s
-          </Text>
-          <Text
-            textAlign={"center"}
-            color={useColorModeValue("gray.700", "gray.400")}
-            px={3}
-          >
-            Actress, musician, songwriter and artist. PM for work inquires or{" "}
-            <Link href={"#"} color={"blue.400"}>
-              #tag
-            </Link>{" "}
-            me in your posts
-          </Text>
-
-          <Stack align={"center"} justify={"center"} direction={"row"} mt={6}>
-            <Badge
-              px={2}
-              py={1}
-              bg={useColorModeValue("gray.50", "gray.800")}
-              fontWeight={"400"}
-            >
-              #art
-            </Badge>
-            <Badge
-              px={2}
-              py={1}
-              bg={useColorModeValue("gray.50", "gray.800")}
-              fontWeight={"400"}
-            >
-              #photography
-            </Badge>
-            <Badge
-              px={2}
-              py={1}
-              bg={useColorModeValue("gray.50", "gray.800")}
-              fontWeight={"400"}
-            >
-              #music
-            </Badge>
-          </Stack>
-
-          <Stack mt={8} direction={"row"} spacing={4}>
-            <Button
-              flex={1}
-              fontSize={"sm"}
-              rounded={"full"}
-              _focus={{
-                bg: "gray.200",
-              }}
-            >
-              Message
-            </Button>
-            <Button
-              flex={1}
-              fontSize={"sm"}
-              rounded={"full"}
-              bg={"blue.400"}
-              color={"white"}
-              boxShadow={
-                "0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
-              }
-              _hover={{
-                bg: "blue.500",
-              }}
-              _focus={{
-                bg: "blue.500",
-              }}
-            >
-              Follow
-            </Button>
-          </Stack>
-        </Box>
-        <Cards />
-      </SimpleGrid>
-    </Center>
-  );
-} */
-
 import {
   Box,
   Text,
@@ -137,23 +7,21 @@ import {
   Button,
   Image,
   Flex,
+  Img,
+  HStack,
 } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { fetchUsersId } from "../../Redux/reducer/Users";
 import { RootState } from "../../Redux/store";
 import { ThunkDispatch } from "redux-thunk";
-import { RouteComponentProps } from "react-router-dom";
+import { Link, RouteComponentProps } from "react-router-dom";
 
 import Users from "../../Interfaces/Users";
-import { fetchProperties } from "../../Redux/reducer/Properties";
+import Property from "../../Interfaces/Property";
 
-interface WishlistItem {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-}
+import { fetchProperties } from "../../Redux/reducer/Properties";
+import { BsArrowUpRight } from "react-icons/bs";
 
 interface MatchParams {
   id: string;
@@ -164,6 +32,8 @@ export const UserPanel = ({ match }: RouteComponentProps<MatchParams>) => {
 
   const dispatch: ThunkDispatch<RootState, undefined, any> = useDispatch();
   const [UserProp, setUserProp] = useState<Users | null>(null);
+
+  const [Properties, setProperties] = useState<Property | null | any>(null);
 
   useEffect(() => {
     const { id } = match.params;
@@ -179,6 +49,31 @@ export const UserPanel = ({ match }: RouteComponentProps<MatchParams>) => {
   }, [dispatch]);
 
   console.log(UserProp);
+
+  useEffect(() => {
+    dispatch(fetchProperties())
+      .then((action) => {
+        if (action.payload) {
+          setProperties(action.payload);
+        }
+      })
+      .catch((error) => {
+        console.log("Error fetching users:", error);
+      });
+  }, [dispatch]);
+
+  console.log(Properties?.[0]?.id);
+
+  const favorites: any[] = [];
+
+  // eslint-disable-next-line array-callback-return
+  Properties?.map((p: any) => {
+    // eslint-disable-next-line array-callback-return
+    UserProp?.wishList.map((w) => {
+      if (p.id === w) favorites.push(p);
+    });
+  });
+  console.log(favorites);
 
   return (
     <>
@@ -218,15 +113,101 @@ export const UserPanel = ({ match }: RouteComponentProps<MatchParams>) => {
                 <Text>{UserProp.phone}</Text>
               </GridItem>
             </Grid>
-            <GridItem padding="5" colSpan={3}>
-              <Button onClick={() => setShowWishlist(!showWishlist)}>
-                {showWishlist ? "Hide Wishlist" : "Show Wishlist"}
-              </Button>
+            <GridItem display="flex" padding="5" colSpan={3}>
+              <GridItem>
+                <Button onClick={() => setShowWishlist(!showWishlist)}>
+                  {showWishlist ? "Hide Wishlist" : "Show Wishlist"}
+                </Button>
+              </GridItem>
               {showWishlist &&
-                UserProp.wishList?.map((item, i) => (
+                favorites?.map((item, i) => (
                   <Box key={i}>
                     <Heading as="h3" size="md">
-                      {item}
+                      <Box
+                        key={item.id}
+                        w="xs" /* ancho de cards */
+                        rounded={"sm"}
+                        my={5}
+                        mx={[0, 5]}
+                        overflow={"hidden"}
+                        bg="white"
+                        border={"1px"}
+                        borderColor="black"
+                        boxShadow={"6px 6px 0 #f80404"}
+                      >
+                        <Box
+                          h={"200px"}
+                          borderBottom={"1px"}
+                          borderColor="black"
+                        >
+                          {" "}
+                          {/* longitud de la card */}
+                          <Img
+                            src={item.firstImage}
+                            roundedTop={"sm"}
+                            objectFit="cover"
+                            h="full"
+                            w="full"
+                            alt={"Blog Image"}
+                          />
+                        </Box>
+                        <Box p={4}>
+                          <Box
+                            bg="black"
+                            display={"inline-block"}
+                            px={2}
+                            py={1}
+                            color="white"
+                            mb={2}
+                          >
+                            <Text fontSize={"xs"} fontWeight="medium">
+                              {item.Conditions?.[0]?.condition_name}
+                            </Text>
+                          </Box>
+                          <Heading
+                            color={"black"}
+                            fontSize={"2xl"}
+                            noOfLines={1}
+                          >
+                            {item.title}
+                          </Heading>
+                          <Text color={"gray.500"} noOfLines={2} height={50}>
+                            {item.description}
+                          </Text>
+                        </Box>
+                        <HStack borderTop={"1px"} color="black">
+                          <Flex
+                            p={4}
+                            alignItems="center"
+                            justifyContent={"space-between"}
+                            roundedBottom={"sm"}
+                            cursor={"pointer"}
+                            w="full"
+                          >
+                            <Text fontSize={"md"} fontWeight={"semibold"}>
+                              View more
+                            </Text>
+                            <Link href={`/properties/${item.id}`} to={""}>
+                              <BsArrowUpRight />
+                            </Link>
+                          </Flex>
+                          {/*     <Flex
+                            p={4}
+                            alignItems="center"
+                            justifyContent={"space-between"}
+                            roundedBottom={"sm"}
+                            borderLeft={"1px"}
+                            cursor="pointer"
+                            onClick={() => handleFavourite(item.id)}
+                          >
+                            {num.includes(item.id) ? (
+                              <BsHeartFill fill="red" fontSize={"24px"} />
+                            ) : (
+                              <BsHeart fontSize={"24px"} />
+                            )}
+                          </Flex> */}
+                        </HStack>
+                      </Box>
                     </Heading>
                   </Box>
                 ))}
