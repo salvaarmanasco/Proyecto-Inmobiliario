@@ -7,6 +7,7 @@ import {
   createPropertyGarden,
   createPropertyServices,
   createPropertyState,
+  createPropertyImage,
 } from "../../Redux/reducer/Relations";
 import { RootState } from "../../Redux/store";
 import { ThunkDispatch } from "redux-thunk";
@@ -19,6 +20,7 @@ import {
   fetchServices,
   fetchState,
 } from "../../Redux/reducer/Tables";
+import { createImage } from "../../Redux/reducer/Images";
 import {
   FormLabel,
   Box,
@@ -28,6 +30,14 @@ import {
   Text,
   Select,
 } from "@chakra-ui/react";
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+} from "firebase/storage";
+import { initializeApp } from "firebase/app";
+import { useDropzone } from "react-dropzone";
 
 interface ItemDetailsProps {
   state: {
@@ -59,6 +69,18 @@ interface ItemDetailsProps {
     };
   };
 }
+
+const firebaseConfig = {
+  apiKey: "AIzaSyD-vnKOH8h79lYgBVn_TYDNfuB9OZCd2Zs",
+  authDomain: "urbe-7ccb5.firebaseapp.com",
+  projectId: "urbe-7ccb5",
+  storageBucket: "urbe-7ccb5.appspot.com",
+  messagingSenderId: "15986602173",
+  appId: "1:15986602173:web:c8a0e2647eef122c7fc7d4",
+};
+
+const app = initializeApp(firebaseConfig);
+const storage = getStorage(app);
 
 function Form2({ location }: { location: ItemDetailsProps }) {
   const itemProp2 = location.state.itemProp.id;
@@ -142,11 +164,56 @@ function Form2({ location }: { location: ItemDetailsProps }) {
       });
   }, [dispatch]);
 
+  // -------------------------------------------FIREBASE--------------------------------------------------------
+  const [files, setFiles] = useState<File[]>([]);
+  const [progress, setProgress] = useState(0);
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files.length > 0) {
+      const fileList = Array.from(event.target.files);
+      setFiles(fileList);
+    }
+  };
+
+  // ----------------------------------------------------------------------------------------------------------
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsSubmitting(true);
 
+    if (files.length < 1) return;
+
     try {
+      const imageIds: number[] = [];
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const storageRef = ref(storage, file.name);
+        const uploadTask = uploadBytesResumable(storageRef, file);
+
+        uploadTask.on("state_changed", (snapshot) => {
+          const percentage =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          setProgress(percentage);
+        });
+
+        await uploadTask;
+        const downloadURL = await getDownloadURL(storageRef);
+        console.log(`File uploaded successfully: ${downloadURL}`);
+
+        const newImage = {
+          image_url: downloadURL.toString(),
+          image_description: "hola",
+        };
+        const action = await dispatch(createImage(newImage));
+        const response = action.payload;
+        imageIds.push(response.id);
+      }
+
+      const propertyImages = imageIds.map((id) => ({
+        PropertyId: itemProp2.toString(),
+        ImageId: id,
+      }));
+
       const propertyCondition = {
         PropertyId: itemProp2.toString(),
         ConditionId: Number(conditionSelected),
@@ -182,6 +249,9 @@ function Form2({ location }: { location: ItemDetailsProps }) {
           dispatch(createPropertyServices(service))
         )
       );
+      await Promise.all(
+        propertyImages.map((img) => dispatch(createPropertyImage(img)))
+      );
       await dispatch(createPropertyCondition(propertyCondition));
       await dispatch(createPropertyCategory(propertyCategory));
       await dispatch(createPropertyState(propertyState));
@@ -195,9 +265,6 @@ function Form2({ location }: { location: ItemDetailsProps }) {
       setIsSubmitting(false);
     }
   };
-
-  console.log(gardenSelected);
-  console.log(servicesSelected);
 
   return (
     <Center my={4}>
@@ -331,6 +398,11 @@ function Form2({ location }: { location: ItemDetailsProps }) {
               ))}
           </Box>
         ) : null}
+        <div>
+          <input type="file" onChange={handleFileChange} multiple />
+          {/* <progress value={progress} max="100" /> */}
+          {/* <button onClick={handleUpload}>Upload</button> */}
+        </div>
         <Button
           type="submit"
           isLoading={isSubmitting}

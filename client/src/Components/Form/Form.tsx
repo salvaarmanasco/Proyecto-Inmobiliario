@@ -62,7 +62,7 @@ const initialFormData: FormData2 = {
   furnished: false,
   balcony: false,
   sign: false,
-  firstImage: "https://www.raesinversiones.com:8899/Imagenes/Oficina/6.jpg",
+  firstImage: "",
   lat: -31.657441,
   long: -60.710534,
   price: 1,
