@@ -54,10 +54,10 @@ const FontAwesomeIconWithSpin = ({
 
 const Counter=()=> {
   const dispatch: ThunkDispatch<RootState, undefined, any> = useDispatch();
-  const allProperties = useSelector(
+  let allProperties = useSelector(
     (state: RootState) => state.properties.properties
   );
-
+allProperties= allProperties.filter((p)=> p.Categories.length > 0 )
   useEffect(() => {
     dispatch(fetchProperties());
   }, [dispatch]);
