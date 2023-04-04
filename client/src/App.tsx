@@ -23,7 +23,7 @@ export const App = () => (
       <Route exact path="/franchise" component={Franchise} />
       <Route exact path="/form" component={Form} />
       <Route exact path="/form2" component={Form2} />
-      <Route path="/profile/:id" component={UserPanel} />
+      <Route path="/profile" component={UserPanel} />
       <Route path="*" component={Page404} />
     </Switch>
     <Footer />
