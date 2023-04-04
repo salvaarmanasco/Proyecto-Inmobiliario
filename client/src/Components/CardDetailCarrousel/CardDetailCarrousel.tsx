@@ -33,8 +33,6 @@ const settings = {
 function CardDetailCarrousel(props: { images: any }) {
   const [slider, setSlider] = React.useState<Slider | null>(null);
 
-  // These are the breakpoints which changes the position of the
-  // buttons as the screen size changes
   const top = useBreakpointValue({ base: "90%", md: "50%" });
   const side = useBreakpointValue({ base: "30%", md: "40px" });
 
@@ -116,7 +114,7 @@ function CardDetailCarrousel(props: { images: any }) {
                 <BiRightArrowAlt size="40px" />
               </IconButton>
               <Slider {...settings} ref={(slider) => setSlider(slider)}>
-                {props.images.map((e: any, index: any) => (
+                {props.images?.map((e: any, index: any) => (
                   <Box
                     key={index}
                     height={"auto"}
