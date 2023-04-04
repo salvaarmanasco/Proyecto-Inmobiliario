@@ -172,6 +172,7 @@ function Form2({ location }: { location: ItemDetailsProps }) {
     if (event.target.files && event.target.files.length > 0) {
       const fileList = Array.from(event.target.files);
       setFiles(fileList);
+      setProgress(100);
     }
   };
 
@@ -398,11 +399,10 @@ function Form2({ location }: { location: ItemDetailsProps }) {
               ))}
           </Box>
         ) : null}
-        <div>
+        <Box my={5}>
           <input type="file" onChange={handleFileChange} multiple />
-          {/* <progress value={progress} max="100" /> */}
-          {/* <button onClick={handleUpload}>Upload</button> */}
-        </div>
+          <progress value={progress} max="100" />
+        </Box>
         <Button
           type="submit"
           isLoading={isSubmitting}
