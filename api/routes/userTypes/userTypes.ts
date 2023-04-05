@@ -16,10 +16,10 @@ router.get("/", async (req: any, res: any) => {
 });
 
 router.post("/", async (req: any, res: any) => {
-  const { admin } = req.body;
+  const { type } = req.body;
   try {
     let result = await db.UserType.create({
-      admin: admin,
+      type: type,
     });
     return res.status(200).json(result);
   } catch (error) {

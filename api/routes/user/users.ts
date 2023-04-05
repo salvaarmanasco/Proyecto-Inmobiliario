@@ -18,7 +18,11 @@ router.get("/email", async (req: any, res: any) => {
 router.get("/:id", async (req: any, res: any) => {
   let { id } = req.params; // modificar a params, lo saco del body para probar
   try {
-    let result = await db.User.findByPk(id, {});
+    let result = await db.User.findByPk(id, {
+      include: {
+        model: db.UserType,
+      },
+    });
     return res.status(200).json(result);
   } catch (err) {
     console.log(err);
