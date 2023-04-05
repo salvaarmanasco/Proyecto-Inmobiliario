@@ -18,11 +18,7 @@ router.get("/email", async (req: any, res: any) => {
 router.get("/:id", async (req: any, res: any) => {
   let { id } = req.params; // modificar a params, lo saco del body para probar
   try {
-    let result = await db.User.findByPk(id, {
-      include: {
-        model: db.UserType,
-      },
-    });
+    let result = await db.User.findByPk(id);
     return res.status(200).json(result);
   } catch (err) {
     console.log(err);
@@ -32,11 +28,7 @@ router.get("/:id", async (req: any, res: any) => {
 
 router.get("/", async (req: any, res: any) => {
   try {
-    let result = await db.User.findAll({
-      include: {
-        model: db.UserType,
-      },
-    });
+    let result = await db.User.findAll();
     return res.status(200).json(result);
   } catch (error) {
     return res.status(404).send("Users not found");
@@ -59,7 +51,24 @@ router.post("/", async (req: any, res: any) => {
     return res.status(500).send("We could not create the user");
   }
 });
-
+router.put("/:id", async (req: any, res: any) => {
+  const { id } = req.params;
+  const { name, lastname, phone, photo, userType } = req.body;
+  try {
+    let result = await db.User.findByPk(id);
+    await result.update({
+      name,
+      lastname,
+      phone,
+      photo,
+      userType,
+    });
+    res.status(200).send("User modify");
+  } catch (error) {
+    console.log(error);
+    res.status(404).send("User not found");
+  }
+});
 router.delete("/:id", async (req: any, res: any) => {
   let { id } = req.params;
 
