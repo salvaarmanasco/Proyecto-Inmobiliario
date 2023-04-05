@@ -8,6 +8,7 @@ interface UserAttributes {
   phone: number;
   photo: string;
   wishList: string[];
+  deleted: boolean;
 }
 
 module.exports = (sequelize: any, DataTypes: any) => {
@@ -19,6 +20,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
     phone!: number;
     photo!: string;
     wishList!: string[];
+    deleted!: boolean;
     static associate(models: any) {
       User.belongsTo(models.UserType);
     }
@@ -51,6 +53,11 @@ module.exports = (sequelize: any, DataTypes: any) => {
       photo: {
         type: DataTypes.STRING,
         allowNull: true,
+      },
+      deleted: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
       },
       wishList: {
         type: DataTypes.TEXT,

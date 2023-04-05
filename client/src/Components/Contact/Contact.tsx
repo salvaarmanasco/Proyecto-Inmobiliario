@@ -52,10 +52,10 @@ const Contact = () => {
     };
     emailjs
       .send(
-        process.env.REACT_APP_EMAILJS_SERVICE_ID || "",
-        process.env.REACT_APP_EMAILJS_TEMPLATE_ID || "",
+        "service_xyto8bh" || "",
+        "template_i0zdc59" || "",
         templateParams,
-        process.env.REACT_APP_EMAILJS_USER_ID || ""
+        "nhM0DlwGbTJ7yikMd" || ""
       )
       .then(
         function (response) {

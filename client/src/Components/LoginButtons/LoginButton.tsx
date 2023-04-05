@@ -8,19 +8,31 @@ import { ThunkDispatch } from "redux-thunk";
 
 const LoginButton = () => {
   const dispatch: ThunkDispatch<RootState, undefined, any> = useDispatch();
-  const { loginWithRedirect, isAuthenticated, user } = useAuth0();
+  const { loginWithRedirect, isAuthenticated, user, logout } = useAuth0();
 
   useEffect(() => {
     if (user) {
       dispatch(fetchUsersEmail(user.email)).then((res) => {
         if (res.payload === null) {
-          dispatch(createUsuario({ name: user.name, email: user.email }));
+          dispatch(
+            createUsuario({
+              name: user.name,
+              email: user.email,
+              lastname: user.family_name,
+              photo: user.picture,
+            })
+          );
         } else {
-          console.log("The user is already exist");
+          if (res.payload.deleted === true) {
+            alert("Su usuario ah sido eliminado");
+            logout();
+          } else {
+            console.log("The user is already exist");
+          }
         }
       });
     }
-  }, [dispatch, user]);
+  }, [dispatch, logout, user]);
 
   return (
     <Box>

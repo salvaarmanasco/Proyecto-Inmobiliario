@@ -11,6 +11,7 @@ import CardDetails from "./Components/CardsDetail/CardDetails";
 import Form from "./Components/Form/Form";
 import Form2 from "./Components/Form2/Form2";
 import { UserPanel } from "./Components/UserPanel/UserPanel";
+import DashboardAdmin from "./Components/DashboardAdmin/DashboardAdmin";
 
 export const App = () => (
   <ChakraProvider theme={theme}>
@@ -23,7 +24,9 @@ export const App = () => (
       <Route exact path="/franchise" component={Franchise} />
       <Route exact path="/form" component={Form} />
       <Route exact path="/form2" component={Form2} />
+      <Route path="/profile/:id" component={UserPanel} />      
       <Route path="/profile" component={UserPanel} />
+      <Route path="/admin" component={DashboardAdmin} />
       <Route path="*" component={Page404} />
     </Switch>
     <Footer />
