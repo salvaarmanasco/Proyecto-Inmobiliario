@@ -18,7 +18,11 @@ import { BsArrowUpRight, BsHeartFill, BsHeart } from "react-icons/bs";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { fetchProperties } from "../../Redux/reducer/Properties";
-import { fetchUsersEmail, modifyWishList } from "../../Redux/reducer/Users";
+import {
+  deleteWishList,
+  fetchUsersEmail,
+  modifyWishList,
+} from "../../Redux/reducer/Users";
 import { RootState } from "../../Redux/store";
 import { ThunkDispatch } from "redux-thunk";
 import Property from "../../Interfaces/Property";
@@ -61,13 +65,13 @@ export default function Cards() {
   }, [dispatch, user]);
 
   const [liked, setLiked] = useState(false);
-  const [num] = useState<any>([0]);
 
   const handleFavourite = (id: any, usuario: any) => {
     const idUsuario = usuario.id;
     setLiked(!liked);
-    dispatch(modifyWishList({ userId: idUsuario, wishListId: id }));
-    num.includes(id) ? num.splice(num.indexOf(id), 1) : num.push(id);
+    usuario?.wishList?.includes(id)
+      ? dispatch(deleteWishList({ userId: idUsuario, wishListId: id }))
+      : dispatch(modifyWishList({ userId: idUsuario, wishListId: id }));
   };
 
   console.log(usuario.id);
@@ -162,7 +166,7 @@ export default function Cards() {
                   cursor="pointer"
                   onClick={() => handleFavourite(id, usuario)}
                 >
-                  {num.includes(id) ? (
+                  {usuario.wishList?.includes(id) ? (
                     <BsHeartFill fill="red" fontSize={"24px"} />
                   ) : (
                     <BsHeart fontSize={"24px"} />
