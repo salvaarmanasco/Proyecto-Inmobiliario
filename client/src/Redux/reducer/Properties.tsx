@@ -16,14 +16,18 @@ export const fetchProperties = createAsyncThunk(
   "properties/fetchProperties", // nombre de la acción
   async () => {
     const response = await axios.get("http://localhost:3001/properties");
-    return response.data;
+    return response.data.filter((p: Property) => p.deleted !== true);
   }
 );
 export const fetchPropertiesId = createAsyncThunk(
   "properties/fetchPropertiesId",
   async (id: any) => {
     const response = await axios.get(`http://localhost:3001/properties/${id}`);
-    return response.data;
+    if (response.data.deleted === true) {
+      return "The property was deleted";
+    } else {
+      return response.data;
+    }
   }
 );
 export const createProperty = createAsyncThunk(

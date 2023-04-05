@@ -1,5 +1,5 @@
 export default interface Property {
-  id: number;
+  id: string;
   name: string;
   antiquity: number;
   address: string;

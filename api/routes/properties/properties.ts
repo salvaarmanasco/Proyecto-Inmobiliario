@@ -138,4 +138,29 @@ router.post("/", async (req: any, res: any) => {
   }
 });
 
+router.delete("/:id", async (req: any, res: any) => {
+  let { id } = req.params;
+  try {
+    let result = await db.Property.findByPk(id);
+    if (result.deleted === true) {
+      throw new Error("Property not found");
+    } else {
+      await result.update(
+        {
+          deleted: true,
+        },
+        {
+          where: {
+            id: id,
+          },
+        }
+      );
+      res.status(201).send("Property deleted succesfully");
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(404).send("property not found");
+  }
+});
+
 export default router;
