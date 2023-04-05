@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { fetchUsersEmail, createUsuario } from "../../Redux/reducer/Users";
 import { RootState } from "../../Redux/store";
 import { ThunkDispatch } from "redux-thunk";
+import { Link } from "react-router-dom";
 
 const LoginButton = () => {
   const dispatch: ThunkDispatch<RootState, undefined, any> = useDispatch();
@@ -52,18 +53,20 @@ const LoginButton = () => {
           >
             Ingresar
           </Button>
-          <Button
-            display={{ base: "none", md: "inline-flex" }}
-            fontSize={"sm"}
-            fontWeight={600}
-            color={"white"}
-            bg={"red.500"}
-            _hover={{
-              bg: "red.300",
-            }}
-          >
-            Registrarse
-          </Button>
+          <Link to="/registrarse">
+            <Button
+              display={{ base: "none", md: "inline-flex" }}
+              fontSize={"sm"}
+              fontWeight={600}
+              color={"white"}
+              bg={"red.500"}
+              _hover={{
+                bg: "red.300",
+              }}
+            >
+              Registrarse
+            </Button>
+          </Link>
         </Stack>
       )}
     </Box>
