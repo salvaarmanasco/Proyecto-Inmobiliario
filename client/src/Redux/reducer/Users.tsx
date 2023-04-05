@@ -54,7 +54,7 @@ export const modifyWishList = createAsyncThunk(
   "users/modifyWishList",
   async (wishList: any) => {
     const response = await axios.put(
-      "http://localhost:3001/users/wishlist",
+      "http://localhost:3001/wishlist",
       wishList
     );
     return response.data;
@@ -64,10 +64,9 @@ export const modifyWishList = createAsyncThunk(
 export const deleteWishList = createAsyncThunk(
   "users/deleteWishList",
   async (wishListDelete: any) => {
-    const response = await axios.delete(
-      "http://localhost:3001/users/wishlist",
-      { data: wishListDelete }
-    );
+    const response = await axios.delete("http://localhost:3001/wishlist", {
+      data: wishListDelete,
+    });
     return response.data;
   }
 );

@@ -7,6 +7,7 @@ import servicesRouter from "./services/services";
 import categoryRouter from "./category/category";
 import gardenRouter from "./garden/garden";
 import imageRouter from "./image/image";
+import wishListRouter from "./wishlist/wishlist";
 
 import propertyConditionRouter from "./propertyCondition/propertyCondition";
 import propertyCountryRouter from "./propertyCountry/propertyCountry";
@@ -28,6 +29,7 @@ router.use("/country", countryRouter);
 router.use("/state", stateRouter);
 router.use("/category", categoryRouter);
 router.use("/image", imageRouter);
+router.use("/wishlist", wishListRouter);
 
 router.use("/propertycondition", propertyConditionRouter);
 router.use("/propertycountry", propertyCountryRouter);
