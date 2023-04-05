@@ -9,6 +9,7 @@ import {
   InputGroup,
   Stack,
   Textarea,
+  Text,
   useColorModeValue,
   VStack,
 } from "@chakra-ui/react";
@@ -79,18 +80,18 @@ const Contact = () => {
         m={{ base: 5, md: 16, lg: 10 }}
         p={{ base: 5, lg: 16 }}
       >
+        <Heading
+          fontSize={{
+            base: "4xl",
+            md: "5xl",
+          }}
+          color="white"
+          mb={4}
+        >
+          <Text textAlign="center">Contacto</Text>
+        </Heading>
         <Box>
           <VStack spacing={{ base: 4, md: 8, lg: 20 }}>
-            <Heading
-              fontSize={{
-                base: "4xl",
-                md: "5xl",
-              }}
-              color="white"
-            >
-              Contactanos!
-            </Heading>
-
             <form onSubmit={handleSubmit}>
               <Stack
                 spacing={{ base: 4, md: 8, lg: 20 }}

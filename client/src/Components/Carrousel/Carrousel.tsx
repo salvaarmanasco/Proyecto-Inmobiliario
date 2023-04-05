@@ -41,10 +41,8 @@ export default function Carrousel() {
 
   const cards = [
     {
-      title: "Poner a la VENTA",
-      text: "",
       image:
-        "https://img.freepik.com/free-photo/hand-presenting-model-house-home-loan-campaign_53876-104970.jpg?w=996&t=st=1675288152~exp=1675288752~hmac=12a77a6d5c5831dedfdc99d98e1a71e2fbf03902ec241bac8f7af503f8df6884",
+        "https://firebasestorage.googleapis.com/v0/b/urbe-7ccb5.appspot.com/o/Untitledfranquicia.png?alt=media&token=230fc6b2-5a20-4987-a429-35bb5503d59e",
       colorTitle: "black",
     },
     {
@@ -96,7 +94,6 @@ export default function Carrousel() {
         >
           <BiLeftArrowAlt size="40px" />
         </IconButton>
-        {/* Right Icon */}
         <IconButton
           aria-label="right-arrow"
           variant="ghost"
@@ -109,7 +106,6 @@ export default function Carrousel() {
         >
           <BiRightArrowAlt size="40px" />
         </IconButton>
-        {/* Slider */}
         <Slider {...settings} ref={(slider) => setSlider(slider)}>
           {cards.map((card, index) => (
             <Box
@@ -118,10 +114,9 @@ export default function Carrousel() {
               position="relative"
               backgroundPosition="center"
               backgroundRepeat="no-repeat"
-              backgroundSize="cover"
+              backgroundSize="contain"
               backgroundImage={`url(${card.image})`}
             >
-              {/* This is the block you need to change, to customize the caption */}
               <Container
                 size="container.lg"
                 height="600px"
@@ -135,7 +130,6 @@ export default function Carrousel() {
                   spacing={6}
                   w={"full"}
                   maxW={"lg"}
-                  top="50%"
                   transform="translate(0, -50%)"
                 >
                   <Heading
