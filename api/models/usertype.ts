@@ -3,7 +3,7 @@ import { Model } from "sequelize";
 
 interface UserTypeAttributes {
   id: number;
-  admin: boolean;
+  type: string;
 }
 
 module.exports = (sequelize: any, DataTypes: any) => {
@@ -17,7 +17,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
      * The `models/index` file will call this method automatically.
      */
     id!: number;
-    admin!: boolean;
+    type!: string;
     static associate(models: any) {
       UserType.belongsToMany(models.User, { through: "UserAssignments" });
     }
@@ -30,8 +30,8 @@ module.exports = (sequelize: any, DataTypes: any) => {
         primaryKey: true,
         autoIncrement: true,
       },
-      admin: {
-        type: DataTypes.BOOLEAN,
+      type: {
+        type: DataTypes.STRING,
         allowNull: false,
       },
     },
