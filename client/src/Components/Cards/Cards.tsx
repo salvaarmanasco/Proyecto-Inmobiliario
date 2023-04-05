@@ -1,3 +1,5 @@
+import { useAuth0 } from "@auth0/auth0-react";
+
 import { useState } from "react";
 import {
   Box,
@@ -16,13 +18,25 @@ import { BsArrowUpRight, BsHeartFill, BsHeart } from "react-icons/bs";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { fetchProperties } from "../../Redux/reducer/Properties";
+import { fetchUsersEmail, modifyWishList } from "../../Redux/reducer/Users";
 import { RootState } from "../../Redux/store";
 import { ThunkDispatch } from "redux-thunk";
 import Property from "../../Interfaces/Property";
+import Users from "../../Interfaces/Users";
 
 export default function Cards() {
   const dispatch: ThunkDispatch<RootState, undefined, any> = useDispatch();
   const [fourProperties, setFourProperties] = useState<Property[]>([]);
+  const [usuario, setUsuario] = useState<Users>({
+    id: "",
+    name: "",
+    lastname: "",
+    email: "",
+    phone: 0,
+    photo: "",
+    wishList: [],
+  });
+  const { isAuthenticated, user } = useAuth0();
 
   useEffect(() => {
     dispatch(fetchProperties())
@@ -38,13 +52,25 @@ export default function Cards() {
       });
   }, [dispatch]);
 
+  useEffect(() => {
+    if (user) {
+      dispatch(fetchUsersEmail(user.email)).then((action) => {
+        if (action.payload) setUsuario(action.payload);
+      });
+    }
+  }, [dispatch, user]);
+
   const [liked, setLiked] = useState(false);
   const [num] = useState<any>([0]);
 
-  const handleFavourite = (id: any) => {
+  const handleFavourite = (id: any, usuario: any) => {
+    const idUsuario = usuario.id;
     setLiked(!liked);
+    dispatch(modifyWishList({ userId: idUsuario, wishListId: id }));
     num.includes(id) ? num.splice(num.indexOf(id), 1) : num.push(id);
   };
+
+  console.log(usuario.id);
 
   return (
     <Center py={6}>
@@ -134,7 +160,7 @@ export default function Cards() {
                   roundedBottom={"sm"}
                   borderLeft={"1px"}
                   cursor="pointer"
-                  onClick={() => handleFavourite(id)}
+                  onClick={() => handleFavourite(id, usuario)}
                 >
                   {num.includes(id) ? (
                     <BsHeartFill fill="red" fontSize={"24px"} />

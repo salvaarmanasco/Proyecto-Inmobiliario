@@ -17,9 +17,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchProperties } from "../../Redux/reducer/Properties";
 import { RootState } from "../../Redux/store";
 import { ThunkDispatch } from "redux-thunk";
+import { useColorModeValue } from "@chakra-ui/react";
+const lightColor = "transparent";
+const darkColor = "red.500";
 
 // ---------------------------------------FetchProperties-------------------------------------------------------
 const PropertiesPage = () => {
+  const textColor = useColorModeValue("black", "white");
   const dispatch: ThunkDispatch<RootState, undefined, any> = useDispatch();
   const allProperties = useSelector(
     (state: RootState) => state.properties.propertiesFilter
@@ -55,10 +59,6 @@ const PropertiesPage = () => {
     currentPage - 3 >= 0 ? currentPage - 3 : 0,
     currentPage + 2
   );
-
-  console.log(pages);
-  console.log(currentPage);
-  console.log(pagesBreakout);
   // -----------------------------------------------------------------------------------------------------------
   return (
     <Box minH="100vh">
@@ -195,7 +195,7 @@ const PropertiesPage = () => {
             color: "#101010",
           }}
         >
-          First
+          <Text color={textColor}>First</Text>
         </Button>
         {pages.length <= 5
           ? pages?.map((page, index) => {
@@ -213,7 +213,6 @@ const PropertiesPage = () => {
                   borderRadius={6}
                   cursor="pointer"
                   transition="all 0.3s ease"
-                  // background="transparent"
                   color="#eee"
                   borderColor="#eee"
                   _active={{
@@ -223,7 +222,7 @@ const PropertiesPage = () => {
                     color: "#101010",
                   }}
                 >
-                  {page}
+                  <Text color={textColor}>{page}</Text>
                 </Button>
               );
             })
@@ -252,7 +251,7 @@ const PropertiesPage = () => {
                     color: "#101010",
                   }}
                 >
-                  {page}
+                  <Text color={textColor}>{page}</Text>
                 </Button>
               );
             })}
@@ -278,7 +277,7 @@ const PropertiesPage = () => {
           }}
           disabled={currentPage === pages.length}
         >
-          Last
+          <Text color={textColor}>Last</Text>
         </Button>
       </Flex>
     </Box>
