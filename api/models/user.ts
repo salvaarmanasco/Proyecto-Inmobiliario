@@ -9,6 +9,7 @@ interface UserAttributes {
   photo: string;
   wishList: string[];
   deleted: boolean;
+  userType: number;
 }
 
 module.exports = (sequelize: any, DataTypes: any) => {
@@ -21,9 +22,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
     photo!: string;
     wishList!: string[];
     deleted!: boolean;
-    static associate(models: any) {
-      User.belongsTo(models.UserType);
-    }
+    userType!: number;
   }
   User.init(
     {
@@ -58,6 +57,11 @@ module.exports = (sequelize: any, DataTypes: any) => {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false,
+      },
+      userType: {
+        type: DataTypes.INTEGER,
+        defaultValue: 3,
+        allowNull: false,
       },
       wishList: {
         type: DataTypes.TEXT,
