@@ -13,7 +13,7 @@ const LandingPage = () => {
       <Cards />
       <SearchBar />
       <Carrousel />
-      <Newsletter />
+      {/* <Newsletter /> */}
       <JoinTeam />
       <Counter />
     </>
