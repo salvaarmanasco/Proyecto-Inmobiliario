@@ -48,7 +48,7 @@ function ModalUsers({ id, name }: { id: string; name: string }) {
   return (
     <>
       <Button ref={btnRef} onClick={onOpen} colorScheme="red">
-        Ver propiedades del usuario
+        Ver propiedades
       </Button>
 
       <Modal
@@ -60,7 +60,7 @@ function ModalUsers({ id, name }: { id: string; name: string }) {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Modal Title</ModalHeader>
+          <ModalHeader>Propiedades del usuario</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Text fontSize="2xl">{name}</Text>
