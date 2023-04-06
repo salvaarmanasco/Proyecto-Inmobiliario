@@ -18,6 +18,13 @@ import { fetchProperties } from "../../Redux/reducer/Properties";
 import { RootState } from "../../Redux/store";
 import { ThunkDispatch } from "redux-thunk";
 import { useColorModeValue } from "@chakra-ui/react";
+import Users from "../../Interfaces/Users";
+import { useAuth0 } from "@auth0/auth0-react";
+import {
+  deleteWishList,
+  fetchUsersEmail,
+  modifyWishList,
+} from "../../Redux/reducer/Users";
 const lightColor = "transparent";
 const darkColor = "red.500";
 
@@ -28,18 +35,37 @@ const PropertiesPage = () => {
   const allProperties = useSelector(
     (state: RootState) => state.properties.propertiesFilter
   );
+  const [usuario, setUsuario] = useState<Users>({
+    id: "",
+    name: "",
+    lastname: "",
+    email: "",
+    phone: 0,
+    photo: "",
+    wishList: [],
+  });
+  const { user } = useAuth0();
 
   useEffect(() => {
     dispatch(fetchProperties());
   }, [dispatch]);
 
+  useEffect(() => {
+    if (user) {
+      dispatch(fetchUsersEmail(user.email)).then((action) => {
+        if (action.payload) setUsuario(action.payload);
+      });
+    }
+  }, [dispatch, user, usuario]);
+
   //  ---------------------------------------Favourties--------------------------------------------------------
-  const [liked, setLiked] = useState(false);
   const [num] = useState<any>([0]);
 
-  const handleFavourite = (id: any) => {
-    setLiked(!liked);
-    num.includes(id) ? num.splice(num.indexOf(id), 1) : num.push(id);
+  const handleFavourite = (id: any, usuario: any) => {
+    const idUsuario = usuario.id;
+    usuario?.wishList?.includes(id)
+      ? dispatch(deleteWishList({ userId: idUsuario, wishListId: id }))
+      : dispatch(modifyWishList({ userId: idUsuario, wishListId: id }));
   };
 
   // -----------------------------------------------------------------------------------------------------------
@@ -150,9 +176,9 @@ const PropertiesPage = () => {
                       roundedBottom={"sm"}
                       borderLeft={"1px"}
                       cursor="pointer"
-                      onClick={() => handleFavourite(id)}
+                      onClick={() => handleFavourite(id, usuario)}
                     >
-                      {num.includes(id) ? (
+                      {usuario.wishList?.includes(id) ? (
                         <BsHeartFill fill="red" fontSize={"24px"} />
                       ) : (
                         <BsHeart fontSize={"24px"} />

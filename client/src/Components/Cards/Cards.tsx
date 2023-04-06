@@ -1,6 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Box,
   Heading,
@@ -14,9 +14,7 @@ import {
   GridItem,
 } from "@chakra-ui/react";
 import { BsArrowUpRight, BsHeartFill, BsHeart } from "react-icons/bs";
-
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchProperties } from "../../Redux/reducer/Properties";
 import {
   deleteWishList,
@@ -40,7 +38,14 @@ export default function Cards() {
     photo: "",
     wishList: [],
   });
-  const { isAuthenticated, user } = useAuth0();
+  const { user } = useAuth0();
+
+  /*   const userss: Users[] = useSelector(
+    (state: RootState) => state.users.usersDetail
+  );
+  if (userss) {
+    console.log(userss);
+  } */
 
   useEffect(() => {
     dispatch(fetchProperties())
@@ -62,19 +67,14 @@ export default function Cards() {
         if (action.payload) setUsuario(action.payload);
       });
     }
-  }, [dispatch, user]);
-
-  const [liked, setLiked] = useState(false);
+  }, [dispatch, user, usuario]);
 
   const handleFavourite = (id: any, usuario: any) => {
     const idUsuario = usuario.id;
-    setLiked(!liked);
     usuario?.wishList?.includes(id)
       ? dispatch(deleteWishList({ userId: idUsuario, wishListId: id }))
       : dispatch(modifyWishList({ userId: idUsuario, wishListId: id }));
   };
-
-  console.log(usuario.id);
 
   return (
     <Center py={6}>

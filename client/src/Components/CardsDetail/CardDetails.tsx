@@ -30,6 +30,13 @@ import { ThunkDispatch } from "redux-thunk";
 
 import { RouteComponentProps } from "react-router-dom";
 import CardDetailCarrousel from "../CardDetailCarrousel/CardDetailCarrousel";
+import Users from "../../Interfaces/Users";
+import { useAuth0 } from "@auth0/auth0-react";
+import {
+  deleteWishList,
+  fetchUsersEmail,
+  modifyWishList,
+} from "../../Redux/reducer/Users";
 
 interface MatchParams {
   id: string;
@@ -39,7 +46,51 @@ export default function CardDetails({
   match,
 }: RouteComponentProps<MatchParams>) {
   const dispatch: ThunkDispatch<RootState, undefined, any> = useDispatch();
-  const [detailProp, setDetailProp] = useState<Property | null>(null);
+  const [detailProp, setDetailProp] = useState<Property>({
+    id: "",
+    name: "",
+    antiquity: 0,
+    address: "",
+    title: "",
+    bedrooms: 0,
+    bathrooms: 0,
+    environments: 0,
+    pool: false,
+    elevator: false,
+    floor_th: 0,
+    orientation: "",
+    m2_totals: 0,
+    m2_covered: 0,
+    garage: false,
+    amenities: false,
+    description: "",
+    furnished: false,
+    balcony: false,
+    sign: false,
+    lat: 0,
+    long: 0,
+    price: 0,
+    zone: "",
+    deleted: false,
+    firstImage: "",
+    Conditions: [],
+    Categories: [],
+    States: [],
+    Countries: [],
+    Gardens: [],
+    Services: [],
+    Images: [],
+  });
+  const [usuario, setUsuario] = useState<Users>({
+    id: "",
+    name: "",
+    lastname: "",
+    email: "",
+    phone: 0,
+    photo: "",
+    wishList: [],
+  });
+  const { user } = useAuth0();
 
   useEffect(() => {
     const { id } = match.params;
@@ -53,6 +104,21 @@ export default function CardDetails({
         console.log("Error fetching properties:", error);
       });
   }, [dispatch]);
+
+  useEffect(() => {
+    if (user) {
+      dispatch(fetchUsersEmail(user.email)).then((action) => {
+        if (action.payload) setUsuario(action.payload);
+      });
+    }
+  }, [dispatch, user, usuario]);
+
+  const handleFavourite = (id: any, usuario: any) => {
+    const idUsuario = usuario.id;
+    usuario?.wishList?.includes(id)
+      ? dispatch(deleteWishList({ userId: idUsuario, wishListId: id }))
+      : dispatch(modifyWishList({ userId: idUsuario, wishListId: id }));
+  };
 
   console.log(detailProp);
   const gardenCount = detailProp?.Gardens?.length;
@@ -336,9 +402,14 @@ export default function CardDetails({
                   transform: "translateY(2px)",
                   boxShadow: "lg",
                 }}
+                onClick={() => handleFavourite(detailProp.id, usuario)}
               >
                 <Text mr={1}>Agregar a favoritos</Text>
-                <AiFillHeart />
+                {usuario.wishList?.includes(detailProp.id) ? (
+                  <AiFillHeart fill="red" fontSize={"24px"} />
+                ) : (
+                  <AiFillHeart fontSize={"24px"} />
+                )}
               </Button>
             </Stack>
             <Maps lat={detailProp.lat} long={detailProp.long} />
