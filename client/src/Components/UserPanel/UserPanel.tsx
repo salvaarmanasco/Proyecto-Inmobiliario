@@ -72,7 +72,7 @@ export const UserPanel = ({ match }: RouteComponentProps<MatchParams>) => {
   // eslint-disable-next-line array-callback-return
   Properties?.map((p: any) => {
     // eslint-disable-next-line array-callback-return
-    usuario?.wishList.map((w) => {
+    usuario?.wishList?.map((w) => {
       if (p.id === w) favorites.push(p);
     });
   });
