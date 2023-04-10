@@ -4,7 +4,7 @@ import Users from "../../Interfaces/Users";
 
 export interface UsersState {
   users: Users[];
-  usersDetail: Users[];
+  usersDetail: Users;
   loading: boolean;
   error: string | null;
 }
@@ -49,6 +49,18 @@ export const createUsuario = createAsyncThunk(
   }
 );
 
+// MODIFICA UN USUARIO
+export const modifyUser = createAsyncThunk(
+  "users/",
+  async (modifyUser: any) => {
+    const response = await axios.put(
+      `http://localhost:3001/users/`,
+      modifyUser
+    );
+    return response.data;
+  }
+);
+
 // MODIFICA LA WISHLIST
 export const modifyWishList = createAsyncThunk(
   "users/modifyWishList",
@@ -60,6 +72,7 @@ export const modifyWishList = createAsyncThunk(
     return response.data;
   }
 );
+// BORRA ELEMENTO DE WISHLIST
 
 export const deleteWishList = createAsyncThunk(
   "users/deleteWishList",
@@ -71,29 +84,16 @@ export const deleteWishList = createAsyncThunk(
   }
 );
 
-/* export const deleteWishList = createAsyncThunk(
-  "users/deleteWishList",
-  async ({ userId, wishListId }: { userId: string; wishListId: string }) => {
-    const response = await axios.delete(
-      `http://localhost:3001/users/wishlist`,
-      {
-        data: { wishListId },
-      }
-    );
-    return response.data;
-  }
-); */
-
 // defino los slice del redux que manejaran el estado de los usuarios
 // NO ME CONVENCEN LAS DE LA WISHLIST
 const usersSlice = createSlice({
   name: "users",
   initialState: {
     users: [],
-    usersDetail: [],
+    usersDetail: {},
     loading: false,
     error: null,
-  } as UsersState,
+  } as unknown as UsersState,
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchUsers.fulfilled, (state, action) => {

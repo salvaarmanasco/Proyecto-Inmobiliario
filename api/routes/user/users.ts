@@ -51,9 +51,9 @@ router.post("/", async (req: any, res: any) => {
     return res.status(500).send("We could not create the user");
   }
 });
-router.put("/:id", async (req: any, res: any) => {
-  const { id } = req.params;
-  const { name, lastname, phone, photo, userType } = req.body;
+router.put("/", async (req: any, res: any) => {
+  // const { id } = req.params;
+  const { id, name, lastname, phone, photo, userType } = req.body;
   try {
     let result = await db.User.findByPk(id);
     await result.update({
