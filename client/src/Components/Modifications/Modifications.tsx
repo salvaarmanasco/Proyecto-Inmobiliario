@@ -1,8 +1,12 @@
-import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { ThunkDispatch } from "redux-thunk";
-import { createProperty } from "../../Redux/reducer/Properties";
 import { RootState } from "../../Redux/store";
+import { ThunkDispatch } from "redux-thunk";
+import { fetchPropertiesId } from "../../Redux/reducer/Properties";
+import MatchParams from "../../Interfaces/MatchParams";
+import { RouteComponentProps } from "react-router-dom";
+
+import React, { useEffect, useState } from "react";
+import { createProperty } from "../../Redux/reducer/Properties";
 import {
   SimpleGrid,
   FormControl,
@@ -19,16 +23,11 @@ import {
   Image,
 } from "@chakra-ui/react";
 
-import FormData2 from "../../Interfaces/FormData";
-import { useHistory } from "react-router-dom";
-
 // -----------------------------------------------GOOGLE MAPS-------------------------------------------------
 import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
 
-import { MapProps } from "../../Interfaces/Marker&&MapProps";
 import { MarkerProps } from "../../Interfaces/Marker&&MapProps";
-
-// ------------------------------------------------------------------------------------------------------------
+import FormData2 from "../../Interfaces/FormData";
 
 const initialFormData: FormData2 = {
   title: "",
@@ -56,12 +55,10 @@ const initialFormData: FormData2 = {
   zone: "",
 };
 
-export default function Form(props: MapProps) {
-  const [formData, setFormData] = useState<FormData2>(initialFormData);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const dispatch: ThunkDispatch<RootState, undefined, any> = useDispatch();
-  const history = useHistory();
+// ------------------------------------------------------------------------------------------------------------
 
+const Modifications = ({ match }: RouteComponentProps<MatchParams>) => {
+  const [formData, setFormData] = useState<FormData2>(initialFormData);
   const {
     title,
     antiquity,
@@ -88,21 +85,55 @@ export default function Form(props: MapProps) {
     zone,
   } = formData;
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const dispatch: ThunkDispatch<RootState, undefined, any> = useDispatch();
+
+  useEffect(() => {
+    const { id } = match.params;
+    dispatch(fetchPropertiesId(id))
+      .then((action) => {
+        if (action.payload) {
+          setFormData({
+            antiquity: action.payload.antiquity,
+            address: action.payload.adress,
+            title: action.payload.title,
+            bedrooms: action.payload.bedrooms,
+            bathrooms: action.payload.bathrooms,
+            environments: action.payload.environments,
+            pool: action.payload.pool,
+            elevator: action.payload.elevator,
+            floor_th: action.payload.floor_th,
+            orientation: action.payload.orientation,
+            m2_covered: action.payload.m2_covered,
+            m2_totals: action.payload.m2_totals,
+            garage: action.payload.garage,
+            amenities: action.payload.amenities,
+            description: action.payload.description,
+            furnished: action.payload.furnished,
+            balcony: action.payload.balcony,
+            sign: action.payload.sign,
+            lat: action.payload.lat,
+            long: action.payload.long,
+            price: action.payload.price,
+            zone: action.payload.zone,
+            firstImage: action.payload.firstImage,
+          });
+        }
+      })
+      .catch((error) => {
+        console.log("Error fetching properties:", error);
+      });
+  }, [dispatch, match.params]);
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsSubmitting(true);
-
     try {
       const response = await dispatch(createProperty(formData));
       const createdProperty = response.payload;
       setIsSubmitting(false);
       console.log(formData);
       console.log("Property created:", createdProperty);
-      setFormData(initialFormData);
-      history.push({
-        pathname: "/form2",
-        state: { itemProp: createdProperty },
-      });
     } catch (error) {
       console.log("Error creating properties:", error);
       setIsSubmitting(false);
@@ -118,10 +149,12 @@ export default function Form(props: MapProps) {
       event.target.type === "checkbox"
         ? event.target.checked
         : value;
-    setFormData({
-      ...formData,
-      [name]: newValue,
-    });
+    formData
+      ? setFormData({
+          ...formData,
+          [name]: newValue,
+        })
+      : console.log("nO hay que modificar");
   };
 
   const [marker, setMarker] = useState<MarkerProps | null>(null);
@@ -144,8 +177,8 @@ export default function Form(props: MapProps) {
     });
     setFormData({
       ...formData,
-      lat: marker?.position?.lat,
-      long: marker?.position?.lng,
+      lat: marker?.position.lat,
+      long: marker?.position.lng,
     });
     console.log(marker?.position);
   };
@@ -155,7 +188,7 @@ export default function Form(props: MapProps) {
 
   useEffect(() => {
     console.log("cambio imagen");
-  }, [formData.firstImage]);
+  }, [formData?.firstImage]);
 
   const handleImageUpload = async (
     event: React.ChangeEvent<HTMLInputElement>
@@ -229,7 +262,7 @@ export default function Form(props: MapProps) {
               <Input
                 type="text"
                 name="zone"
-                value={zone}
+                value={formData?.zone}
                 onChange={handleInputChange}
               />
             </FormControl>
@@ -430,4 +463,6 @@ export default function Form(props: MapProps) {
       </form>
     </Center>
   );
-}
+};
+
+export default Modifications;

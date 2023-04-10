@@ -31,9 +31,7 @@ import { ThunkDispatch } from "redux-thunk";
 import { RouteComponentProps } from "react-router-dom";
 import CardDetailCarrousel from "../CardDetailCarrousel/CardDetailCarrousel";
 
-interface MatchParams {
-  id: string;
-}
+import MatchParams from "../../Interfaces/MatchParams";
 
 export default function CardDetails({
   match,
@@ -54,7 +52,6 @@ export default function CardDetails({
       });
   }, [dispatch]);
 
-  console.log(detailProp);
   const gardenCount = detailProp?.Gardens?.length;
   const imagesCarrousel = detailProp?.Images;
 

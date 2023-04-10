@@ -182,88 +182,141 @@ function Form2({ location }: { location: ItemDetailsProps }) {
     event.preventDefault();
     setIsSubmitting(true);
 
-    if (files.length < 1) return;
+    if (files.length >= 1) {
+      try {
+        const imageIds: number[] = [];
+        for (let i = 0; i < files.length; i++) {
+          const file = files[i];
+          const storageRef = ref(storage, file.name);
+          const uploadTask = uploadBytesResumable(storageRef, file);
 
-    try {
-      const imageIds: number[] = [];
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        const storageRef = ref(storage, file.name);
-        const uploadTask = uploadBytesResumable(storageRef, file);
+          uploadTask.on("state_changed", (snapshot) => {
+            const percentage =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            setProgress(percentage);
+          });
 
-        uploadTask.on("state_changed", (snapshot) => {
-          const percentage =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          setProgress(percentage);
-        });
+          await uploadTask;
+          const downloadURL = await getDownloadURL(storageRef);
+          console.log(`File uploaded successfully: ${downloadURL}`);
 
-        await uploadTask;
-        const downloadURL = await getDownloadURL(storageRef);
-        console.log(`File uploaded successfully: ${downloadURL}`);
+          const newImage = {
+            image_url: downloadURL.toString(),
+            image_description: "hola",
+          };
+          const action = await dispatch(createImage(newImage));
+          const response = action.payload;
+          imageIds.push(response.id);
+        }
 
-        const newImage = {
-          image_url: downloadURL.toString(),
-          image_description: "hola",
-        };
-        const action = await dispatch(createImage(newImage));
-        const response = action.payload;
-        imageIds.push(response.id);
-      }
-
-      const propertyImages = imageIds.map((id) => ({
-        PropertyId: itemProp2.toString(),
-        ImageId: id,
-      }));
-
-      const propertyCondition = {
-        PropertyId: itemProp2.toString(),
-        ConditionId: Number(conditionSelected),
-      };
-      const propertyCountry = {
-        PropertyId: itemProp2.toString(),
-        CountryId: Number(countrySelected),
-      };
-      const propertyState = {
-        PropertyId: itemProp2.toString(),
-        StateId: Number(stateSelected),
-      };
-      const propertyGardens = Array.from(gardenSelected).map((gardenId) => ({
-        PropertyId: itemProp2.toString(),
-        GardenId: gardenId,
-      }));
-      const propertyServices = Array.from(servicesSelected).map(
-        (serviceId) => ({
+        const propertyImages = imageIds.map((id) => ({
           PropertyId: itemProp2.toString(),
-          ServiceId: serviceId,
-        })
-      );
-      const propertyCategory = {
-        PropertyId: itemProp2.toString(),
-        CategoryId: Number(categorySelected),
-      };
+          ImageId: id,
+        }));
 
-      await Promise.all(
-        propertyGardens.map((garden) => dispatch(createPropertyGarden(garden)))
-      );
-      await Promise.all(
-        propertyServices.map((service) =>
-          dispatch(createPropertyServices(service))
-        )
-      );
-      await Promise.all(
-        propertyImages.map((img) => dispatch(createPropertyImage(img)))
-      );
-      await dispatch(createPropertyCondition(propertyCondition));
-      await dispatch(createPropertyCategory(propertyCategory));
-      await dispatch(createPropertyState(propertyState));
-      await dispatch(createPropertyCountry(propertyCountry));
-      setIsSubmitting(false);
-      history.push({
-        pathname: "/",
-      });
-    } catch (error) {
-      console.log("Error creating properties:", error);
-      setIsSubmitting(false);
+        const propertyCondition = {
+          PropertyId: itemProp2.toString(),
+          ConditionId: Number(conditionSelected),
+        };
+        const propertyCountry = {
+          PropertyId: itemProp2.toString(),
+          CountryId: Number(countrySelected),
+        };
+        const propertyState = {
+          PropertyId: itemProp2.toString(),
+          StateId: Number(stateSelected),
+        };
+        const propertyGardens = Array.from(gardenSelected).map((gardenId) => ({
+          PropertyId: itemProp2.toString(),
+          GardenId: gardenId,
+        }));
+        const propertyServices = Array.from(servicesSelected).map(
+          (serviceId) => ({
+            PropertyId: itemProp2.toString(),
+            ServiceId: serviceId,
+          })
+        );
+        const propertyCategory = {
+          PropertyId: itemProp2.toString(),
+          CategoryId: Number(categorySelected),
+        };
+
+        await Promise.all(
+          propertyGardens.map((garden) =>
+            dispatch(createPropertyGarden(garden))
+          )
+        );
+        await Promise.all(
+          propertyServices.map((service) =>
+            dispatch(createPropertyServices(service))
+          )
+        );
+        await Promise.all(
+          propertyImages.map((img) => dispatch(createPropertyImage(img)))
+        );
+        await dispatch(createPropertyCondition(propertyCondition));
+        await dispatch(createPropertyCategory(propertyCategory));
+        await dispatch(createPropertyState(propertyState));
+        await dispatch(createPropertyCountry(propertyCountry));
+        setIsSubmitting(false);
+        history.push({
+          pathname: "/",
+        });
+      } catch (error) {
+        console.log("Error creating properties:", error);
+        setIsSubmitting(false);
+      }
+    } else {
+      try {
+        const propertyCondition = {
+          PropertyId: itemProp2.toString(),
+          ConditionId: Number(conditionSelected),
+        };
+        const propertyCountry = {
+          PropertyId: itemProp2.toString(),
+          CountryId: Number(countrySelected),
+        };
+        const propertyState = {
+          PropertyId: itemProp2.toString(),
+          StateId: Number(stateSelected),
+        };
+        const propertyGardens = Array.from(gardenSelected).map((gardenId) => ({
+          PropertyId: itemProp2.toString(),
+          GardenId: gardenId,
+        }));
+        const propertyServices = Array.from(servicesSelected).map(
+          (serviceId) => ({
+            PropertyId: itemProp2.toString(),
+            ServiceId: serviceId,
+          })
+        );
+        const propertyCategory = {
+          PropertyId: itemProp2.toString(),
+          CategoryId: Number(categorySelected),
+        };
+
+        await Promise.all(
+          propertyGardens.map((garden) =>
+            dispatch(createPropertyGarden(garden))
+          )
+        );
+        await Promise.all(
+          propertyServices.map((service) =>
+            dispatch(createPropertyServices(service))
+          )
+        );
+        await dispatch(createPropertyCondition(propertyCondition));
+        await dispatch(createPropertyCategory(propertyCategory));
+        await dispatch(createPropertyState(propertyState));
+        await dispatch(createPropertyCountry(propertyCountry));
+        setIsSubmitting(false);
+        history.push({
+          pathname: "/",
+        });
+      } catch (error) {
+        console.log("Error creating properties:", error);
+        setIsSubmitting(false);
+      }
     }
   };
 
