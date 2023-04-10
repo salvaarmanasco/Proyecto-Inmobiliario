@@ -40,12 +40,9 @@ export default function Cards() {
   });
   const { user } = useAuth0();
 
-  /*   const userss: Users[] = useSelector(
+  /* const usuario2: Users = useSelector(
     (state: RootState) => state.users.usersDetail
-  );
-  if (userss) {
-    console.log(userss);
-  } */
+  ); */
 
   useEffect(() => {
     dispatch(fetchProperties())
