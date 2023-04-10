@@ -10,7 +10,7 @@ import PropertiesPage from "./Components/PropertiesPage/PropertiesPage";
 import CardDetails from "./Components/CardsDetail/CardDetails";
 import Form from "./Components/Form/Form";
 import Form2 from "./Components/Form2/Form2";
-import { UserPanel } from "./Components/UserPanel/UserPanel";
+import UserPanel from "./Components/UserPanel/UserPanel";
 import DashboardAdmin from "./Components/DashboardAdmin/DashboardAdmin";
 import Registrarse from "./Components/Registrarse/Registrarse";
 
