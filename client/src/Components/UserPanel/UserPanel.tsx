@@ -39,7 +39,7 @@ interface UserChanges {
   userType: number;
 }
 
-export const UserPanel = ({ match }: RouteComponentProps<MatchParams>) => {
+const UserPanel = ({ match }: RouteComponentProps<MatchParams>) => {
   const [showWishlist, setShowWishlist] = useState(false);
 
   const dispatch: ThunkDispatch<RootState, undefined, any> = useDispatch();
@@ -375,3 +375,5 @@ export const UserPanel = ({ match }: RouteComponentProps<MatchParams>) => {
     </>
   );
 };
+
+export default UserPanel;

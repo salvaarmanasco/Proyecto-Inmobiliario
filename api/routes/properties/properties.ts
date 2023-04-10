@@ -138,6 +138,69 @@ router.post("/", async (req: any, res: any) => {
   }
 });
 
+router.put("/:id", async (req: any, res: any) => {
+  const { id } = req.params;
+  const {
+    antiquity,
+    title,
+    address,
+    bedrooms,
+    bathrooms,
+    environments,
+    pool,
+    elevator,
+    floor_th,
+    orientation,
+    m2_totals,
+    m2_covered,
+    garage,
+    amenities,
+    description,
+    furnished,
+    balcony,
+    sign,
+    deleted,
+    lat,
+    long,
+    price,
+    zone,
+    firstImage,
+  } = req.body;
+  try {
+    let result = await db.Property.findByPk(id);
+    await result.update({
+      antiquity,
+      title,
+      address,
+      bedrooms,
+      bathrooms,
+      environments,
+      pool,
+      elevator,
+      floor_th,
+      orientation,
+      m2_totals,
+      m2_covered,
+      garage,
+      amenities,
+      description,
+      furnished,
+      balcony,
+      sign,
+      deleted,
+      lat,
+      long,
+      price,
+      zone,
+      firstImage,
+    });
+    res.status(201).send("Property modify");
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("internal server error");
+  }
+});
+
 router.delete("/:id", async (req: any, res: any) => {
   let { id } = req.params;
   try {
