@@ -16,7 +16,7 @@ import { useDispatch } from "react-redux";
 import { fetchUsersEmail, modifyUser } from "../../Redux/reducer/Users";
 import { RootState } from "../../Redux/store";
 import { ThunkDispatch } from "redux-thunk";
-import { Link, RouteComponentProps } from "react-router-dom";
+import { Link, RouteComponentProps, useHistory } from "react-router-dom";
 
 import Users from "../../Interfaces/Users";
 import Property from "../../Interfaces/Property";
@@ -25,6 +25,13 @@ import { fetchProperties } from "../../Redux/reducer/Properties";
 import { BsArrowUpRight } from "react-icons/bs";
 import { useAuth0 } from "@auth0/auth0-react";
 import Swal from "sweetalert2";
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from "@firebase/storage";
+import { initializeApp } from "firebase/app";
 
 interface MatchParams {
   id: string;
@@ -39,7 +46,20 @@ interface UserChanges {
   userType: number;
 }
 
-const UserPanel = ({ match }: RouteComponentProps<MatchParams>) => {
+
+const firebaseConfig = {
+  apiKey: "AIzaSyD-vnKOH8h79lYgBVn_TYDNfuB9OZCd2Zs",
+  authDomain: "urbe-7ccb5.firebaseapp.com",
+  projectId: "urbe-7ccb5",
+  storageBucket: "urbe-7ccb5.appspot.com",
+  messagingSenderId: "15986602173",
+  appId: "1:15986602173:web:c8a0e2647eef122c7fc7d4",
+};
+
+const app = initializeApp(firebaseConfig);
+const storage = getStorage(app);
+
+export const UserPanel = ({ match }: RouteComponentProps<MatchParams>) => {
   const [showWishlist, setShowWishlist] = useState(false);
 
   const dispatch: ThunkDispatch<RootState, undefined, any> = useDispatch();
@@ -67,32 +87,35 @@ const UserPanel = ({ match }: RouteComponentProps<MatchParams>) => {
     userType: 3,
   });
 
+  const history = useHistory();
+
+  // -------------------------------------------FIREBASE--------------------------------------------------------
+  const [files, setFiles] = useState<File | null>(null);
+  const [progress, setProgress] = useState(0);
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files.length > 0) {
+      const file = event.target.files[0];
+      setFiles(file);
+      setProgress(100);
+    }
+  };
+
+  // ----------------------------------------------------------------------------------------------------------
+
   const handleEdit = () => {
     setEditing(true);
   };
 
   const handleChange = (event: { target: { name: any; value: any } }) => {
-    setChanges({ ...changes, [event.target.name]: event.target.value });
+    setChanges({
+      ...changes,
+      [event.target.name]:
+        event.target.name === "phone"
+          ? parseInt(event.target.value)
+          : event.target.value,
+    });
   };
-
-  /*   Swal.fire({
-    text: "Estas seguro que deseas crear este Usuario?",
-    width: "30%",
-    padding: "10px",
-    allowEnterKey: true,
-    allowEscapeKey: true,
-    icon: "question",
-    background: "black",
-    showCancelButton: true,
-    confirmButtonColor: "#00711a",
-    cancelButtonColor: "#b50707",
-    confirmButtonText: "Si, crealo!",
-  }).then((response) => {
-    if (response.isConfirmed) {
-      dispatch(createUsuario(user));
-      history.push("/");
-    }
-  }); */
 
   async function handleSave(changes: any) {
     try {
@@ -109,14 +132,49 @@ const UserPanel = ({ match }: RouteComponentProps<MatchParams>) => {
         cancelButtonColor: "#b50707",
         confirmButtonText: "Si modificalo!",
       }).then(async (response: { isConfirmed: any }) => {
-        if (response.isConfirmed) {
-          const respuesta = await dispatch(modifyUser(changes));
-          window.location.reload();
-          console.log("Usuario modificado con éxito", respuesta);
+        if (response.isConfirmed && files) {
+          const storageRef = ref(storage, files.name);
+          const uploadTask = uploadBytesResumable(storageRef, files);
+
+          uploadTask.on("state_changed", (snapshot) => {
+            const percentage =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            setProgress(percentage);
+          });
+
+          await uploadTask;
+          const downloadURL = await getDownloadURL(storageRef);
+          console.log(`File uploaded successfully: ${downloadURL}`);
+          if (downloadURL) {
+            dispatch(modifyUser({ ...changes, photo: downloadURL }))
+              .then(() => {
+                console.log("Usuario modificado con éxito");
+                window.location.reload();
+                //  history.push({ pathname: "/profile" });
+              })
+              .catch((error) => {
+                console.error(
+                  "Ocurrió un error al modificar el usuario",
+                  error
+                );
+              });
+          } else {
+            dispatch(modifyUser(changes))
+              .then(() => {
+                console.log("Usuario modificado con éxito");
+                history.push({ pathname: "/profile" });
+              })
+              .catch((error) => {
+                console.error(
+                  "Ocurrió un error al modificar el usuario",
+                  error
+                );
+              });
+          }
         }
       });
     } catch (error) {
-      console.error("Ocurrió un error al modificar el usuario", error);
+      console.error("Error al manejar la modificación del usuario:", error);
     }
   }
 
@@ -131,7 +189,7 @@ const UserPanel = ({ match }: RouteComponentProps<MatchParams>) => {
             lastname: action.payload.lastname,
             phone: parseInt(action.payload.phone),
             photo: action.payload.photo,
-            userType: 1,
+            userType: 3,
           });
         }
       });
@@ -150,6 +208,11 @@ const UserPanel = ({ match }: RouteComponentProps<MatchParams>) => {
       });
   }, [dispatch]);
 
+  useEffect(() => {
+    console.log("changes updated:", changes);
+    console.log("files updated:", files);
+  }, [changes, files]);
+
   const favorites: any[] = [];
 
   // eslint-disable-next-line array-callback-return
@@ -163,36 +226,44 @@ const UserPanel = ({ match }: RouteComponentProps<MatchParams>) => {
   return (
     <>
       <Box>
-        <Grid justifyContent="center">
+        <Grid mb={10} justifyContent="center">
           <Heading>Panel de Usuario</Heading>
         </Grid>
         <Grid templateColumns="repeat(2, 1fr)" alignItems="center">
-          <Flex>
-            <Text fontWeight="bold">Foto:</Text>
+          <Flex ml={48} display="grid">
+            <Text mb={5} fontWeight="bold">
+              Foto:
+            </Text>
             {editing ? (
-              <Input
-                name="photo"
-                value={changes.photo}
-                onChange={handleChange}
-              />
+              <Box display="grid">
+                <Input
+                  w="50%"
+                  type="file"
+                  onChange={handleFileChange}
+                  multiple
+                />
+                <progress value={progress} max="100" />
+              </Box>
             ) : (
               <Image
-                rounded={"md"}
+                /*   rounded={"md"} */
                 alt={"product image"}
                 src={usuario.photo}
-                fit={"contain"}
-                align={"center"}
-                w={"100%"}
-                h={{ base: "100%", sm: "400px", lg: "500px" }}
-                mt={10}
+                /*      fit={"contain"}
+                align={"center"} */
+                w={"80%"}
+                h={{ base: "80%", sm: "400px", lg: "500px" }}
               />
             )}
           </Flex>
           <Grid templateColumns="repeat(2, 1fr)" gap={28}>
             <GridItem>
-              <Text fontWeight="bold">Nombre:</Text>
+              <Text my={5} fontWeight="bold">
+                Nombre:
+              </Text>
               {editing ? (
                 <Input
+                  w="75%"
                   name="name"
                   value={changes.name}
                   onChange={handleChange}
@@ -202,9 +273,12 @@ const UserPanel = ({ match }: RouteComponentProps<MatchParams>) => {
               )}
             </GridItem>
             <GridItem>
-              <Text fontWeight="bold">Apellido:</Text>
+              <Text my={5} fontWeight="bold">
+                Apellido:
+              </Text>
               {editing ? (
                 <Input
+                  w="75%"
                   name="lastname"
                   value={changes.lastname}
                   onChange={handleChange}
@@ -214,13 +288,18 @@ const UserPanel = ({ match }: RouteComponentProps<MatchParams>) => {
               )}
             </GridItem>
             <GridItem>
-              <Text fontWeight="bold">Email:</Text>
+              <Text my={5} fontWeight="bold">
+                Email:
+              </Text>
               <Text>{usuario.email}</Text>
             </GridItem>
             <GridItem>
-              <Text fontWeight="bold">Teléfono:</Text>
+              <Text my={5} fontWeight="bold">
+                Teléfono:
+              </Text>
               {editing ? (
                 <Input
+                  w="75%"
                   type="number"
                   name="phone"
                   value={changes.phone}
