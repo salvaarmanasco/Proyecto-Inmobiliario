@@ -38,9 +38,7 @@ import {
   modifyWishList,
 } from "../../Redux/reducer/Users";
 
-interface MatchParams {
-  id: string;
-}
+import MatchParams from "../../Interfaces/MatchParams";
 
 export default function CardDetails({
   match,
@@ -104,7 +102,7 @@ export default function CardDetails({
         console.log("Error fetching properties:", error);
       });
   }, [dispatch]);
-
+  
   useEffect(() => {
     if (user) {
       dispatch(fetchUsersEmail(user.email)).then((action) => {
@@ -119,8 +117,9 @@ export default function CardDetails({
       ? dispatch(deleteWishList({ userId: idUsuario, wishListId: id }))
       : dispatch(modifyWishList({ userId: idUsuario, wishListId: id }));
   };
-
+  
   console.log(detailProp);
+
   const gardenCount = detailProp?.Gardens?.length;
   const imagesCarrousel = detailProp?.Images;
 

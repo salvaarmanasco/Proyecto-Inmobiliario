@@ -46,6 +46,7 @@ interface UserChanges {
   userType: number;
 }
 
+
 const firebaseConfig = {
   apiKey: "AIzaSyD-vnKOH8h79lYgBVn_TYDNfuB9OZCd2Zs",
   authDomain: "urbe-7ccb5.firebaseapp.com",
@@ -453,3 +454,5 @@ export const UserPanel = ({ match }: RouteComponentProps<MatchParams>) => {
     </>
   );
 };
+
+export default UserPanel;
