@@ -27,4 +27,19 @@ router.post("/", async (req: any, res: any) => {
   }
 });
 
+router.put("/", async (req: any, res: any) => {
+  const { PropertyId, ServiceId } = req.body;
+  try {
+    await db.PropertyServices.update({ ServiceId }, { where: { PropertyId } });
+    return res
+      .status(200)
+      .send("the property services has been successfully modified");
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .send("We could not modify the Property-Services relationship");
+  }
+});
+
 export default router;
