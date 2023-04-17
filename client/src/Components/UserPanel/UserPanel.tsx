@@ -46,7 +46,6 @@ interface UserChanges {
   userType: number;
 }
 
-
 const firebaseConfig = {
   apiKey: "AIzaSyD-vnKOH8h79lYgBVn_TYDNfuB9OZCd2Zs",
   authDomain: "urbe-7ccb5.firebaseapp.com",
@@ -74,6 +73,7 @@ export const UserPanel = ({ match }: RouteComponentProps<MatchParams>) => {
     photo: "",
     wishList: [],
   });
+
   const { user } = useAuth0();
 
   const [editing, setEditing] = useState(false);
@@ -132,45 +132,16 @@ export const UserPanel = ({ match }: RouteComponentProps<MatchParams>) => {
         cancelButtonColor: "#b50707",
         confirmButtonText: "Si modificalo!",
       }).then(async (response: { isConfirmed: any }) => {
-        if (response.isConfirmed && files) {
-          const storageRef = ref(storage, files.name);
-          const uploadTask = uploadBytesResumable(storageRef, files);
-
-          uploadTask.on("state_changed", (snapshot) => {
-            const percentage =
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            setProgress(percentage);
-          });
-
-          await uploadTask;
-          const downloadURL = await getDownloadURL(storageRef);
-          console.log(`File uploaded successfully: ${downloadURL}`);
-          if (downloadURL) {
-            dispatch(modifyUser({ ...changes, photo: downloadURL }))
-              .then(() => {
-                console.log("Usuario modificado con éxito");
-                window.location.reload();
-                //  history.push({ pathname: "/profile" });
-              })
-              .catch((error) => {
-                console.error(
-                  "Ocurrió un error al modificar el usuario",
-                  error
-                );
-              });
-          } else {
-            dispatch(modifyUser(changes))
-              .then(() => {
-                console.log("Usuario modificado con éxito");
-                history.push({ pathname: "/profile" });
-              })
-              .catch((error) => {
-                console.error(
-                  "Ocurrió un error al modificar el usuario",
-                  error
-                );
-              });
-          }
+        if (response.isConfirmed) {
+          await dispatch(modifyUser(changes))
+            .then(() => {
+              console.log("Usuario modificado con éxito");
+              window.location.reload();
+              //  history.push({ pathname: "/profile" });
+            })
+            .catch((error) => {
+              console.error("Ocurrió un error al modificar el usuario", error);
+            });
         }
       });
     } catch (error) {
@@ -189,7 +160,7 @@ export const UserPanel = ({ match }: RouteComponentProps<MatchParams>) => {
             lastname: action.payload.lastname,
             phone: parseInt(action.payload.phone),
             photo: action.payload.photo,
-            userType: 3,
+            userType: 1,
           });
         }
       });
@@ -209,9 +180,27 @@ export const UserPanel = ({ match }: RouteComponentProps<MatchParams>) => {
   }, [dispatch]);
 
   useEffect(() => {
-    console.log("changes updated:", changes);
-    console.log("files updated:", files);
-  }, [changes, files]);
+    const urlAux = async (files: File | null) => {
+      if (files) {
+        const storageRef = ref(storage, files.name);
+        const uploadTask = uploadBytesResumable(storageRef, files);
+
+        uploadTask.on("state_changed", (snapshot) => {
+          const percentage =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          setProgress(percentage);
+        });
+
+        await uploadTask;
+        const downloadURL = await getDownloadURL(storageRef);
+        console.log(`File uploaded successfully: ${downloadURL}`);
+        setChanges({ ...changes, photo: downloadURL.toString() });
+        console.log(changes, "CHANGES");
+      }
+    };
+
+    urlAux(files);
+  }, [files]);
 
   const favorites: any[] = [];
 
