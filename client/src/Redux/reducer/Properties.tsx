@@ -2,6 +2,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import Property from "../../Interfaces/Property";
+import UpdatePropertyData from "../../Interfaces/UpdatePropertyData";
 
 export interface PropertiesState {
   properties: Property[];
@@ -36,6 +37,23 @@ export const createProperty = createAsyncThunk(
     const response = await axios.post(
       `http://localhost:3001/properties`,
       newProperty
+    );
+    return response.data;
+  }
+);
+
+export const modifyProperty = createAsyncThunk(
+  "properties/modifyProperty",
+  async ({
+    id,
+    updatedData,
+  }: {
+    id: string;
+    updatedData: UpdatePropertyData;
+  }) => {
+    const response = await axios.put(
+      `http://localhost:3001/properties/${id}`,
+      updatedData
     );
     return response.data;
   }
@@ -166,6 +184,16 @@ const propertiesSlice = createSlice({
     });
     builder.addCase(createProperty.fulfilled, (state, action) => {
       state.properties.push(action.payload);
+    });
+    builder.addCase(modifyProperty.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(modifyProperty.rejected, (state, action) => {
+      state.loading = false;
+      state.error = "No se pudo modificar la propiedad";
+    });
+    builder.addCase(modifyProperty.fulfilled, (state, action) => {
+      console.log(action.payload);
     });
   },
 });

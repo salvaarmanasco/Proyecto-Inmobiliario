@@ -14,6 +14,7 @@ import UserPanel from "./Components/UserPanel/UserPanel";
 import DashboardAdmin from "./Components/DashboardAdmin/DashboardAdmin";
 import Registrarse from "./Components/Registrarse/Registrarse";
 import Modifications from "./Components/Modifications/Modifications";
+import Modifications2 from "./Components/Modifications2/Modifications2";
 
 export const App = () => (
   <ChakraProvider theme={theme}>
@@ -31,6 +32,7 @@ export const App = () => (
       <Route path="/admin" component={DashboardAdmin} />
       <Route path="/registrarse" component={Registrarse} />
       <Route path="/modificar/:id" component={Modifications} />
+      <Route path="/modificar2/:id" component={Modifications2} />
       <Route path="*" component={Page404} />
     </Switch>
     <Footer />
