@@ -27,4 +27,19 @@ router.post("/", async (req: any, res: any) => {
   }
 });
 
+router.put("/", async (req: any, res: any) => {
+  const { PropertyId, CountryId } = req.body;
+  try {
+    await db.PropertyCountry.update({ CountryId }, { where: { PropertyId } });
+    return res
+      .status(200)
+      .send("the property country has been successfully modified");
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .send("We could not modify the Property-Country relationship");
+  }
+});
+
 export default router;
