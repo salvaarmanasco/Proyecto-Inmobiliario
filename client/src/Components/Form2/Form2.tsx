@@ -21,15 +21,7 @@ import {
   fetchState,
 } from "../../Redux/reducer/Tables";
 import { createImage } from "../../Redux/reducer/Images";
-import {
-  FormLabel,
-  Box,
-  Button,
-  Stack,
-  Center,
-  Text,
-  Select,
-} from "@chakra-ui/react";
+import { FormLabel, Box, Button, Center, Text, Select } from "@chakra-ui/react";
 import {
   getStorage,
   ref,
@@ -37,38 +29,7 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import { initializeApp } from "firebase/app";
-import { useDropzone } from "react-dropzone";
-
-interface ItemDetailsProps {
-  state: {
-    itemProp: {
-      id: string;
-      title: string;
-      antiquity: number;
-      address: string;
-      bedrooms: number;
-      bathrooms: number;
-      environments: number;
-      pool: boolean;
-      elevator: boolean;
-      floor_th: number;
-      orientation: string;
-      m2_totals: number;
-      m2_covered: number;
-      garage: boolean;
-      amenities: boolean;
-      description: string;
-      furnished: boolean;
-      balcony: boolean;
-      sign: boolean;
-      firstImage: string;
-      lat: any;
-      long: any;
-      price: number;
-      zone: string;
-    };
-  };
-}
+import ItemDetailsProps from "../../Interfaces/ItemDetailsProps";
 
 const firebaseConfig = {
   apiKey: "AIzaSyD-vnKOH8h79lYgBVn_TYDNfuB9OZCd2Zs",

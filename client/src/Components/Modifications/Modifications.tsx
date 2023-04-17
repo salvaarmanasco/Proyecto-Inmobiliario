@@ -1,12 +1,15 @@
 import { useDispatch } from "react-redux";
 import { RootState } from "../../Redux/store";
 import { ThunkDispatch } from "redux-thunk";
-import { fetchPropertiesId } from "../../Redux/reducer/Properties";
+import {
+  fetchPropertiesId,
+  modifyProperty,
+} from "../../Redux/reducer/Properties";
 import MatchParams from "../../Interfaces/MatchParams";
 import { RouteComponentProps } from "react-router-dom";
-
+import { useHistory } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { createProperty } from "../../Redux/reducer/Properties";
+import { Redirect } from "react-router-dom";
 import {
   SimpleGrid,
   FormControl,
@@ -58,6 +61,7 @@ const initialFormData: FormData2 = {
 // ------------------------------------------------------------------------------------------------------------
 
 const Modifications = ({ match }: RouteComponentProps<MatchParams>) => {
+  const history = useHistory();
   const [formData, setFormData] = useState<FormData2>(initialFormData);
   const {
     title,
@@ -84,7 +88,7 @@ const Modifications = ({ match }: RouteComponentProps<MatchParams>) => {
     price,
     zone,
   } = formData;
-
+  const [isRedirecting, setIsRedirecting] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const dispatch: ThunkDispatch<RootState, undefined, any> = useDispatch();
 
@@ -95,7 +99,7 @@ const Modifications = ({ match }: RouteComponentProps<MatchParams>) => {
         if (action.payload) {
           setFormData({
             antiquity: action.payload.antiquity,
-            address: action.payload.adress,
+            address: action.payload.address,
             title: action.payload.title,
             bedrooms: action.payload.bedrooms,
             bathrooms: action.payload.bathrooms,
@@ -124,21 +128,6 @@ const Modifications = ({ match }: RouteComponentProps<MatchParams>) => {
         console.log("Error fetching properties:", error);
       });
   }, [dispatch, match.params]);
-
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setIsSubmitting(true);
-    try {
-      const response = await dispatch(createProperty(formData));
-      const createdProperty = response.payload;
-      setIsSubmitting(false);
-      console.log(formData);
-      console.log("Property created:", createdProperty);
-    } catch (error) {
-      console.log("Error creating properties:", error);
-      setIsSubmitting(false);
-    }
-  };
 
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -225,9 +214,58 @@ const Modifications = ({ match }: RouteComponentProps<MatchParams>) => {
     }
   }, [marker]);
 
+  /**
+   * Funcion que realiza la modificacion en la propiedad. Toma el id proveniente de params y modifica un estado local, el cual luego es enviado a la accion de PUT.
+   *
+   * No modifica nada respecto a las tablas relacionales.
+   * @param e
+   */
+
+  const handlePropertyUpdate = async (e: any) => {
+    e.preventDefault();
+    const idUpdate = match.params.id;
+    const updatedData: any = {
+      title,
+      price,
+      address,
+      zone,
+      bedrooms,
+      bathrooms,
+      antiquity,
+      environments,
+      floor_th,
+      orientation,
+      m2_totals,
+      m2_covered,
+      description,
+      firstImage,
+      elevator,
+      garage,
+      amenities,
+      balcony,
+      sign,
+    };
+    try {
+      const response = await dispatch(
+        modifyProperty({ id: idUpdate, updatedData })
+      );
+      console.log(response);
+      console.log(idUpdate);
+      setIsRedirecting(true);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    if (isRedirecting) {
+      history.push(`/modificar2/${match.params.id}`);
+    }
+  }, [isRedirecting]);
+
   return (
     <Center my={4}>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={(e) => handlePropertyUpdate(e)}>
         <Stack spacing={2} width={500}>
           <FormControl id="title" isRequired>
             <FormLabel>Título de la publicación</FormLabel>
@@ -458,7 +496,7 @@ const Modifications = ({ match }: RouteComponentProps<MatchParams>) => {
           width={500}
           my={10}
         >
-          Crear
+          Modificar
         </Button>
       </form>
     </Center>

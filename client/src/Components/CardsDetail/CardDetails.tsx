@@ -102,7 +102,7 @@ export default function CardDetails({
         console.log("Error fetching properties:", error);
       });
   }, [dispatch]);
-  
+
   useEffect(() => {
     if (user) {
       dispatch(fetchUsersEmail(user.email)).then((action) => {
@@ -117,7 +117,7 @@ export default function CardDetails({
       ? dispatch(deleteWishList({ userId: idUsuario, wishListId: id }))
       : dispatch(modifyWishList({ userId: idUsuario, wishListId: id }));
   };
-  
+
   console.log(detailProp);
 
   const gardenCount = detailProp?.Gardens?.length;
@@ -170,7 +170,7 @@ export default function CardDetails({
                     mb={"4"}
                     textAlign="center"
                   >
-                    Venta
+                    {detailProp.Conditions?.[0]?.condition_name}
                   </Text>
                 </Box>
                 <Heading
