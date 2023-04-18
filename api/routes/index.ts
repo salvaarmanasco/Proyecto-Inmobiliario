@@ -16,6 +16,7 @@ import propertyCategoryRouter from "./propertyCategory/propertyCategory";
 import propertyGardenRouter from "./propertyGarden/propertyGarden";
 import propertyServicesRouter from "./propertyServices/propertyServices";
 import propertyImage from "./propertyImage/propertyImage";
+import propertyUserRouter from "./propertyUser/propertyUser";
 
 const { Router } = require("express");
 const router = Router();
@@ -38,5 +39,6 @@ router.use("/propertycategory", propertyCategoryRouter);
 router.use("/propertygarden", propertyGardenRouter);
 router.use("/propertyservices", propertyServicesRouter);
 router.use("/propertyimage", propertyImage);
+router.use("/propertyuser", propertyUserRouter);
 
 export default router;

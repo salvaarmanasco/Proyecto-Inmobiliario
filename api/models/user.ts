@@ -23,7 +23,14 @@ module.exports = (sequelize: any, DataTypes: any) => {
     wishList!: string[];
     deleted!: boolean;
     userType!: number;
+
+    static associate(models: any) {
+      User.belongsToMany(models.Property, {
+        through: "PropertyUser",
+      });
+    }
   }
+
   User.init(
     {
       id: {
@@ -82,5 +89,6 @@ module.exports = (sequelize: any, DataTypes: any) => {
       modelName: "User",
     }
   );
+
   return User;
 };
