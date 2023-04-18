@@ -52,10 +52,12 @@ router.post("/", async (req: any, res: any) => {
   }
 });
 router.put("/", async (req: any, res: any) => {
-  // const { id } = req.params;
-  const { id, name, lastname, phone, photo, userType } = req.body;
+  // let { id } = req.params;
+  let { id, name, lastname, phone, photo, userType } = req.body;
   try {
     let result = await db.User.findByPk(id);
+    if (!result) res.status(404).send("User not found");
+
     await result.update({
       name,
       lastname,
@@ -66,7 +68,7 @@ router.put("/", async (req: any, res: any) => {
     res.status(200).send("User modify");
   } catch (error) {
     console.log(error);
-    res.status(404).send("User not found");
+    res.status(404).json(error);
   }
 });
 router.delete("/:id", async (req: any, res: any) => {
