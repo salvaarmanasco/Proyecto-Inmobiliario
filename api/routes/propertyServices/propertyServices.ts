@@ -42,4 +42,19 @@ router.put("/", async (req: any, res: any) => {
   }
 });
 
+router.delete("/", async (req: any, res: any) => {
+  const { PropertyId, ServiceId } = req.body;
+  try {
+    await db.PropertyServices.destroy({ where: { PropertyId, ServiceId } });
+    return res
+      .status(200)
+      .send("the Property-Service relationship has been successfully deleted");
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .send("We could not delete the Property-Service relationship");
+  }
+});
+
 export default router;
