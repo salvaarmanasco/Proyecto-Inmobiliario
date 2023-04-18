@@ -46,7 +46,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
         unique: true,
       },
       phone: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.DECIMAL(20),
         allowNull: true,
       },
       photo: {
