@@ -6,4 +6,5 @@ export default interface Users {
   phone: number;
   photo: string;
   wishList: String[];
+  userType: number;
 }

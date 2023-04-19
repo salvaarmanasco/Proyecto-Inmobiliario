@@ -26,6 +26,7 @@ import RaesLogo from "../../Assets/raes.png";
 import { useState, useEffect } from "react";
 import LoginButton from "../LoginButtons/LoginButton";
 import LogoutButton from "../LoginButtons/LogoutButton";
+import { RootState } from "../../Redux/store";
 
 const NavBar = () => {
   const { isOpen, onToggle } = useDisclosure();
@@ -281,7 +282,7 @@ const NAV_ITEMS: Array<NavItem> = [
     href: "/about",
   },
   {
-    label: "Formulario",
+    label: "formulario",
     href: "/form",
   },
   {

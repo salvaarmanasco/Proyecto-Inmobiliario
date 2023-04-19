@@ -10,6 +10,7 @@ import {
   Img,
   HStack,
   Input,
+  Center,
 } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -72,6 +73,7 @@ export const UserPanel = ({ match }: RouteComponentProps<MatchParams>) => {
     phone: 0,
     photo: "",
     wishList: [],
+    userType: 0,
   });
 
   const { user } = useAuth0();
@@ -214,210 +216,219 @@ export const UserPanel = ({ match }: RouteComponentProps<MatchParams>) => {
 
   return (
     <>
-      <Box>
-        <Grid mb={10} justifyContent="center">
-          <Heading>Panel de Usuario</Heading>
-        </Grid>
-        <Grid templateColumns="repeat(2, 1fr)" alignItems="center">
-          <Flex ml={48} display="grid">
-            <Text mb={5} fontWeight="bold">
-              Foto:
-            </Text>
-            {editing ? (
-              <Box display="grid">
-                <Input
-                  w="50%"
-                  type="file"
-                  onChange={handleFileChange}
-                  multiple
-                />
-                <progress value={progress} max="100" />
-              </Box>
-            ) : (
-              <Image
-                /*   rounded={"md"} */
-                alt={"product image"}
-                src={usuario.photo}
-                /*      fit={"contain"}
-                align={"center"} */
-                w={"80%"}
-                h={{ base: "80%", sm: "400px", lg: "500px" }}
-              />
-            )}
-          </Flex>
-          <Grid templateColumns="repeat(2, 1fr)" gap={28}>
-            <GridItem>
-              <Text my={5} fontWeight="bold">
-                Nombre:
-              </Text>
-              {editing ? (
-                <Input
-                  w="75%"
-                  name="name"
-                  value={changes.name}
-                  onChange={handleChange}
-                />
-              ) : (
-                <Text>{usuario.name}</Text>
-              )}
-            </GridItem>
-            <GridItem>
-              <Text my={5} fontWeight="bold">
-                Apellido:
-              </Text>
-              {editing ? (
-                <Input
-                  w="75%"
-                  name="lastname"
-                  value={changes.lastname}
-                  onChange={handleChange}
-                />
-              ) : (
-                <Text>{usuario.lastname}</Text>
-              )}
-            </GridItem>
-            <GridItem>
-              <Text my={5} fontWeight="bold">
-                Email:
-              </Text>
-              <Text>{usuario.email}</Text>
-            </GridItem>
-            <GridItem>
-              <Text my={5} fontWeight="bold">
-                Teléfono:
-              </Text>
-              {editing ? (
-                <Input
-                  w="75%"
-                  type="number"
-                  name="phone"
-                  value={changes.phone}
-                  onChange={handleChange}
-                />
-              ) : (
-                <Text>{usuario.phone}</Text>
-              )}
-            </GridItem>
-            <Grid ml={52}>
-              {editing ? (
-                <>
-                  <GridItem pb={5}>
-                    <Button
-                      fontSize={"sm"}
-                      fontWeight={400}
-                      color={"white"}
-                      bg={"green.500"}
-                      _hover={{
-                        bg: "green.300",
-                      }}
-                      mr={2}
-                      onClick={() => handleSave(changes)}
-                    >
-                      Guardar cambios
-                    </Button>
-                  </GridItem>
-                  <GridItem ml={5}>
-                    <Button
-                      fontSize={"sm"}
-                      fontWeight={400}
-                      color={"white"}
-                      bg={"gray.500"}
-                      _hover={{
-                        bg: "gray.300",
-                      }}
-                      onClick={() => setEditing(false)}
-                    >
-                      Cancelar
-                    </Button>
-                  </GridItem>
-                </>
-              ) : (
-                <Button
-                  fontSize={"sm"}
-                  fontWeight={400}
-                  color={"white"}
-                  bg={"red.500"}
-                  _hover={{
-                    bg: "red.300",
-                  }}
-                  onClick={handleEdit}
-                >
-                  Modificar usuario
-                </Button>
-              )}
-            </Grid>
+      {user ? (
+        <Box>
+          <Grid mb={10} justifyContent="center">
+            <Heading>Panel de Usuario</Heading>
           </Grid>
-          <GridItem display="flex" padding="5" colSpan={3}>
-            <GridItem>
-              <Button onClick={() => setShowWishlist(!showWishlist)}>
-                {showWishlist ? "Hide Wishlist" : "Show Wishlist"}
-              </Button>
-            </GridItem>
-            {showWishlist &&
-              favorites?.map((item, i) => (
-                <Box key={i}>
-                  <Heading as="h3" size="md">
-                    <Box
-                      key={item.id}
-                      w="xs" /* ancho de cards */
-                      rounded={"sm"}
-                      my={5}
-                      mx={[0, 5]}
-                      overflow={"hidden"}
-                      bg="white"
-                      border={"1px"}
-                      borderColor="black"
-                      boxShadow={"6px 6px 0 #f80404"}
-                    >
-                      <Box h={"200px"} borderBottom={"1px"} borderColor="black">
-                        {" "}
-                        {/* longitud de la card */}
-                        <Img
-                          src={item.firstImage}
-                          roundedTop={"sm"}
-                          objectFit="cover"
-                          h="full"
-                          w="full"
-                          alt={"Blog Image"}
-                        />
-                      </Box>
-                      <Box p={4}>
+          <Grid templateColumns="repeat(2, 1fr)" alignItems="center">
+            <Flex ml={48} display="grid">
+              <Text mb={5} fontWeight="bold">
+                Foto:
+              </Text>
+              {editing ? (
+                <Box display="grid">
+                  <Input
+                    w="50%"
+                    type="file"
+                    onChange={handleFileChange}
+                    multiple
+                  />
+                  <progress value={progress} max="100" />
+                </Box>
+              ) : (
+                <Image
+                  /*   rounded={"md"} */
+                  alt={"product image"}
+                  src={usuario.photo}
+                  /*      fit={"contain"}
+                align={"center"} */
+                  w={"80%"}
+                  h={{ base: "80%", sm: "400px", lg: "500px" }}
+                />
+              )}
+            </Flex>
+            <Grid templateColumns="repeat(2, 1fr)" gap={28}>
+              <GridItem>
+                <Text my={5} fontWeight="bold">
+                  Nombre:
+                </Text>
+                {editing ? (
+                  <Input
+                    w="75%"
+                    name="name"
+                    value={changes.name}
+                    onChange={handleChange}
+                  />
+                ) : (
+                  <Text>{usuario.name}</Text>
+                )}
+              </GridItem>
+              <GridItem>
+                <Text my={5} fontWeight="bold">
+                  Apellido:
+                </Text>
+                {editing ? (
+                  <Input
+                    w="75%"
+                    name="lastname"
+                    value={changes.lastname}
+                    onChange={handleChange}
+                  />
+                ) : (
+                  <Text>{usuario.lastname}</Text>
+                )}
+              </GridItem>
+              <GridItem>
+                <Text my={5} fontWeight="bold">
+                  Email:
+                </Text>
+                <Text>{usuario.email}</Text>
+              </GridItem>
+              <GridItem>
+                <Text my={5} fontWeight="bold">
+                  Teléfono:
+                </Text>
+                {editing ? (
+                  <Input
+                    w="75%"
+                    type="number"
+                    name="phone"
+                    value={changes.phone}
+                    onChange={handleChange}
+                  />
+                ) : (
+                  <Text>{usuario.phone}</Text>
+                )}
+              </GridItem>
+              <Grid ml={52}>
+                {editing ? (
+                  <>
+                    <GridItem pb={5}>
+                      <Button
+                        fontSize={"sm"}
+                        fontWeight={400}
+                        color={"white"}
+                        bg={"green.500"}
+                        _hover={{
+                          bg: "green.300",
+                        }}
+                        mr={2}
+                        onClick={() => handleSave(changes)}
+                      >
+                        Guardar cambios
+                      </Button>
+                    </GridItem>
+                    <GridItem ml={5}>
+                      <Button
+                        fontSize={"sm"}
+                        fontWeight={400}
+                        color={"white"}
+                        bg={"gray.500"}
+                        _hover={{
+                          bg: "gray.300",
+                        }}
+                        onClick={() => setEditing(false)}
+                      >
+                        Cancelar
+                      </Button>
+                    </GridItem>
+                  </>
+                ) : (
+                  <Button
+                    fontSize={"sm"}
+                    fontWeight={400}
+                    color={"white"}
+                    bg={"red.500"}
+                    _hover={{
+                      bg: "red.300",
+                    }}
+                    onClick={handleEdit}
+                  >
+                    Modificar usuario
+                  </Button>
+                )}
+              </Grid>
+            </Grid>
+            <GridItem display="flex" padding="5" colSpan={3}>
+              <GridItem>
+                <Button onClick={() => setShowWishlist(!showWishlist)}>
+                  {showWishlist ? "Hide Wishlist" : "Show Wishlist"}
+                </Button>
+              </GridItem>
+              {showWishlist &&
+                favorites?.map((item, i) => (
+                  <Box key={i}>
+                    <Heading as="h3" size="md">
+                      <Box
+                        key={item.id}
+                        w="xs" /* ancho de cards */
+                        rounded={"sm"}
+                        my={5}
+                        mx={[0, 5]}
+                        overflow={"hidden"}
+                        bg="white"
+                        border={"1px"}
+                        borderColor="black"
+                        boxShadow={"6px 6px 0 #f80404"}
+                      >
                         <Box
-                          bg="black"
-                          display={"inline-block"}
-                          px={2}
-                          py={1}
-                          color="white"
-                          mb={2}
+                          h={"200px"}
+                          borderBottom={"1px"}
+                          borderColor="black"
                         >
-                          <Text fontSize={"xs"} fontWeight="medium">
-                            {item.Conditions?.[0]?.condition_name}
+                          {" "}
+                          {/* longitud de la card */}
+                          <Img
+                            src={item.firstImage}
+                            roundedTop={"sm"}
+                            objectFit="cover"
+                            h="full"
+                            w="full"
+                            alt={"Blog Image"}
+                          />
+                        </Box>
+                        <Box p={4}>
+                          <Box
+                            bg="black"
+                            display={"inline-block"}
+                            px={2}
+                            py={1}
+                            color="white"
+                            mb={2}
+                          >
+                            <Text fontSize={"xs"} fontWeight="medium">
+                              {item.Conditions?.[0]?.condition_name}
+                            </Text>
+                          </Box>
+                          <Heading
+                            color={"black"}
+                            fontSize={"2xl"}
+                            noOfLines={1}
+                          >
+                            {item.title}
+                          </Heading>
+                          <Text color={"gray.500"} noOfLines={2} height={50}>
+                            {item.description}
                           </Text>
                         </Box>
-                        <Heading color={"black"} fontSize={"2xl"} noOfLines={1}>
-                          {item.title}
-                        </Heading>
-                        <Text color={"gray.500"} noOfLines={2} height={50}>
-                          {item.description}
-                        </Text>
-                      </Box>
-                      <HStack borderTop={"1px"} color="black">
-                        <Flex
-                          p={4}
-                          alignItems="center"
-                          justifyContent={"space-between"}
-                          roundedBottom={"sm"}
-                          cursor={"pointer"}
-                          w="full"
-                        >
-                          <Text fontSize={"md"} fontWeight={"semibold"}>
-                            View more
-                          </Text>
-                          <Link href={`/properties/${item.id}`} to={""}>
-                            <BsArrowUpRight />
-                          </Link>
-                        </Flex>
-                        {/*     <Flex
+                        <HStack borderTop={"1px"} color="black">
+                          <Flex
+                            p={4}
+                            alignItems="center"
+                            justifyContent={"space-between"}
+                            roundedBottom={"sm"}
+                            cursor={"pointer"}
+                            w="full"
+                          >
+                            <Text fontSize={"md"} fontWeight={"semibold"}>
+                              View more
+                            </Text>
+                            <Link href={`/properties/${item.id}`} to={""}>
+                              <BsArrowUpRight />
+                            </Link>
+                          </Flex>
+                          {/*     <Flex
                             p={4}
                             alignItems="center"
                             justifyContent={"space-between"}
@@ -432,14 +443,21 @@ export const UserPanel = ({ match }: RouteComponentProps<MatchParams>) => {
                               <BsHeart fontSize={"24px"} />
                             )}
                           </Flex> */}
-                      </HStack>
-                    </Box>
-                  </Heading>
-                </Box>
-              ))}
-          </GridItem>
-        </Grid>
-      </Box>
+                        </HStack>
+                      </Box>
+                    </Heading>
+                  </Box>
+                ))}
+            </GridItem>
+          </Grid>
+        </Box>
+      ) : (
+        <Center minH="100vh">
+          <Text fontSize="4xl">
+            "Para acceder al panel de usuario debe estar registrado"
+          </Text>
+        </Center>
+      )}
     </>
   );
 };
