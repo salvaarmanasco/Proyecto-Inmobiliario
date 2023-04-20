@@ -178,6 +178,31 @@ export const modifyPropertyState = createAsyncThunk(
   }
 );
 
+export const deletePropertyServices = createAsyncThunk(
+  "relations/deletePropertyServices",
+  async (propertyServices: any) => {
+    const response = await axios.delete(
+      "http://localhost:3001/propertyservices",
+      {
+        data: propertyServices,
+      }
+    );
+    return response.data;
+  }
+);
+export const deletePropertyGarden = createAsyncThunk(
+  "relations/deletePropertyGarden",
+  async (propertyGarden: any) => {
+    const response = await axios.delete(
+      "http://localhost:3001/propertygarden",
+      {
+        data: propertyGarden,
+      }
+    );
+    return response.data;
+  }
+);
+
 //slice
 
 const RelationsSlice = createSlice({
@@ -386,6 +411,32 @@ const RelationsSlice = createSlice({
       state.PropertyState = false;
       state.loading = false;
       state.error = "Could not modify the state of the property";
+    });
+    builder.addCase(deletePropertyGarden.fulfilled, (state, action) => {
+      state.PropertyGarden = true;
+      state.loading = false;
+      state.error = null;
+    });
+    builder.addCase(deletePropertyGarden.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(deletePropertyGarden.rejected, (state, action) => {
+      state.PropertyGarden = false;
+      state.loading = false;
+      state.error = "Could not delete the garden of the property";
+    });
+    builder.addCase(deletePropertyServices.fulfilled, (state, action) => {
+      state.PropertyServices = true;
+      state.loading = false;
+      state.error = null;
+    });
+    builder.addCase(deletePropertyServices.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(deletePropertyServices.rejected, (state, action) => {
+      state.PropertyServices = false;
+      state.loading = false;
+      state.error = "Could not delete the services of the property";
     });
   },
 });

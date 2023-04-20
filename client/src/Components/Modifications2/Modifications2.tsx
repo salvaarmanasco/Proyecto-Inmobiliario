@@ -19,6 +19,10 @@ import {
   modifyPropertyImage,
   modifyPropertyServices,
   modifyPropertyState,
+  deletePropertyGarden,
+  deletePropertyServices,
+  createPropertyServices,
+  createPropertyGarden,
 } from "../../Redux/reducer/Relations";
 import { createImage } from "../../Redux/reducer/Images";
 import {
@@ -109,7 +113,7 @@ function Modifications2({ match }: RouteComponentProps<MatchParams>) {
     Services: [],
     Images: [],
   });
-  console.log(detailProp);
+  // console.log(detailProp);
 
   const [categorySelected, setCategorySelected] = useState("");
   const [conditionSelected, setConditionSelected] = useState("");
@@ -192,187 +196,158 @@ function Modifications2({ match }: RouteComponentProps<MatchParams>) {
       });
   }, [dispatch]);
 
+  console.log(detailProp);
+
   // -------------------------------------------FIREBASE--------------------------------------------------------
-  const [files, setFiles] = useState<File[]>([]);
-  const [progress, setProgress] = useState(0);
+  // const [files, setFiles] = useState<File[]>([]);
+  // const [progress, setProgress] = useState(0);
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files.length > 0) {
-      const fileList = Array.from(event.target.files);
-      setFiles(fileList);
-      setProgress(100);
-    }
-  };
+  // const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (event.target.files && event.target.files.length > 0) {
+  //     const fileList = Array.from(event.target.files);
+  //     setFiles(fileList);
+  //     setProgress(100);
+  //   }
+  // };
 
-  const handleDelete = async (url: string) => {
-    const storageRef = ref(storage, url);
-    await deleteObject(storageRef);
-    setUrls((prevUrls) => prevUrls.filter((u: any) => u !== url));
-  };
+  // const handleDelete = async (url: string) => {
+  //   const storageRef = ref(storage, url);
+  //   await deleteObject(storageRef);
+  //   setUrls((prevUrls) => prevUrls.filter((u: any) => u !== url));
+  // };
 
   // ----------------------------------------------------------------------------------------------------------
+
+  // if (files.length >= 1) {
+  //   try {
+  //     const imageIds: number[] = [];
+  //     console.log(imageIds);
+  //     for (let i = 0; i < files.length; i++) {
+  //       const file = files[i];
+  //       const storageRef = ref(storage, file.name);
+  //       const uploadTask = uploadBytesResumable(storageRef, file);
+
+  //       uploadTask.on("state_changed", (snapshot) => {
+  //         const percentage =
+  //           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+  //         setProgress(percentage);
+  //       });
+
+  //       await uploadTask;
+  //       const downloadURL = await getDownloadURL(storageRef);
+  //       console.log(`File uploaded successfully: ${downloadURL}`);
+
+  //       const newImage = {
+  //         image_url: downloadURL.toString(),
+  //         image_description: "hola",
+  //       };
+  //       const action = await dispatch(createImage(newImage));
+  //       const response = action.payload;
+  //       imageIds.push(response.id);
+  //     }
+
+  //     const propertyImages = imageIds.map((id) => ({
+  //       PropertyId: id.toString(),
+  //       ImageId: id,
+  //     }));
+  //
+  //     await Promise.all(
+  //       propertyImages.map((img) => dispatch(modifyPropertyImage(img)))
+  //     );
+  //
+  //     setIsSubmitting(false);
+  //     history.push({
+  //       pathname: "/",
+  //     });
+  //   } catch (error) {
+  //     console.log("Error creating properties:", error);
+  //     setIsSubmitting(false);
+  //   }
+  // } else {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsSubmitting(true);
+    try {
+      const propertyGardensToDelete = Array.from(detailProp?.Gardens).map(
+        (g: any) => ({
+          PropertyId: id.toString(),
+          GardenId: g.id,
+        })
+      );
+      await Promise.all(
+        propertyGardensToDelete.map((garden) =>
+          dispatch(deletePropertyGarden(garden))
+        )
+      );
+      const propertyServicesToDelete = Array.from(detailProp?.Services).map(
+        (s: any) => ({
+          PropertyId: id.toString(),
+          ServiceId: s.id,
+        })
+      );
+      await Promise.all(
+        propertyServicesToDelete.map((services) =>
+          dispatch(deletePropertyServices(services))
+        )
+      );
 
-    if (files.length >= 1) {
-      try {
-        const imageIds: number[] = [];
-        console.log(imageIds);
-        for (let i = 0; i < files.length; i++) {
-          const file = files[i];
-          const storageRef = ref(storage, file.name);
-          const uploadTask = uploadBytesResumable(storageRef, file);
+      const propertyCondition = {
+        PropertyId: id.toString(),
+        ConditionId: Number(
+          conditionSelected ? conditionSelected : detailProp.Conditions?.[0]?.id
+        ),
+      };
+      const propertyCountry = {
+        PropertyId: id.toString(),
+        CountryId: Number(
+          countrySelected ? countrySelected : detailProp.Countries?.[0]?.id
+        ),
+      };
+      const propertyState = {
+        PropertyId: id.toString(),
+        StateId: Number(
+          stateSelected ? stateSelected : detailProp.States?.[0]?.id
+        ),
+      };
+      const propertyGardens = Array.from(gardenSelected).map((gardenId) => ({
+        PropertyId: id.toString(),
+        GardenId: gardenId,
+      }));
+      const propertyServices = Array.from(servicesSelected).map(
+        (serviceId) => ({
+          PropertyId: id.toString(),
+          ServiceId: serviceId,
+        })
+      );
+      const propertyCategory = {
+        PropertyId: id.toString(),
+        CategoryId: Number(
+          categorySelected ? categorySelected : detailProp.Categories?.[0]?.id
+        ),
+      };
 
-          uploadTask.on("state_changed", (snapshot) => {
-            const percentage =
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            setProgress(percentage);
-          });
-
-          await uploadTask;
-          const downloadURL = await getDownloadURL(storageRef);
-          console.log(`File uploaded successfully: ${downloadURL}`);
-
-          const newImage = {
-            image_url: downloadURL.toString(),
-            image_description: "hola",
-          };
-          const action = await dispatch(createImage(newImage));
-          const response = action.payload;
-          imageIds.push(response.id);
-        }
-
-        const propertyImages = imageIds.map((id) => ({
-          PropertyId: id.toString(),
-          ImageId: id,
-        }));
-
-        const propertyCondition = {
-          PropertyId: id.toString(),
-          ConditionId: Number(
-            conditionSelected
-              ? conditionSelected
-              : detailProp.Conditions?.[0]?.id
-          ),
-        };
-        const propertyCountry = {
-          PropertyId: id.toString(),
-          CountryId: Number(
-            countrySelected ? countrySelected : detailProp.Countries?.[0]?.id
-          ),
-        };
-        const propertyState = {
-          PropertyId: id.toString(),
-          StateId: Number(
-            stateSelected ? stateSelected : detailProp.States?.[0]?.id
-          ),
-        };
-        const propertyGardens = Array.from(gardenSelected).map((gardenId) => ({
-          PropertyId: id.toString(),
-          GardenId: gardenId,
-        }));
-        const propertyServices = Array.from(servicesSelected).map(
-          (serviceId) => ({
-            PropertyId: id.toString(),
-            ServiceId: serviceId,
-          })
-        );
-        const propertyCategory = {
-          PropertyId: id.toString(),
-          CategoryId: Number(
-            categorySelected ? categorySelected : detailProp.Categories?.[0]?.id
-          ),
-        };
-
-        await Promise.all(
-          propertyGardens.map((garden) =>
-            dispatch(modifyPropertyGarden(garden))
-          )
-        );
-        await Promise.all(
-          propertyServices.map((service) =>
-            dispatch(modifyPropertyServices(service))
-          )
-        );
-        await Promise.all(
-          propertyImages.map((img) => dispatch(modifyPropertyImage(img)))
-        );
-        await dispatch(modifyPropertyCondition(propertyCondition));
-        await dispatch(modifyPropertyCategory(propertyCategory));
-        await dispatch(modifyPropertyState(propertyState));
-        await dispatch(modifyPropertyCountry(propertyCountry));
-        setIsSubmitting(false);
-        history.push({
-          pathname: "/",
-        });
-      } catch (error) {
-        console.log("Error creating properties:", error);
-        setIsSubmitting(false);
-      }
-    } else {
-      try {
-        const propertyCondition = {
-          PropertyId: id.toString(),
-          ConditionId: Number(
-            conditionSelected
-              ? conditionSelected
-              : detailProp.Conditions?.[0]?.id
-          ),
-        };
-        const propertyCountry = {
-          PropertyId: id.toString(),
-          CountryId: Number(
-            countrySelected ? countrySelected : detailProp.Countries?.[0]?.id
-          ),
-        };
-        const propertyState = {
-          PropertyId: id.toString(),
-          StateId: Number(
-            stateSelected ? stateSelected : detailProp.States?.[0]?.id
-          ),
-        };
-        const propertyGardens = Array.from(gardenSelected).map((gardenId) => ({
-          PropertyId: id.toString(),
-          GardenId: gardenId,
-        }));
-        const propertyServices = Array.from(servicesSelected).map(
-          (serviceId) => ({
-            PropertyId: id.toString(),
-            ServiceId: serviceId,
-          })
-        );
-        const propertyCategory = {
-          PropertyId: id.toString(),
-          CategoryId: Number(
-            categorySelected ? categorySelected : detailProp.Categories?.[0]?.id
-          ),
-        };
-
-        await Promise.all(
-          propertyGardens.map((garden) =>
-            dispatch(modifyPropertyGarden(garden))
-          )
-        );
-        await Promise.all(
-          propertyServices.map((service) =>
-            dispatch(modifyPropertyServices(service))
-          )
-        );
-        await dispatch(modifyPropertyCondition(propertyCondition));
-        await dispatch(modifyPropertyCategory(propertyCategory));
-        await dispatch(modifyPropertyState(propertyState));
-        await dispatch(modifyPropertyCountry(propertyCountry));
-        setIsSubmitting(false);
-        history.push({
-          pathname: "/",
-        });
-      } catch (error) {
-        console.log("Error creating properties:", error);
-        setIsSubmitting(false);
-      }
+      await Promise.all(
+        propertyGardens.map((garden) => dispatch(createPropertyGarden(garden)))
+      );
+      await Promise.all(
+        propertyServices.map((service) =>
+          dispatch(createPropertyServices(service))
+        )
+      );
+      await dispatch(modifyPropertyCondition(propertyCondition));
+      await dispatch(modifyPropertyCategory(propertyCategory));
+      await dispatch(modifyPropertyState(propertyState));
+      await dispatch(modifyPropertyCountry(propertyCountry));
+      setIsSubmitting(false);
+      history.push({
+        pathname: "/",
+      });
+    } catch (error) {
+      console.log("Error creating properties:", error);
+      setIsSubmitting(false);
     }
   };
+
   // ----------------------------------------------------------------------------------------------------------
   return (
     <Center my={4}>
@@ -506,7 +481,7 @@ function Modifications2({ match }: RouteComponentProps<MatchParams>) {
               ))}
           </Box>
         ) : null}
-        <Box my={5}>
+        {/* <Box my={5}>
           <input type="file" onChange={handleFileChange} multiple />
           <progress value={progress} max="100" />
           {detailProp?.Images?.map((img: any) => (
@@ -517,10 +492,10 @@ function Modifications2({ match }: RouteComponentProps<MatchParams>) {
               </button>
             </div>
           ))}
-        </Box>
+        </Box> */}
 
         {/* -------------------------------------------------------------------------------------------------------- */}
-        <SimpleGrid columns={{ base: 3, md: 2, xl: 4 }}>
+        {/* <SimpleGrid columns={{ base: 3, md: 2, xl: 4 }}>
           {detailProp?.Images?.map((img: any) => (
             <Center py={6}>
               <Box
@@ -553,7 +528,7 @@ function Modifications2({ match }: RouteComponentProps<MatchParams>) {
               </Box>
             </Center>
           ))}
-        </SimpleGrid>
+        </SimpleGrid> */}
 
         {/* -------------------------------------------------------------------------------------------------------- */}
         <Button

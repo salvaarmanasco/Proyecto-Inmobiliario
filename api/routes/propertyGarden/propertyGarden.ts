@@ -42,4 +42,19 @@ router.put("/", async (req: any, res: any) => {
   }
 });
 
+router.delete("/", async (req: any, res: any) => {
+  const { PropertyId, GardenId } = req.body;
+  try {
+    await db.PropertyGarden.destroy({ where: { PropertyId, GardenId } });
+    return res
+      .status(200)
+      .send("the Property-Garden relationship has been successfully deleted");
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .send("We could not delete the Property-Garden relationship");
+  }
+});
+
 export default router;
