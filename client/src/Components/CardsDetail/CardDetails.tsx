@@ -87,6 +87,7 @@ export default function CardDetails({
     phone: 0,
     photo: "",
     wishList: [],
+    userType: 0,
   });
   const { user } = useAuth0();
 

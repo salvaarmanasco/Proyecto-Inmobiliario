@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   createPropertyCategory,
   createPropertyCondition,
@@ -30,6 +30,7 @@ import {
 } from "firebase/storage";
 import { initializeApp } from "firebase/app";
 import ItemDetailsProps from "../../Interfaces/ItemDetailsProps";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const firebaseConfig = {
   apiKey: "AIzaSyD-vnKOH8h79lYgBVn_TYDNfuB9OZCd2Zs",
@@ -67,6 +68,9 @@ function Form2({ location }: { location: ItemDetailsProps }) {
   );
   const [isSubmitting, setIsSubmitting] = useState(false);
   const history = useHistory();
+
+  const { user } = useAuth0();
+  const userDB = useSelector((state: RootState) => state.users.usersDetail);
 
   useEffect(() => {
     dispatch(fetchCategory())
@@ -282,152 +286,173 @@ function Form2({ location }: { location: ItemDetailsProps }) {
   };
 
   return (
-    <Center my={4}>
-      <form onSubmit={handleSubmit}>
-        <FormLabel>Tipo de propiedad</FormLabel>
-        <Select
-          value={categorySelected}
-          onChange={(e) => setCategorySelected(e.target.value)}
-        >
-          <option value="" disabled>
-            Seleccione una opción
-          </option>
-          {category.map(
-            (opcion: { id: number; category_name: any | null | undefined }) => (
-              <option key={opcion.id} value={opcion.id}>
-                {opcion.category_name}
+    <>
+      {(user && userDB.userType === 1) || (user && userDB.userType === 2) ? (
+        <Center my={4}>
+          <form onSubmit={handleSubmit}>
+            <FormLabel>Tipo de propiedad</FormLabel>
+            <Select
+              value={categorySelected}
+              onChange={(e) => setCategorySelected(e.target.value)}
+            >
+              <option value="" disabled>
+                Seleccione una opción
               </option>
-            )
-          )}
-        </Select>
-        <FormLabel>Condición</FormLabel>
-        <Select
-          value={conditionSelected}
-          onChange={(e) => setConditionSelected(e.target.value)}
-        >
-          <option value="" disabled>
-            Seleccione una opción
-          </option>
-          {condition.map(
-            (opcion: {
-              id: number;
-              condition_name: any | null | undefined;
-            }) => (
-              <option key={opcion.id} value={opcion.id}>
-                {opcion.condition_name}
+              {category.map(
+                (opcion: {
+                  id: number;
+                  category_name: any | null | undefined;
+                }) => (
+                  <option key={opcion.id} value={opcion.id}>
+                    {opcion.category_name}
+                  </option>
+                )
+              )}
+            </Select>
+            <FormLabel>Condición</FormLabel>
+            <Select
+              value={conditionSelected}
+              onChange={(e) => setConditionSelected(e.target.value)}
+            >
+              <option value="" disabled>
+                Seleccione una opción
               </option>
-            )
-          )}
-        </Select>
-        <FormLabel>Pais</FormLabel>
-        <Select
-          value={countrySelected}
-          onChange={(e) => setCountrySelected(e.target.value)}
-        >
-          <option value="" disabled>
-            Seleccione una opción
-          </option>
-          {country.map(
-            (opcion: { id: number; country_name: any | null | undefined }) => (
-              <option key={opcion.id} value={opcion.id}>
-                {opcion.country_name}
+              {condition.map(
+                (opcion: {
+                  id: number;
+                  condition_name: any | null | undefined;
+                }) => (
+                  <option key={opcion.id} value={opcion.id}>
+                    {opcion.condition_name}
+                  </option>
+                )
+              )}
+            </Select>
+            <FormLabel>Pais</FormLabel>
+            <Select
+              value={countrySelected}
+              onChange={(e) => setCountrySelected(e.target.value)}
+            >
+              <option value="" disabled>
+                Seleccione una opción
               </option>
-            )
-          )}
-        </Select>
-        <FormLabel>Provincia</FormLabel>
-        <Select
-          value={stateSelected}
-          onChange={(e) => setStateSelected(e.target.value)}
-        >
-          <option value="" disabled>
-            Seleccione una opción
-          </option>
-          {state.map(
-            (opcion: { id: number; state_name: any | null | undefined }) => (
-              <option key={opcion.id} value={opcion.id}>
-                {opcion.state_name}
+              {country.map(
+                (opcion: {
+                  id: number;
+                  country_name: any | null | undefined;
+                }) => (
+                  <option key={opcion.id} value={opcion.id}>
+                    {opcion.country_name}
+                  </option>
+                )
+              )}
+            </Select>
+            <FormLabel>Provincia</FormLabel>
+            <Select
+              value={stateSelected}
+              onChange={(e) => setStateSelected(e.target.value)}
+            >
+              <option value="" disabled>
+                Seleccione una opción
               </option>
-            )
-          )}
-        </Select>
-        <FormLabel>Patios</FormLabel>
-        <Select
-          value=""
-          onChange={(e) => {
-            const gardenId = Number(e.target.value);
-            if (gardenId && !gardenSelected.has(gardenId)) {
-              setGardenSelected(new Set([...gardenSelected, gardenId]));
-            }
-          }}
-        >
-          <option value="" disabled>
-            Seleccione una opción
-          </option>
-          {garden.map((option) => (
-            <option key={option.id} value={option.id}>
-              {option.garden_name}
-            </option>
-          ))}
-        </Select>
-        {gardenSelected.size > 0 ? (
-          <Box mt={2} mb={4}>
-            <Text fontWeight="bold" mb="2">
-              Opciones seleccionadas:
-            </Text>
-            {garden
-              .filter((option) => gardenSelected.has(option.id))
-              .map((option) => (
-                <Text key={option.id}>{option.garden_name}</Text>
+              {state.map(
+                (opcion: {
+                  id: number;
+                  state_name: any | null | undefined;
+                }) => (
+                  <option key={opcion.id} value={opcion.id}>
+                    {opcion.state_name}
+                  </option>
+                )
+              )}
+            </Select>
+            <FormLabel>Patios</FormLabel>
+            <Select
+              value=""
+              onChange={(e) => {
+                const gardenId = Number(e.target.value);
+                if (gardenId && !gardenSelected.has(gardenId)) {
+                  setGardenSelected(new Set([...gardenSelected, gardenId]));
+                }
+              }}
+            >
+              <option value="" disabled>
+                Seleccione una opción
+              </option>
+              {garden.map((option) => (
+                <option key={option.id} value={option.id}>
+                  {option.garden_name}
+                </option>
               ))}
-          </Box>
-        ) : null}
-        <FormLabel>Servicios</FormLabel>
-        <Select
-          value=""
-          onChange={(e) => {
-            const serviceId = Number(e.target.value);
-            if (serviceId && !servicesSelected.has(serviceId)) {
-              setServicesSelected(new Set([...servicesSelected, serviceId]));
-            }
-          }}
-        >
-          <option value="" disabled>
-            Seleccione una opción
-          </option>
-          {services.map((option) => (
-            <option key={option.id} value={option.id}>
-              {option.services_name}
-            </option>
-          ))}
-        </Select>
-        {servicesSelected.size > 0 ? (
-          <Box mt={2} mb={4}>
-            <Text fontWeight="bold" mb="2">
-              Opciones seleccionadas:
-            </Text>
-            {services
-              .filter((option) => servicesSelected.has(option.id))
-              .map((option) => (
-                <Text key={option.id}>{option.services_name}</Text>
+            </Select>
+            {gardenSelected.size > 0 ? (
+              <Box mt={2} mb={4}>
+                <Text fontWeight="bold" mb="2">
+                  Opciones seleccionadas:
+                </Text>
+                {garden
+                  .filter((option) => gardenSelected.has(option.id))
+                  .map((option) => (
+                    <Text key={option.id}>{option.garden_name}</Text>
+                  ))}
+              </Box>
+            ) : null}
+            <FormLabel>Servicios</FormLabel>
+            <Select
+              value=""
+              onChange={(e) => {
+                const serviceId = Number(e.target.value);
+                if (serviceId && !servicesSelected.has(serviceId)) {
+                  setServicesSelected(
+                    new Set([...servicesSelected, serviceId])
+                  );
+                }
+              }}
+            >
+              <option value="" disabled>
+                Seleccione una opción
+              </option>
+              {services.map((option) => (
+                <option key={option.id} value={option.id}>
+                  {option.services_name}
+                </option>
               ))}
-          </Box>
-        ) : null}
-        <Box my={5}>
-          <input type="file" onChange={handleFileChange} multiple />
-          <progress value={progress} max="100" />
-        </Box>
-        <Button
-          type="submit"
-          isLoading={isSubmitting}
-          loadingText="Submitting..."
-          width={500}
-          my={10}
-        >
-          Crear
-        </Button>
-      </form>
-    </Center>
+            </Select>
+            {servicesSelected.size > 0 ? (
+              <Box mt={2} mb={4}>
+                <Text fontWeight="bold" mb="2">
+                  Opciones seleccionadas:
+                </Text>
+                {services
+                  .filter((option) => servicesSelected.has(option.id))
+                  .map((option) => (
+                    <Text key={option.id}>{option.services_name}</Text>
+                  ))}
+              </Box>
+            ) : null}
+            <Box my={5}>
+              <input type="file" onChange={handleFileChange} multiple />
+              <progress value={progress} max="100" />
+            </Box>
+            <Button
+              type="submit"
+              isLoading={isSubmitting}
+              loadingText="Submitting..."
+              width={500}
+              my={10}
+            >
+              Crear
+            </Button>
+          </form>
+        </Center>
+      ) : (
+        <Center minH="100vh">
+          <Text fontSize="4xl">
+            "Para acceder al formulario usted debe ser Asesor"
+          </Text>
+        </Center>
+      )}
+    </>
   );
 }
 

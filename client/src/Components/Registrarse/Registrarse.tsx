@@ -29,6 +29,7 @@ export default function Registrarse() {
     phone: 0,
     photo: "",
     wishList: [],
+    userType: 0,
   });
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {

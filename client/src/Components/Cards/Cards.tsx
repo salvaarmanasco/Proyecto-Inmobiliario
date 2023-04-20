@@ -37,6 +37,7 @@ export default function Cards() {
     phone: 0,
     photo: "",
     wishList: [],
+    userType: 0,
   });
   const { user } = useAuth0();
 
