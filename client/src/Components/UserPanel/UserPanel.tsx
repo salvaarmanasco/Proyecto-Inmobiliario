@@ -10,13 +10,14 @@ import {
   Img,
   HStack,
   Input,
+  Link,
 } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { fetchUsersEmail, modifyUser } from "../../Redux/reducer/Users";
 import { RootState } from "../../Redux/store";
 import { ThunkDispatch } from "redux-thunk";
-import { Link, RouteComponentProps, useHistory } from "react-router-dom";
+import { RouteComponentProps, useHistory } from "react-router-dom";
 
 import Users from "../../Interfaces/Users";
 import Property from "../../Interfaces/Property";
@@ -413,7 +414,7 @@ export const UserPanel = ({ match }: RouteComponentProps<MatchParams>) => {
                           <Text fontSize={"md"} fontWeight={"semibold"}>
                             View more
                           </Text>
-                          <Link href={`/properties/${item.id}`} to={""}>
+                          <Link href={`/properties/${item.id}`}>
                             <BsArrowUpRight />
                           </Link>
                         </Flex>
