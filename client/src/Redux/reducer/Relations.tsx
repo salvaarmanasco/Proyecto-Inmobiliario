@@ -122,12 +122,23 @@ export const createPropertyImage = createAsyncThunk(
   }
 );
 
-export const modifyPropertyImage = createAsyncThunk(
-  "relations/modifyPropertyImage",
+// export const deletePropertyImage = createAsyncThunk(
+//   "relations/deletePropertyImage",
+//   async (propertyImage: any) => {
+//     const response = await axios.delete(
+//       "http://localhost:3001/propertyimage",
+//       propertyImage
+//     );
+//     return response.data;
+//   }
+// );
+
+export const deletePropertyImage = createAsyncThunk(
+  "relations/deletePropertyImage",
   async (propertyImage: any) => {
-    const response = await axios.put(
-      "http://localhost:3001/propertyimage",
-      propertyImage
+    const { PropertyId, ImageId } = propertyImage;
+    const response = await axios.delete(
+      `http://localhost:3001/propertyimage?PropertyId=${PropertyId}&ImageId=${ImageId}`
     );
     return response.data;
   }
@@ -345,18 +356,18 @@ const RelationsSlice = createSlice({
       state.loading = false;
       state.error = "Cago tu PropertyImage";
     });
-    builder.addCase(modifyPropertyImage.fulfilled, (state, action) => {
+    builder.addCase(deletePropertyImage.fulfilled, (state, action) => {
       state.PropertyImage = true;
       state.loading = false;
       state.error = null;
     });
-    builder.addCase(modifyPropertyImage.pending, (state, action) => {
+    builder.addCase(deletePropertyImage.pending, (state, action) => {
       state.loading = true;
     });
-    builder.addCase(modifyPropertyImage.rejected, (state, action) => {
+    builder.addCase(deletePropertyImage.rejected, (state, action) => {
       state.PropertyImage = false;
       state.loading = false;
-      state.error = "Could not modify the image of the property";
+      state.error = "Could not delete the image of the property";
     });
 
     builder.addCase(createPropertyServices.fulfilled, (state, action) => {

@@ -21,7 +21,16 @@ import {
   fetchState,
 } from "../../Redux/reducer/Tables";
 import { createImage } from "../../Redux/reducer/Images";
-import { FormLabel, Box, Button, Center, Text, Select } from "@chakra-ui/react";
+import {
+  FormLabel,
+  Box,
+  Button,
+  Center,
+  Text,
+  Select,
+  Progress,
+  CircularProgress,
+} from "@chakra-ui/react";
 import {
   getStorage,
   ref,
@@ -432,7 +441,14 @@ function Form2({ location }: { location: ItemDetailsProps }) {
             ) : null}
             <Box my={5}>
               <input type="file" onChange={handleFileChange} multiple />
-              <progress value={progress} max="100" />
+              <Progress value={progress} max={100} colorScheme="green">
+                <CircularProgress
+                  size="120px"
+                  thickness="8px"
+                  value={progress}
+                  color="green.500"
+                />
+              </Progress>
             </Box>
             <Button
               type="submit"
