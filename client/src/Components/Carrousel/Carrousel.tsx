@@ -41,8 +41,7 @@ export default function Carrousel() {
 
   const cards = [
     {
-      image:
-        "https://firebasestorage.googleapis.com/v0/b/urbe-7ccb5.appspot.com/o/Untitledfranquicia.png?alt=media&token=230fc6b2-5a20-4987-a429-35bb5503d59e",
+      image: "https://www.raesinversiones.com:8899/Imagenes/Oficina/6.jpg",
       colorTitle: "black",
     },
     {
@@ -56,17 +55,17 @@ export default function Carrousel() {
       title: "Sobre Nosotros",
       text: "",
       image:
-        "https://img.freepik.com/free-photo/aerial-view-business-team_53876-124515.jpg?w=1060&t=st=1675288873~exp=1675289473~hmac=4df8bea6567c5c242b803eb00d989e26659a6184783ecae632e3274416e76de4",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZDAqD2447phGFU52tTjqTV78Jhz0lqvsNAw&usqp=CAU",
       colorTitle: "white",
     },
   ];
 
   return (
-    <Box display={"flex"} justifyContent={"center"}>
+    <Box display={"flex"} justifyContent={"center"} my={20}>
       <Box
         position={"relative"}
-        height={"600px"}
-        width={"75%"}
+        height={"700px"}
+        width={"100%"}
         overflow={"hidden"}
       >
         {/* CSS files for react-slick */}
@@ -110,16 +109,19 @@ export default function Carrousel() {
           {cards.map((card, index) => (
             <Box
               key={index}
-              height={"l"}
+              height={"100%"}
+              width={"100%"}
               position="relative"
               backgroundPosition="center"
               backgroundRepeat="no-repeat"
-              backgroundSize="contain"
+              backgroundSize="cover"
+              style={{ objectFit: "cover" }}
               backgroundImage={`url(${card.image})`}
             >
               <Container
                 size="container.lg"
                 height="600px"
+                width={"100%"}
                 position="relative"
                 display={"flex"}
                 alignItems={"self-start"}
@@ -128,7 +130,7 @@ export default function Carrousel() {
               >
                 <Stack
                   spacing={6}
-                  w={"full"}
+                  width={"100%"}
                   maxW={"lg"}
                   transform="translate(0, -50%)"
                 >

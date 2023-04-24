@@ -71,14 +71,18 @@ const Contact = () => {
   return (
     <Flex
       bg="url(https://images.unsplash.com/photo-1554200876-56c2f25224fa?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80)"
+      backgroundSize="cover"
       align="center"
-      justify="center"
       id="contact"
     >
       <Box
         borderRadius="lg"
-        m={{ base: 5, md: 16, lg: 10 }}
+        m={{ base: 5, md: 16, lg: 20 }}
         p={{ base: 5, lg: 16 }}
+        alignSelf="flex-start"
+        bg={useColorModeValue("white", "gray.700")}
+        color={useColorModeValue("gray.700", "whiteAlpha.900")}
+        shadow="base"
       >
         <Heading
           fontSize={{
@@ -88,70 +92,53 @@ const Contact = () => {
           color="white"
           mb={4}
         >
-          <Text textAlign="center">Contacto</Text>
+          <Text textAlign="left">Contacto</Text>
         </Heading>
-        <Box>
+        <form onSubmit={handleSubmit}>
           <VStack spacing={{ base: 4, md: 8, lg: 20 }}>
-            <form onSubmit={handleSubmit}>
-              <Stack
-                spacing={{ base: 4, md: 8, lg: 20 }}
-                direction={{ base: "column", md: "row" }}
-              >
-                <Box
-                  bg={useColorModeValue("white", "gray.700")}
-                  borderRadius="lg"
-                  p={8}
-                  color={useColorModeValue("gray.700", "whiteAlpha.900")}
-                  shadow="base"
-                >
-                  <VStack spacing={5}>
-                    <FormControl isRequired>
-                      <FormLabel>Nombre</FormLabel>
+            <FormControl isRequired>
+              <FormLabel>Nombre</FormLabel>
 
-                      <InputGroup>
-                        <Input
-                          type="text"
-                          name="name"
-                          placeholder="Tu Nombre"
-                          value={name}
-                          onChange={(e) => setName(e.target.value)}
-                        />
-                      </InputGroup>
-                    </FormControl>
+              <InputGroup>
+                <Input
+                  type="text"
+                  name="name"
+                  placeholder="Tu Nombre"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </InputGroup>
+            </FormControl>
 
-                    <FormControl isRequired>
-                      <FormLabel>Email</FormLabel>
+            <FormControl isRequired>
+              <FormLabel>Email</FormLabel>
 
-                      <InputGroup>
-                        <Input
-                          type="email"
-                          name="email"
-                          placeholder="Tu Email"
-                          value={email}
-                          onChange={(e) => setEmail(e.target.value)}
-                        />
-                      </InputGroup>
-                    </FormControl>
-                    <FormControl isRequired>
-                      <FormLabel>Mensaje</FormLabel>
+              <InputGroup>
+                <Input
+                  type="email"
+                  name="email"
+                  placeholder="Tu Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </InputGroup>
+            </FormControl>
+            <FormControl isRequired>
+              <FormLabel>Mensaje</FormLabel>
 
-                      <Textarea
-                        placeholder="Escribe tu mensaje aquí..."
-                        name="message"
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                      />
-                    </FormControl>
+              <Textarea
+                placeholder="Escribe tu mensaje aquí..."
+                name="message"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+              />
+            </FormControl>
 
-                    <Button type="submit" colorScheme="blue" size="lg" w="full">
-                      Enviar
-                    </Button>
-                  </VStack>
-                </Box>
-              </Stack>
-            </form>
+            <Button type="submit" colorScheme="blue" size="lg" w="full">
+              Enviar
+            </Button>
           </VStack>
-        </Box>
+        </form>
       </Box>
     </Flex>
   );

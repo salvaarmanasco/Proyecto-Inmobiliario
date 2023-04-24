@@ -15,6 +15,8 @@ import DashboardAdmin from "./Components/DashboardAdmin/DashboardAdmin";
 import Registrarse from "./Components/Registrarse/Registrarse";
 import Modifications from "./Components/Modifications/Modifications";
 import Modifications2 from "./Components/Modifications2/Modifications2";
+import JoinTeam from "./Components/JoinTeam/JoinTeam";
+import Contact from "./Components/Contact/Contact";
 
 export const App = () => (
   <ChakraProvider theme={theme}>
@@ -24,7 +26,7 @@ export const App = () => (
       <Route exact path="/properties" component={PropertiesPage} />
       <Route exact path="/properties/:id" component={CardDetails} />
       <Route exact path="/about" component={About} />
-      <Route exact path="/franchise" component={Franchise} />
+      <Route exact path="/franchise" component={Contact} />
       <Route exact path="/form" component={Form} />
       <Route exact path="/form2" component={Form2} />
       <Route path="/profile/:id" component={UserPanel} />
