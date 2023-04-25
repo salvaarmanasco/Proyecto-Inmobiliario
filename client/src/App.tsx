@@ -16,7 +16,7 @@ import Registrarse from "./Components/Registrarse/Registrarse";
 import Modifications from "./Components/Modifications/Modifications";
 import Modifications2 from "./Components/Modifications2/Modifications2";
 import Modifications3 from "./Components/Modifications3/Modifications3";
-
+import Contact from "./Components/Contact/Contact";
 
 export const App = () => (
   <ChakraProvider theme={theme}>
