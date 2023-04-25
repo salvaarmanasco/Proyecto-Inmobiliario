@@ -15,30 +15,13 @@ import {
   modifyPropertyCategory,
   modifyPropertyCondition,
   modifyPropertyCountry,
-  modifyPropertyGarden,
-  modifyPropertyImage,
-  modifyPropertyServices,
   modifyPropertyState,
   deletePropertyGarden,
   deletePropertyServices,
   createPropertyServices,
   createPropertyGarden,
 } from "../../Redux/reducer/Relations";
-import { createImage } from "../../Redux/reducer/Images";
-import {
-  FormLabel,
-  Box,
-  Button,
-  Center,
-  Text,
-  Select,
-  Img,
-  useColorModeValue,
-  Heading,
-  Flex,
-  HStack,
-  SimpleGrid,
-} from "@chakra-ui/react";
+import { FormLabel, Box, Button, Center, Text, Select } from "@chakra-ui/react";
 import {
   getStorage,
   ref,
@@ -113,7 +96,6 @@ function Modifications2({ match }: RouteComponentProps<MatchParams>) {
     Services: [],
     Images: [],
   });
-  // console.log(detailProp);
 
   const [categorySelected, setCategorySelected] = useState("");
   const [conditionSelected, setConditionSelected] = useState("");
@@ -481,56 +463,6 @@ function Modifications2({ match }: RouteComponentProps<MatchParams>) {
               ))}
           </Box>
         ) : null}
-        {/* <Box my={5}>
-          <input type="file" onChange={handleFileChange} multiple />
-          <progress value={progress} max="100" />
-          {detailProp?.Images?.map((img: any) => (
-            <div key={img.id}>
-              <img />
-              <button onClick={() => handleDelete(img.image_url)}>
-                Delete
-              </button>
-            </div>
-          ))}
-        </Box> */}
-
-        {/* -------------------------------------------------------------------------------------------------------- */}
-        {/* <SimpleGrid columns={{ base: 3, md: 2, xl: 4 }}>
-          {detailProp?.Images?.map((img: any) => (
-            <Center py={6}>
-              <Box
-                w="xs"
-                rounded={"sm"}
-                my={5}
-                mx={[0, 5]}
-                overflow={"hidden"}
-                bg="white"
-                border={"1px"}
-                borderColor="black"
-              >
-                <Box h={"200px"} borderBottom={"1px"} borderColor="black">
-                  <Box h={"200px"} borderBottom={"1px"} borderColor="black">
-                    <Img
-                      src={img.image_url}
-                      alt="uploaded"
-                      roundedTop={"sm"}
-                      objectFit="cover"
-                      h="full"
-                      w="full"
-                    />
-                  </Box>
-                </Box>
-                <button onClick={() => handleDelete(img.image_url)}>
-                  <Text textColor={"blackAlpha.700"} textAlign="center">
-                    Delete
-                  </Text>
-                </button>
-              </Box>
-            </Center>
-          ))}
-        </SimpleGrid> */}
-
-        {/* -------------------------------------------------------------------------------------------------------- */}
         <Button
           type="submit"
           isLoading={isSubmitting}
@@ -546,6 +478,3 @@ function Modifications2({ match }: RouteComponentProps<MatchParams>) {
 }
 
 export default Modifications2;
-function setUrls(arg0: (prevUrls: any) => any) {
-  throw new Error("Function not implemented.");
-}
