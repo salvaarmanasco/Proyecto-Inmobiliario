@@ -12,6 +12,7 @@ import {
   Input,
   Link,
   Center,
+  SimpleGrid,
 } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -219,16 +220,18 @@ export const UserPanel = ({ match }: RouteComponentProps<MatchParams>) => {
     <>
       {user ? (
         <Box>
-          <Grid mb={10} justifyContent="center">
-            <Heading>Panel de Usuario</Heading>
-          </Grid>
-          <Grid templateColumns="repeat(2, 1fr)" alignItems="center">
-            <Flex ml={48} display="grid">
-              <Text mb={5} fontWeight="bold">
-                Foto:
-              </Text>
+          <Box my={10} justifyContent="center">
+            <Heading textAlign={"center"}>Panel de Usuario</Heading>
+          </Box>
+          <SimpleGrid columns={2}>
+            <GridItem>
               {editing ? (
-                <Box display="grid">
+                <Box
+                  h="100%"
+                  display="flex"
+                  justifyContent="center"
+                  alignItems="center"
+                >
                   <Input
                     w="50%"
                     type="file"
@@ -238,127 +241,140 @@ export const UserPanel = ({ match }: RouteComponentProps<MatchParams>) => {
                   <progress value={progress} max="100" />
                 </Box>
               ) : (
-                <Image
-                  /*   rounded={"md"} */
-                  alt={"product image"}
-                  src={usuario.photo}
-                  /*      fit={"contain"}
-                align={"center"} */
-                  w={"80%"}
-                  h={{ base: "80%", sm: "400px", lg: "500px" }}
-                />
+                <Box display="flex" justifyContent="center" alignItems="center">
+                  <Image
+                    alt={"product image"}
+                    src={usuario.photo}
+                    fit={"cover"}
+                    w={"50%"}
+                    h={"50%"}
+                  />
+                </Box>
               )}
-            </Flex>
-            <Grid templateColumns="repeat(2, 1fr)" gap={28}>
-              <GridItem>
-                <Text my={5} fontWeight="bold">
-                  Nombre:
-                </Text>
-                {editing ? (
-                  <Input
-                    w="75%"
-                    name="name"
-                    value={changes.name}
-                    onChange={handleChange}
-                  />
-                ) : (
-                  <Text>{usuario.name}</Text>
-                )}
-              </GridItem>
-              <GridItem>
-                <Text my={5} fontWeight="bold">
-                  Apellido:
-                </Text>
-                {editing ? (
-                  <Input
-                    w="75%"
-                    name="lastname"
-                    value={changes.lastname}
-                    onChange={handleChange}
-                  />
-                ) : (
-                  <Text>{usuario.lastname}</Text>
-                )}
-              </GridItem>
-              <GridItem>
-                <Text my={5} fontWeight="bold">
-                  Email:
-                </Text>
-                <Text>{usuario.email}</Text>
-              </GridItem>
-              <GridItem>
-                <Text my={5} fontWeight="bold">
-                  Teléfono:
-                </Text>
-                {editing ? (
-                  <Input
-                    w="75%"
-                    type="number"
-                    name="phone"
-                    value={changes.phone}
-                    onChange={handleChange}
-                  />
-                ) : (
-                  <Text>{usuario.phone}</Text>
-                )}
-              </GridItem>
-              <Grid ml={52}>
-                {editing ? (
-                  <>
-                    <GridItem pb={5}>
-                      <Button
-                        fontSize={"sm"}
-                        fontWeight={400}
-                        color={"white"}
-                        bg={"green.500"}
-                        _hover={{
-                          bg: "green.300",
-                        }}
-                        mr={2}
-                        onClick={() => handleSave(changes)}
-                      >
-                        Guardar cambios
-                      </Button>
-                    </GridItem>
-                    <GridItem ml={5}>
-                      <Button
-                        fontSize={"sm"}
-                        fontWeight={400}
-                        color={"white"}
-                        bg={"gray.500"}
-                        _hover={{
-                          bg: "gray.300",
-                        }}
-                        onClick={() => setEditing(false)}
-                      >
-                        Cancelar
-                      </Button>
-                    </GridItem>
-                  </>
-                ) : (
-                  <Button
-                    fontSize={"sm"}
-                    fontWeight={400}
-                    color={"white"}
-                    bg={"red.500"}
-                    _hover={{
-                      bg: "red.300",
-                    }}
-                    onClick={handleEdit}
-                  >
-                    Modificar usuario
-                  </Button>
-                )}
-              </Grid>
-            </Grid>
-            <GridItem display="flex" padding="5" colSpan={3}>
-              <GridItem>
-                <Button onClick={() => setShowWishlist(!showWishlist)}>
-                  {showWishlist ? "Hide Wishlist" : "Show Wishlist"}
+            </GridItem>
+            <GridItem>
+              <SimpleGrid columns={2}>
+                <GridItem>
+                  <Text my={3} fontWeight="bold">
+                    Nombre:
+                  </Text>
+                  {editing ? (
+                    <Input
+                      w="75%"
+                      name="name"
+                      value={changes.name}
+                      onChange={handleChange}
+                    />
+                  ) : (
+                    <Text>{usuario.name}</Text>
+                  )}
+                </GridItem>
+                <GridItem>
+                  <Text my={3} fontWeight="bold">
+                    Apellido:
+                  </Text>
+                  {editing ? (
+                    <Input
+                      w="75%"
+                      name="lastname"
+                      value={changes.lastname}
+                      onChange={handleChange}
+                    />
+                  ) : (
+                    <Text>{usuario.lastname}</Text>
+                  )}
+                </GridItem>
+                <GridItem>
+                  <Text my={3} fontWeight="bold">
+                    Email:
+                  </Text>
+                  <Text>{usuario.email}</Text>
+                </GridItem>
+                <GridItem>
+                  <Text my={3} fontWeight="bold">
+                    Teléfono:
+                  </Text>
+                  {editing ? (
+                    <Input
+                      w="75%"
+                      type="number"
+                      name="phone"
+                      value={changes.phone}
+                      onChange={handleChange}
+                    />
+                  ) : (
+                    <Text>{usuario.phone}</Text>
+                  )}
+                </GridItem>
+              </SimpleGrid>
+            </GridItem>
+          </SimpleGrid>
+          <SimpleGrid
+            my={10}
+            columns={1}
+            justifyContent="center"
+            alignItems={"center"}
+            display="flex"
+            gap={2}
+          >
+            {editing ? (
+              <Box gap={2}>
+                <Button
+                  w={200}
+                  fontSize={"sm"}
+                  fontWeight={400}
+                  color={"white"}
+                  bg={"green.500"}
+                  _hover={{
+                    bg: "green.300",
+                  }}
+                  onClick={() => handleSave(changes)}
+                  mr={2}
+                >
+                  Guardar cambios
                 </Button>
-              </GridItem>
-              {showWishlist &&
-                favorites?.map((item, i) => (
+
+                <Button
+                  w={200}
+                  fontSize={"sm"}
+                  fontWeight={400}
+                  color={"white"}
+                  bg={"gray.500"}
+                  _hover={{
+                    bg: "gray.300",
+                  }}
+                  onClick={() => setEditing(false)}
+                >
+                  Cancelar
+                </Button>
+              </Box>
+            ) : (
+              <Button
+                w={200}
+                fontSize={"sm"}
+                fontWeight={400}
+                color={"white"}
+                bg={"red.500"}
+                _hover={{
+                  bg: "red.300",
+                }}
+                onClick={handleEdit}
+              >
+                Modificar usuario
+              </Button>
+            )}
+            <Button onClick={() => setShowWishlist(!showWishlist)} w={200}>
+              {showWishlist ? "Hide Wishlist" : "Show Wishlist"}
+            </Button>
+          </SimpleGrid>
+          <SimpleGrid columns={4} justifyContent={"center"}>
+            {showWishlist &&
+              favorites?.map((item, i) => (
+                <GridItem
+                  display="flex"
+                  justifyContent={"center"}
+                  alignItems={"center"}
+                >
                   <Box key={i}>
                     <Heading as="h3" size="md">
                       <Box
@@ -378,8 +394,6 @@ export const UserPanel = ({ match }: RouteComponentProps<MatchParams>) => {
                           borderBottom={"1px"}
                           borderColor="black"
                         >
-                          {" "}
-                          {/* longitud de la card */}
                           <Img
                             src={item.firstImage}
                             roundedTop={"sm"}
@@ -429,28 +443,13 @@ export const UserPanel = ({ match }: RouteComponentProps<MatchParams>) => {
                               <BsArrowUpRight />
                             </Link>
                           </Flex>
-                          {/*     <Flex
-                            p={4}
-                            alignItems="center"
-                            justifyContent={"space-between"}
-                            roundedBottom={"sm"}
-                            borderLeft={"1px"}
-                            cursor="pointer"
-                            onClick={() => handleFavourite(item.id)}
-                          >
-                            {num.includes(item.id) ? (
-                              <BsHeartFill fill="red" fontSize={"24px"} />
-                            ) : (
-                              <BsHeart fontSize={"24px"} />
-                            )}
-                          </Flex> */}
                         </HStack>
                       </Box>
                     </Heading>
                   </Box>
-                ))}
-            </GridItem>
-          </Grid>
+                </GridItem>
+              ))}
+          </SimpleGrid>
         </Box>
       ) : (
         <Center minH="100vh">
