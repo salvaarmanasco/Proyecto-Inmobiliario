@@ -21,6 +21,25 @@ export const createImage = createAsyncThunk(
   }
 );
 
+// export const deleteImage = createAsyncThunk(
+//   "image/deleteImage",
+//   async (deleteImage: any) => {
+//     const response = await axios.delete(
+//       `http://localhost:3001/image`,
+//       deleteImage
+//     );
+//     return response.data;
+//   }
+// );
+
+export const deleteImage = createAsyncThunk(
+  "image/deleteImage",
+  async (id: number) => {
+    const response = await axios.delete(`http://localhost:3001/image?id=${id}`);
+    return response.data;
+  }
+);
+
 const imageSlice = createSlice({
   name: "image",
   initialState: {
@@ -41,6 +60,17 @@ const imageSlice = createSlice({
     builder.addCase(createImage.rejected, (state, action) => {
       state.loading = false;
       state.error = "No se pudieron cargar las imágenes";
+    });
+    builder.addCase(deleteImage.fulfilled, (state, action) => {
+      state.loading = false;
+      state.error = null;
+    });
+    builder.addCase(deleteImage.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(deleteImage.rejected, (state, action) => {
+      state.loading = false;
+      state.error = "No se pudo borrar la imagen";
     });
   },
 });

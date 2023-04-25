@@ -27,18 +27,39 @@ router.post("/", async (req: any, res: any) => {
   }
 });
 
-router.put("/", async (req: any, res: any) => {
-  const { PropertyId, ImageId } = req.body;
+// router.delete("/", async (req: any, res: any) => {
+//   const { PropertyId, ImageId } = req.body;
+//   try {
+//     await db.PropertyImage.delete({ ImageId }, { where: { PropertyId } });
+//     return res
+//       .status(200)
+//       .send("The property image has been successfully deleted");
+//   } catch (error) {
+//     console.log(error);
+//     return res
+//       .status(500)
+//       .send("We could not delete the Property-Image relationship");
+//   }
+// });
+
+router.delete("/", async (req: any, res: any) => {
+  const { PropertyId, ImageId } = req.query;
   try {
-    await db.PropertyImage.update({ ImageId }, { where: { PropertyId } });
+    const relation = await db.PropertyImage.findOne({
+      where: {
+        PropertyId,
+        ImageId,
+      },
+    });
+    await relation.destroy();
     return res
       .status(200)
-      .send("the property image has been successfully modified");
+      .send("The property image has been successfully deleted");
   } catch (error) {
     console.log(error);
     return res
       .status(500)
-      .send("We could not modify the Property-Image relationship");
+      .send("We could not delete the Property-Image relationship");
   }
 });
 

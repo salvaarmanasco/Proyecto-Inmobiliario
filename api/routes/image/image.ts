@@ -30,4 +30,32 @@ router.post("/", async (req: any, res: any) => {
   }
 });
 
+// router.delete("/", async (req: any, res: any) => {
+//   const { id } = req.body;
+//   try {
+//     let result = await db.Image.destroy({
+//       where: { id },
+//     });
+//     return res.status(200).json(result);
+//   } catch (error) {
+//     console.log(error);
+//     return res.status(500).send("We could not delete the image");
+//   }
+// });
+
+router.delete("/", async (req: any, res: any) => {
+  const { id } = req.query;
+  try {
+    await db.Image.destroy({
+      where: {
+        id,
+      },
+    });
+    return res.status(200).send("The image has been successfully deleted");
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send("We could not delete the image");
+  }
+});
+
 export default router;
