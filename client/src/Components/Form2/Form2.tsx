@@ -8,6 +8,7 @@ import {
   createPropertyServices,
   createPropertyState,
   createPropertyImage,
+  createPropertyUser,
 } from "../../Redux/reducer/Relations";
 import { RootState } from "../../Redux/store";
 import { ThunkDispatch } from "redux-thunk";
@@ -40,6 +41,7 @@ import {
 import { initializeApp } from "firebase/app";
 import ItemDetailsProps from "../../Interfaces/ItemDetailsProps";
 import { useAuth0 } from "@auth0/auth0-react";
+import { fetchUsersEmail } from "../../Redux/reducer/Users";
 
 const firebaseConfig = {
   apiKey: "AIzaSyD-vnKOH8h79lYgBVn_TYDNfuB9OZCd2Zs",
@@ -56,6 +58,7 @@ const storage = getStorage(app);
 function Form2({ location }: { location: ItemDetailsProps }) {
   const itemProp2 = location.state.itemProp.id;
   const dispatch: ThunkDispatch<RootState, undefined, any> = useDispatch();
+  const [userId, setUserId] = useState<any>();
   const [category, setCategory] = useState<any>([]);
   const [condition, setCondition] = useState([]);
   const [state, setState] = useState([]);
@@ -79,7 +82,22 @@ function Form2({ location }: { location: ItemDetailsProps }) {
   const history = useHistory();
 
   const { user } = useAuth0();
+
   const userDB = useSelector((state: RootState) => state.users.usersDetail);
+
+  useEffect(() => {
+    if (user) {
+      dispatch(fetchUsersEmail(user.email))
+        .then((action) => {
+          if (action.payload) {
+            setUserId(action.payload);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [dispatch, user]);
 
   useEffect(() => {
     dispatch(fetchCategory())
@@ -138,6 +156,7 @@ function Form2({ location }: { location: ItemDetailsProps }) {
       });
   }, [dispatch]);
 
+  console.log(userId);
   // -------------------------------------------FIREBASE--------------------------------------------------------
   const [files, setFiles] = useState<File[]>([]);
   const [progress, setProgress] = useState(0);
@@ -214,6 +233,10 @@ function Form2({ location }: { location: ItemDetailsProps }) {
           PropertyId: itemProp2.toString(),
           CategoryId: Number(categorySelected),
         };
+        const propertyUser = {
+          PropertyId: itemProp2.toString(),
+          UserId: userId?.id,
+        };
 
         await Promise.all(
           propertyGardens.map((garden) =>
@@ -232,6 +255,7 @@ function Form2({ location }: { location: ItemDetailsProps }) {
         await dispatch(createPropertyCategory(propertyCategory));
         await dispatch(createPropertyState(propertyState));
         await dispatch(createPropertyCountry(propertyCountry));
+        await dispatch(createPropertyUser(propertyUser));
         setIsSubmitting(false);
         history.push({
           pathname: "/",
@@ -268,7 +292,10 @@ function Form2({ location }: { location: ItemDetailsProps }) {
           PropertyId: itemProp2.toString(),
           CategoryId: Number(categorySelected),
         };
-
+        const propertyUser = {
+          PropertyId: itemProp2.toString(),
+          UserId: userId?.id,
+        };
         await Promise.all(
           propertyGardens.map((garden) =>
             dispatch(createPropertyGarden(garden))
@@ -283,6 +310,7 @@ function Form2({ location }: { location: ItemDetailsProps }) {
         await dispatch(createPropertyCategory(propertyCategory));
         await dispatch(createPropertyState(propertyState));
         await dispatch(createPropertyCountry(propertyCountry));
+        await dispatch(createPropertyUser(propertyUser));
         setIsSubmitting(false);
         history.push({
           pathname: "/",

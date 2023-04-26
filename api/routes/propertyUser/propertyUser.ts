@@ -8,8 +8,8 @@ router.get("/", async (req: any, res: any) => {
     if (!result) res.status(404).send("The PropertyUser relationship no exist");
     return res.status(200).json(result);
   } catch (error) {
-    return res.status(404).send("Property-State relationship make a error");
     console.log(error);
+    return res.status(404).send("Property-User relationship make a error");
   }
 });
 
@@ -25,7 +25,7 @@ router.post("/", async (req: any, res: any) => {
     console.log(error);
     return res
       .status(500)
-      .send("We could not create the Property-State relationship");
+      .send("We could not create the Property-User relationship");
   }
 });
 

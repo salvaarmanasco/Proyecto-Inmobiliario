@@ -119,8 +119,6 @@ export default function CardDetails({
       : dispatch(modifyWishList({ userId: idUsuario, wishListId: id }));
   };
 
-  console.log(detailProp);
-
   const gardenCount = detailProp?.Gardens?.length;
   const imagesCarrousel = detailProp?.Images;
 
