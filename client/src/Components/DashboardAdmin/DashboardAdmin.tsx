@@ -9,6 +9,7 @@ import {
   Td,
   Button,
 } from "@chakra-ui/react";
+import Swal from "sweetalert2";
 import ModalUsers from "./ModalUsers";
 import { useEffect, useState } from "react";
 import {
@@ -54,13 +55,51 @@ const DashboardAdmin = () => {
   }, [users, properties]);
 
   const handleDeleteProperty = async (id: string) => {
-    await deleteProperty(id);
-    alert("Propiedad borrada con exito");
+    try {
+      Swal.fire({
+        text: "Estas seguro que deseas eliminar la Propiedad?",
+        width: "30%",
+        padding: "10px",
+        allowEnterKey: true,
+        allowEscapeKey: true,
+        icon: "question",
+        background: "black",
+        showCancelButton: true,
+        confirmButtonColor: "#00711a",
+        cancelButtonColor: "#b50707",
+        confirmButtonText: "Eliminar",
+      }).then(async (response: { isConfirmed: boolean }) => {
+        if (response.isConfirmed) {
+          await deleteProperty(id);
+        }
+      });
+    } catch (error) {
+      console.error("Ocurrió un error al borrar la propiedad", error);
+    }
   };
 
   const handleDeleteUser = async (id: string) => {
-    await deleteUser(id);
-    alert("Usuario borrado con exito");
+    try {
+      Swal.fire({
+        text: "Estas seguro que deseas eliminar el Usuario?",
+        width: "30%",
+        padding: "10px",
+        allowEnterKey: true,
+        allowEscapeKey: true,
+        icon: "question",
+        background: "black",
+        showCancelButton: true,
+        confirmButtonColor: "#00711a",
+        cancelButtonColor: "#b50707",
+        confirmButtonText: "Eliminar",
+      }).then(async (response: { isConfirmed: boolean }) => {
+        if (response.isConfirmed) {
+          await deleteUser(id);
+        }
+      });
+    } catch (error) {
+      console.error("Ocurrió un error al borrar el usuario", error);
+    }
   };
 
   return (
