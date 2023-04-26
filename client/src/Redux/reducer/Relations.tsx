@@ -1,21 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-
-export interface RelationsState {
-  PropertyCategory: boolean;
-  PropertyCondition: boolean;
-  PropertyCountry: boolean;
-  PropertyGarden: boolean;
-  PropertyImage: boolean;
-  PropertyPrice: boolean;
-  PropertyServices: boolean;
-  PropertyState: boolean;
-  PropertyZone: boolean;
-  Price: boolean;
-  Zone: boolean;
-  loading: boolean;
-  error: string | null;
-}
+import { RelationsState } from "../../Interfaces/RelationsState";
 
 // Acciones asincronicas para crear relaciones
 export const createPropertyCondition = createAsyncThunk(
@@ -76,12 +61,13 @@ export const createPropertyCountry = createAsyncThunk(
   }
 );
 
-export const modifyPropertyCountry = createAsyncThunk(
-  "relations/modifyPropertyCountry",
-  async (propertyCountry: any) => {
-    const response = await axios.put(
-      "http://localhost:3001/propertycountry",
-      propertyCountry
+export const createPropertyUser = createAsyncThunk(
+  "relations/createPropertyUser",
+  async (propertyUser: any) => {
+    const response = await axios.post(
+      "http://localhost:3001/propertyuser",
+      propertyUser
+      // id propiedas y el id de la condicion 3
     );
     return response.data;
   }
@@ -94,6 +80,17 @@ export const createPropertyGarden = createAsyncThunk(
       "http://localhost:3001/propertygarden",
       propertyGarden
       // id propiedas y el id de la condicion 3
+    );
+    return response.data;
+  }
+);
+
+export const modifyPropertyCountry = createAsyncThunk(
+  "relations/modifyPropertyCountry",
+  async (propertyCountry: any) => {
+    const response = await axios.put(
+      "http://localhost:3001/propertycountry",
+      propertyCountry
     );
     return response.data;
   }
@@ -121,17 +118,6 @@ export const createPropertyImage = createAsyncThunk(
     return response.data;
   }
 );
-
-// export const deletePropertyImage = createAsyncThunk(
-//   "relations/deletePropertyImage",
-//   async (propertyImage: any) => {
-//     const response = await axios.delete(
-//       "http://localhost:3001/propertyimage",
-//       propertyImage
-//     );
-//     return response.data;
-//   }
-// );
 
 export const deletePropertyImage = createAsyncThunk(
   "relations/deletePropertyImage",
@@ -228,6 +214,7 @@ const RelationsSlice = createSlice({
     PropertyServices: false,
     PropertyState: false,
     PropertyZone: false,
+    PropertyUser: false,
     Price: false,
     Zone: false,
     loading: false,
@@ -339,6 +326,19 @@ const RelationsSlice = createSlice({
     });
     builder.addCase(modifyPropertyGarden.rejected, (state, action) => {
       state.PropertyGarden = false;
+      state.loading = false;
+      state.error = "Could not modify the garden of the property";
+    });
+    builder.addCase(createPropertyUser.fulfilled, (state, action) => {
+      state.PropertyUser = true;
+      state.loading = false;
+      state.error = null;
+    });
+    builder.addCase(createPropertyUser.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(createPropertyUser.rejected, (state, action) => {
+      state.PropertyUser = false;
       state.loading = false;
       state.error = "Could not modify the garden of the property";
     });

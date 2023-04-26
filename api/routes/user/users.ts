@@ -14,6 +14,16 @@ router.get("/email", async (req: any, res: any) => {
     return res.status(404).send("Users not found");
   }
 });
+router.get("/", async (req: any, res: any) => {
+  let { email } = req.query;
+  try {
+    let result = await db.User.findOne({ where: { email: email } });
+    return res.status(200).json(result);
+  } catch (err) {
+    console.log(err);
+    return res.status(404).send("Users not found");
+  }
+});
 
 router.get("/:id", async (req: any, res: any) => {
   let { id } = req.params; // modificar a params, lo saco del body para probar
