@@ -50,23 +50,10 @@ const LoginButton = () => {
             fontWeight={400}
             variant={"link"}
             onClick={() => loginWithRedirect()}
+            mx={5}
           >
             Ingresar
           </Button>
-          <Link to="/registrarse">
-            <Button
-              display={{ base: "none", md: "inline-flex" }}
-              fontSize={"sm"}
-              fontWeight={600}
-              color={"white"}
-              bg={"red.500"}
-              _hover={{
-                bg: "red.300",
-              }}
-            >
-              Registrarse
-            </Button>
-          </Link>
         </Stack>
       )}
     </Box>
