@@ -12,7 +12,6 @@ import Form from "./Components/Form/Form";
 import Form2 from "./Components/Form2/Form2";
 import UserPanel from "./Components/UserPanel/UserPanel";
 import DashboardAdmin from "./Components/DashboardAdmin/DashboardAdmin";
-import Registrarse from "./Components/Registrarse/Registrarse";
 import Modifications from "./Components/Modifications/Modifications";
 import Modifications2 from "./Components/Modifications2/Modifications2";
 import Modifications3 from "./Components/Modifications3/Modifications3";
@@ -32,7 +31,6 @@ export const App = () => (
       <Route path="/profile/:id" component={UserPanel} />
       <Route path="/profile" component={UserPanel} />
       <Route path="/admin" component={DashboardAdmin} />
-      <Route path="/registrarse" component={Registrarse} />
       <Route path="/modificar/:id" component={Modifications} />
       <Route path="/modificar2/:id" component={Modifications2} />
       <Route path="/modificar3/:id" component={Modifications3} />
