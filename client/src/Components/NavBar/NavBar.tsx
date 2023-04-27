@@ -22,10 +22,13 @@ import {
 } from "@chakra-ui/icons";
 import { ColorModeSwitcher } from "../../ColorModeSwitcher";
 import RaesLogo from "../../Assets/raes.png";
-
+import { useAuth0 } from "@auth0/auth0-react";
 import { useState, useEffect } from "react";
 import LoginButton from "../LoginButtons/LoginButton";
 import LogoutButton from "../LoginButtons/LogoutButton";
+import { fetchUsersEmail } from "../../Redux/reducer/Users";
+import { ThunkDispatch } from "redux-thunk";
+import { useDispatch } from "react-redux";
 import { RootState } from "../../Redux/store";
 
 const NavBar = () => {
@@ -107,46 +110,103 @@ const DesktopNav = () => {
   const linkHoverColor = useColorModeValue("gray.800", "white");
   const popoverContentBgColor = useColorModeValue("white", "gray.800");
 
+  const [userId, setUserId] = useState<any>();
+  const { user } = useAuth0();
+  const dispatch: ThunkDispatch<RootState, undefined, any> = useDispatch();
+
+  useEffect(() => {
+    if (user) {
+      dispatch(fetchUsersEmail(user.email))
+        .then((action) => {
+          if (action.payload) {
+            setUserId(action.payload);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [dispatch, user]);
+
   return (
     <Stack direction={"row"} spacing={4}>
-      {NAV_ITEMS.map((navItem) => (
-        <Box key={navItem.label}>
-          <Popover trigger={"hover"} placement={"bottom-start"}>
-            <PopoverTrigger>
-              <Link
-                p={2}
-                href={navItem.href ?? "#"}
-                fontSize={"sm"}
-                fontWeight={500}
-                color={linkColor}
-                _hover={{
-                  textDecoration: "none",
-                  color: linkHoverColor,
-                }}
-              >
-                {navItem.label}
-              </Link>
-            </PopoverTrigger>
+      {userId?.userType !== 1
+        ? NAV_ITEMS.map((navItem) => (
+            <Box key={navItem.label}>
+              <Popover trigger={"hover"} placement={"bottom-start"}>
+                <PopoverTrigger>
+                  <Link
+                    p={2}
+                    href={navItem.href ?? "#"}
+                    fontSize={"sm"}
+                    fontWeight={500}
+                    color={linkColor}
+                    _hover={{
+                      textDecoration: "none",
+                      color: linkHoverColor,
+                    }}
+                  >
+                    {navItem.label}
+                  </Link>
+                </PopoverTrigger>
 
-            {navItem.children && (
-              <PopoverContent
-                border={0}
-                boxShadow={"xl"}
-                bg={popoverContentBgColor}
-                p={4}
-                rounded={"xl"}
-                minW={"sm"}
-              >
-                <Stack>
-                  {navItem.children.map((child) => (
-                    <DesktopSubNav key={child.label} {...child} />
-                  ))}
-                </Stack>
-              </PopoverContent>
-            )}
-          </Popover>
-        </Box>
-      ))}
+                {navItem.children && (
+                  <PopoverContent
+                    border={0}
+                    boxShadow={"xl"}
+                    bg={popoverContentBgColor}
+                    p={4}
+                    rounded={"xl"}
+                    minW={"sm"}
+                  >
+                    <Stack>
+                      {navItem.children.map((child) => (
+                        <DesktopSubNav key={child.label} {...child} />
+                      ))}
+                    </Stack>
+                  </PopoverContent>
+                )}
+              </Popover>
+            </Box>
+          ))
+        : NAV_ITEMS_ADMIN.map((navItem) => (
+            <Box key={navItem.label}>
+              <Popover trigger={"hover"} placement={"bottom-start"}>
+                <PopoverTrigger>
+                  <Link
+                    p={2}
+                    href={navItem.href ?? "#"}
+                    fontSize={"sm"}
+                    fontWeight={500}
+                    color={linkColor}
+                    _hover={{
+                      textDecoration: "none",
+                      color: linkHoverColor,
+                    }}
+                  >
+                    {navItem.label}
+                  </Link>
+                </PopoverTrigger>
+
+                {navItem.children && (
+                  <PopoverContent
+                    border={0}
+                    boxShadow={"xl"}
+                    bg={popoverContentBgColor}
+                    p={4}
+                    rounded={"xl"}
+                    minW={"sm"}
+                  >
+                    <Stack>
+                      {navItem.children.map((child) => (
+                        <DesktopSubNav key={child.label} {...child} />
+                      ))}
+                    </Stack>
+                  </PopoverContent>
+                )}
+              </Popover>
+            </Box>
+          ))}
     </Stack>
   );
 };
@@ -262,7 +322,7 @@ interface NavItem {
   href?: string;
 }
 
-const NAV_ITEMS: Array<NavItem> = [
+const NAV_ITEMS_ADMIN: Array<NavItem> = [
   {
     label: "Propiedades",
     href: "/properties",
@@ -284,6 +344,35 @@ const NAV_ITEMS: Array<NavItem> = [
   {
     label: "Formulario",
     href: "/form",
+  },
+  {
+    label: "Perfil",
+    href: "/profile",
+  },
+  {
+    label: "Admin",
+    href: "/admin",
+  },
+];
+
+const NAV_ITEMS: Array<NavItem> = [
+  {
+    label: "Propiedades",
+    href: "/properties",
+    children: [
+      {
+        label: "Encontra lo que buscas",
+        href: "/properties",
+      },
+    ],
+  },
+  {
+    label: "Franquicia",
+    href: "/franchise",
+  },
+  {
+    label: "Nosotros",
+    href: "/about",
   },
   {
     label: "Perfil",
