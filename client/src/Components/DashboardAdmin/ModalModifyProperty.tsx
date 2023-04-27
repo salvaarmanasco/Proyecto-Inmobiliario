@@ -11,6 +11,7 @@ import {
   Text,
   Input,
   Checkbox,
+  Link,
 } from "@chakra-ui/react";
 import React from "react";
 
@@ -20,10 +21,16 @@ function ModalModifyProperty({ id }: { id: string }) {
   const btnRef = React.useRef(null);
   return (
     <>
-      <Button ref={btnRef} onClick={onOpen} colorScheme="red">
-        Editar
-      </Button>
-
+      <Link href={`/modificar/${id}`}>
+        <Button ref={btnRef} /* onClick={onOpen} */ colorScheme="red">
+          Editar
+        </Button>
+      </Link>
+      <Link href={`/modificar3/${id}`}>
+        <Button marginLeft={3} ref={btnRef} colorScheme="red">
+          Editar Imagenes
+        </Button>
+      </Link>
       <Modal
         onClose={onClose}
         finalFocusRef={btnRef}
