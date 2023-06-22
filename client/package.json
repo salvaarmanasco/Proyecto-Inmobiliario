@@ -46,7 +46,13 @@
     "redux-thunk": "^2.4.2",
     "sweetalert2": "^11.7.3",
     "typescript": "^4.9.4",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "@firebase/auth": "^0.22.0",
+    "@firebase/firestore": "^3.10.0",
+    "@firebase/storage": "^0.11.2",
+    "firebase": "^9.19.1",
+    "react-dropzone": "^14.2.3",
+    "react-firebase-hooks": "^5.1.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -72,6 +78,7 @@
   "devDependencies": {
     "@types/google-map-react": "^2.1.7",
     "@types/react-icons": "^3.0.0",
-    "@types/react-slick": "^0.23.10"
+    "@types/react-slick": "^0.23.10",
+    "@types/firebase": "^3.2.1"
   }
 }
